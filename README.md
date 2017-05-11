@@ -1,8 +1,4 @@
 <p align="center" >
-<font size="40">DWTableViewHelper</font>
-</p>
-
-<p align="center" >
 <img src="https://github.com/CodeWicky/DWTableViewHelper/raw/master/%E5%8A%A8%E7%94%BB%E5%B1%95%E7%A4%BA.gif" alt="DWTableViewHelper" title="DWTableViewHelper">
 </p>
 
@@ -15,7 +11,7 @@ By this way you may needn't care about the original Delegate of tableView.Use th
 
 So your code of tableView in VC may be slim~
 
-Besides that,I also consider that sometime you may need implemation some delegate yourself to customsize the performance of the tableView so I provide the Delegate Map of all original Delegate that tableView may include.
+Besides that,I also consider that sometime you may need implementation some delegate yourself to customsize the performance of the tableView so I provide the Delegate Map of all original Delegate that tableView may include.
 
 And I also provide some basic quick API for usual Operation of the tableView so something you need may just a property of the Helper.
 
@@ -35,6 +31,34 @@ All I have done is to bulid a tableView easier and I'm improving it step by step
 并且我还提供了一些快捷的常用API，这样的话，也许你只需要开启一个属性即可做到你想要做的很多事。
 
 我所做的一切都是为了更加便捷的布置一个列表视图，我在一点点的改进这个工具类。
+
+## Function
+
+- Slim your ViewController.
+
+- Provide all default implementation Delegate/DataSource/Prefetch method.If you have nothing to customsize,you need implement none of them.
+
+- Provide cellShowAnimation Delegate.Just use it to customsize show animation for each cell.
+
+- Auto handle the no data PlaceHolderView.If the dataSource of Helper is empty,it will show the NO DATA VIEW.
+
+- Handle the Selection operation easier.
+
+- Auto calculate the rowHeight and cache it.
+
+## 功能
+
+- 解耦。
+
+- 为UITableView的delegate/dataSource/prefetch中所有代理提供默认实现，如果没有特殊定制要求，所有代理你都不需要自行实现。
+
+- 补充cell出现动画，你可以使用它来定制每一个cell的展现动画。
+
+- 自动处理占位图。当你的数据源为空时自动展示无数据的占位图。
+
+- 简化TableView列表的选择及多选操作。
+
+- 非固定行高cell会自动计算行高并缓存行高。
 
 ## Usage
 Firstly,drag it into your project or use cocoapods.
