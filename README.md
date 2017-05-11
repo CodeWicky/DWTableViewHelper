@@ -2,6 +2,10 @@
 <font size="40">DWTableViewHelper</font>
 </p>
 
+<p align="center" >
+<img src="https://github.com/CodeWicky/DWTableViewHelper/raw/master/%E5%8A%A8%E7%94%BB%E5%B1%95%E7%A4%BA.gif" alt="DWTableViewHelper" title="DWTableViewHelper">
+</p>
+
 ## Description
 This is a Class help you to build a tableView Quickly.
 
