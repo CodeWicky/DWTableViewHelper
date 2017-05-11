@@ -852,7 +852,6 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         needShow = [DWDelegate dw_TableView:tableView shouldAnimationWithCell:cell forRowAtIndexPath:indexPath];
     }
     if (needShow) {
-        NSLog(@"%@,YES",indexPath);
         id animation = nil;
         if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_TableView:showAnimationWithCell:forRowAtIndexPath:)]) {
             animation = [DWDelegate dw_TableView:tableView showAnimationWithCell:cell forRowAtIndexPath:indexPath];

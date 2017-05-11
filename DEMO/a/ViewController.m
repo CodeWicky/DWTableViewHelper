@@ -45,7 +45,6 @@
     BModel * model = [BModel new];
     model.title = @"asdf";
     model.cellRowHeight = 100;
-//    [self.dataArr addObject:@[@""]];
     
     BModel * newM = [BModel new];
     newM.title = @"new Model";
@@ -56,25 +55,10 @@
 }
 
 -(id)dw_TableView:(UITableView *)tableView showAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.row > 6) {
-//        CABasicAnimation * bA = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-//        bA.fromValue = @0.5;
-//        bA.toValue = @1;
-//        bA.duration = 0.4;
-        DWAnimation * bA = [[DWAnimation alloc] initAnimationWithLayer:nil animationKey:@"animation" animationCreater:^(DWAnimationMaker *maker) {
-            maker.scaleFrom(0).scaleTo(1).duration(2).install();
-        }];
-        return bA;
-//    }
-//    return nil;
+    return [[DWAnimation alloc] initAnimationWithLayer:nil animationKey:@"animation" animationCreater:^(DWAnimationMaker *maker) {
+        maker.scaleFrom(0).scaleTo(1).duration(0.4).install();
+    }];
 }
-
-//-(BOOL)dw_TableView:(UITableView *)tableView shouldAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.row < 8) {
-//        return YES;
-//    }
-//    return NO;
-//}
 
 -(UITableView *)tabV {
     if (!_tabV) {
@@ -86,15 +70,6 @@
         [self.helper setTheSeperatorToZero];
         self.helper.minAutoRowHeight = 55;
         self.helper.helperDelegate = self;
-        DWAnimation * animatino = [[DWAnimation alloc] initAnimationWithLayer:[UIView new].layer animationKey:@"asdd" animationCreater:^(DWAnimationMaker *maker) {
-            maker.scaleFrom(0.5).scaleTo(1).duration(1).install();
-        }];
-//        DWAnimation * bA = [[DWAnimation alloc] initAnimationWithLayer:[UIView new].layer animationKey:@"animation" animationCreater:^(DWAnimationMaker *maker) {
-//            maker.scaleFrom(0).scaleTo(1).duration(2).install();
-//        }];
-        
-        self.helper.cellShowAnimation = animatino;
-//        self.helper.multiSection = YES;
     }
     return _tabV;
 }

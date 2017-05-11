@@ -1,5 +1,5 @@
 <p align="center" >
-<font size="20">DWTableViewHelper</font>
+<font size="40">DWTableViewHelper</font>
 </p>
 
 ## Description

@@ -14,8 +14,6 @@
 		9B4926CB1EBD77C700EF58DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B4926C91EBD77C700EF58DE /* Main.storyboard */; };
 		9B4926CD1EBD77C700EF58DE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B4926CC1EBD77C700EF58DE /* Assets.xcassets */; };
 		9B4926D01EBD77C700EF58DE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B4926CE1EBD77C700EF58DE /* LaunchScreen.storyboard */; };
-		9B4926D91EBD77F700EF58DE /* DWTableViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B4926D81EBD77F700EF58DE /* DWTableViewHelper.m */; };
-		9B4926DC1EBD864600EF58DE /* NSBundle+DWBundleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B4926DB1EBD864600EF58DE /* NSBundle+DWBundleUtils.m */; };
 		9B9DAC731EBED80C00196BC7 /* ACell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B9DAC701EBED80C00196BC7 /* ACell.m */; };
 		9B9DAC741EBED80C00196BC7 /* AModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B9DAC721EBED80C00196BC7 /* AModel.m */; };
 		9B9DAC781EBEE61800196BC7 /* BModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B9DAC771EBEE61800196BC7 /* BModel.m */; };
@@ -37,10 +35,6 @@
 		9B4926CC1EBD77C700EF58DE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B4926CF1EBD77C700EF58DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B4926D11EBD77C700EF58DE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9B4926D71EBD77F700EF58DE /* DWTableViewHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWTableViewHelper.h; sourceTree = "<group>"; };
-		9B4926D81EBD77F700EF58DE /* DWTableViewHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWTableViewHelper.m; sourceTree = "<group>"; };
-		9B4926DA1EBD864600EF58DE /* NSBundle+DWBundleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBundle+DWBundleUtils.h"; sourceTree = "<group>"; };
-		9B4926DB1EBD864600EF58DE /* NSBundle+DWBundleUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBundle+DWBundleUtils.m"; sourceTree = "<group>"; };
 		9B9DAC701EBED80C00196BC7 /* ACell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACell.m; sourceTree = "<group>"; };
 		9B9DAC711EBED80C00196BC7 /* AModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AModel.h; sourceTree = "<group>"; };
 		9B9DAC721EBED80C00196BC7 /* AModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AModel.m; sourceTree = "<group>"; };
@@ -109,13 +103,9 @@
 				9B9DAC701EBED80C00196BC7 /* ACell.m */,
 				9B9DAC711EBED80C00196BC7 /* AModel.h */,
 				9B9DAC721EBED80C00196BC7 /* AModel.m */,
-				9B4926D71EBD77F700EF58DE /* DWTableViewHelper.h */,
-				9B4926D81EBD77F700EF58DE /* DWTableViewHelper.m */,
 				9B9DAC7C1EBEEE6A00196BC7 /* CCell.h */,
 				9B9DAC7D1EBEEE6A00196BC7 /* CCell.m */,
 				9B9DAC7E1EBEEE6A00196BC7 /* CCell.xib */,
-				9B4926DA1EBD864600EF58DE /* NSBundle+DWBundleUtils.h */,
-				9B4926DB1EBD864600EF58DE /* NSBundle+DWBundleUtils.m */,
 				9B4926C31EBD77C700EF58DE /* AppDelegate.h */,
 				9B4926C41EBD77C700EF58DE /* AppDelegate.m */,
 				9B4926C61EBD77C700EF58DE /* ViewController.h */,
@@ -265,7 +255,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B4926D91EBD77F700EF58DE /* DWTableViewHelper.m in Sources */,
 				9B4926C81EBD77C700EF58DE /* ViewController.m in Sources */,
 				9B9DAC741EBED80C00196BC7 /* AModel.m in Sources */,
 				9B9DAC7B1EBEE62D00196BC7 /* BCell.m in Sources */,
@@ -274,7 +263,6 @@
 				9B9DAC731EBED80C00196BC7 /* ACell.m in Sources */,
 				9B4926C21EBD77C700EF58DE /* main.m in Sources */,
 				9B9DAC781EBEE61800196BC7 /* BModel.m in Sources */,
-				9B4926DC1EBD864600EF58DE /* NSBundle+DWBundleUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

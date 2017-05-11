@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '79CBEDA2EB599FF9E8F06D7F1B25AC45'
-               BlueprintName = 'Pods-a'
+               BlueprintIdentifier = '5AF9E77D90DE2A21FE1D88FBBD345E59'
+               BlueprintName = 'DWTableViewHelper'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libPods-a.a'>
+               BuildableName = 'libDWTableViewHelper.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
