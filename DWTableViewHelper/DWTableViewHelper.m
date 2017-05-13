@@ -7,7 +7,6 @@
 //
 
 #import "DWTableViewHelper.h"
-#import <objc/runtime.h>
 
 #define SeperatorColor [UIColor lightGrayColor]
 
@@ -84,6 +83,10 @@ static UIImage * ImageNull = nil;
 @property (nonatomic ,strong) NSIndexPath * lastSelected;
 
 @property (nonatomic ,strong) NSMutableDictionary * dic4CalCell;
+
+@property (nonatomic ,assign) BOOL isScrollingToTop;
+
+@property (nonatomic ,strong) NSMutableArray * data2Load;
 
 @end
 
@@ -417,7 +420,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     if (self.selectEnable) {
         return UITableViewCellEditingStyleInsert | UITableViewCellEditingStyleDelete;
     }
-    return UITableViewCellEditingStyleDelete;
+    return UITableViewCellEditingStyleNone;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -547,12 +550,24 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    DWTableViewHelperCell * cell = nil;
+    DWTableViewHelperModel * model = nil;
     if (DWRespond) {
-        return [DWDelegate dw_TableView:tableView cellForRowAtIndexPath:indexPath];
+        cell = [DWDelegate dw_TableView:tableView cellForRowAtIndexPath:indexPath];
+        if (!cell) {
+            NSAssert(NO, @"you have implemetation the dw_TableView:cellForRowAtIndexPath delegate but pass a nil cell at indexPath of S%ldR%ld",indexPath.section,indexPath.row);
+        }
+    } else {
+        model = [self modelFromIndexPath:indexPath];
+        cell = [self createCellFromModel:model useReuse:YES];
     }
-    DWTableViewHelperModel * model = [self modelFromIndexPath:indexPath];
-    __kindof DWTableViewHelperCell * cell = [self createCellFromModel:model useReuse:YES];
-    cell.model = model;
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+        [self ignoreModeLoadCell:cell indexPath:indexPath model:model];
+    } else if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode) {
+        [self lazyModeLoadCell:cell indexPath:indexPath model:model];
+    } else {
+        cell.model = model;
+    }
     return cell;
 }
 
@@ -625,16 +640,26 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+        [self ignoreModeReload];
+        [self.data2Load removeAllObjects];
+    }
     DWRespondTo(DWParas(scrollView,nil));
 }
 
 -(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+        [self handleData2LoadWithVelocity:velocity targetContentOffset:*targetContentOffset];
+    }
     if (DWRespond) {
         [DWDelegate dw_ScrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
     }
 }
 
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode && !decelerate) {
+        [self lazyModeReload];
+    }
     if (DWRespond) {
         [DWDelegate dw_ScrollViewDidEndDragging:scrollView willDecelerate:decelerate];
     }
@@ -645,10 +670,17 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode) {
+        [self lazyModeReload];
+    }
     DWRespondTo(DWParas(scrollView,nil));
 }
 
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+        self.isScrollingToTop = NO;
+        [self ignoreModeReload];
+    }
     DWRespondTo(DWParas(scrollView,nil));
 }
 
@@ -672,13 +704,24 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView {
+    BOOL should = YES;
     if (DWRespond) {
-        return [DWDelegate dw_ScrollViewShouldScrollToTop:scrollView];
+        should = [DWDelegate dw_ScrollViewShouldScrollToTop:scrollView];
     }
-    return YES;
+    if (should && self.loadDataMode != DWTableViewHelperLoadDataDefaultMode) {
+        self.isScrollingToTop = YES;
+    }
+    return should;
 }
 
 -(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+        self.isScrollingToTop = NO;
+        [self ignoreModeReload];
+    } else if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode) {
+        self.isScrollingToTop = NO;
+        [self lazyModeReload];
+    }
     DWRespondTo(DWParas(scrollView,nil));
 }
 
@@ -708,6 +751,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         return model.autoCalRowHeight;
     }
     __kindof DWTableViewHelperCell * cell = [self createCellFromModel:model useReuse:NO];
+    [cell prepareForReuse];
     cell.model = model;
     cell.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     CGFloat calRowHeight = [self calculateCellHeightWithCell:cell];
@@ -732,9 +776,15 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 -(CGFloat)calculateCellHeightWithCell:(UITableViewCell *)cell
 {
     CGFloat width = self.tabV.bounds.size.width;
+    
     if (width <= 0) {
         return -1;
     }
+    
+    CGRect cellBounds = cell.bounds;
+    cellBounds.size.width = width;
+    cell.bounds = cellBounds;
+
     //根据辅助视图校正width
     if (cell.accessoryView) {
         width -= cell.accessoryView.bounds.size.width + 16;
@@ -872,6 +922,153 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
+-(void)ignoreModeReload {
+    if (self.isScrollingToTop) {
+        return;
+    }
+    if (self.tabV.visibleCells.count == 0) {
+        return;
+    }
+    for (__kindof DWTableViewHelperCell * cell in self.tabV.visibleCells) {
+        NSIndexPath * idx = [self.tabV indexPathForCell:cell];
+        DWTableViewHelperModel * model = [self modelFromIndexPath:idx];
+        [self loadCell:cell model:model];
+    }
+}
+
+-(void)lazyModeReload {
+    [self.tabV reloadRowsAtIndexPaths:self.tabV.indexPathsForVisibleRows withRowAnimation:(UITableViewRowAnimationFade)];
+}
+
+-(void)handleData2LoadWithVelocity:(CGPoint)velocity targetContentOffset:(CGPoint)targetContentOffset {
+    CGRect targerRect = CGRectMake(0, targetContentOffset.y, self.tabV.bounds.size.width, self.tabV.bounds.size.height);
+    NSArray * targetIdxPs = [self.tabV indexPathsForRowsInRect:targerRect];
+    NSInteger distance = [self distanceBetweenIndexPathA:targetIdxPs.firstObject indexPathB:self.tabV.indexPathsForVisibleRows.firstObject];
+    NSUInteger ignoreCount = self.ignoreCount > 0 ? self.ignoreCount : 8;
+    if (distance > ignoreCount) {
+        if (velocity.y >= 0) {
+            [self.data2Load addObjectsFromArray:[self indexPathsAroundIndexPath:targetIdxPs.firstObject nextOrPreivious:NO count:3 step:1]];
+        }
+        [self.data2Load addObjectsFromArray:targetIdxPs];
+        if (velocity.y < 0) {
+            [self.data2Load addObjectsFromArray:[self indexPathsAroundIndexPath:targetIdxPs.lastObject nextOrPreivious:YES count:3 step:1]];
+        }
+    }
+}
+
+-(void)ignoreModeLoadCell:(DWTableViewHelperCell *)cell indexPath:(NSIndexPath *)indexPath model:(DWTableViewHelperModel *)model {
+    [self clearCell:cell indexPath:indexPath model:model];
+    if (self.data2Load.count>0&&[self.data2Load indexOfObject:indexPath]==NSNotFound) {
+        return;
+    }
+    if (self.isScrollingToTop) {
+        return;
+    }
+    [self loadCell:cell model:model];
+}
+
+-(void)loadCell:(__kindof DWTableViewHelperCell *)cell model:(DWTableViewHelperModel *)model {
+    ///此处处理占位图移除
+    [cell hideLoadDataPlaceHoler];
+    if (model.cellHasBeenDrawn) {
+        return;
+    }
+    cell.model = model;
+    [model setValue:@YES forKey:@"cellHasBeenDrawn"];
+}
+
+-(void)clearCell:(__kindof DWTableViewHelperCell *)cell indexPath:(NSIndexPath *)indexPath model:(DWTableViewHelperModel *)model {
+    [cell showLoadDataPlaceHolder:self.loadDataPlaceHolder height:[self tableView:self.tabV heightForRowAtIndexPath:indexPath]];
+    [model setValue:@NO forKey:@"cellHasBeenDrawn"];
+}
+
+-(NSInteger)distanceBetweenIndexPathA:(NSIndexPath *)idxPA indexPathB:(NSIndexPath *)idxPB {
+    if ([idxPA isEqual:idxPB]) {
+        return 0;
+    }
+    NSInteger distance = 0;
+    NSInteger sectionDelta = idxPB.section - idxPA.section;
+    if (sectionDelta > 0) {
+        NSInteger row = idxPA.row + 1;
+        NSInteger section = idxPA.section;
+        while (section < idxPB.section) {
+            distance += ([self.tabV numberOfRowsInSection:section]) - row;
+            section ++;
+            row = 0;
+        }
+        distance += (idxPB.row + 1);
+    } else if (sectionDelta == 0) {
+        distance = labs(idxPB.row - idxPA.row);
+    } else {
+        NSInteger row = idxPB.row + 1;
+        NSInteger section = idxPB.section;
+        while (section < idxPA.section) {
+            distance += ([self.tabV numberOfRowsInSection:section]) - row;
+            section ++;
+            row = 0;
+        }
+        distance += (idxPA.row + 1);
+    }
+    return distance;
+}
+
+-(NSArray <NSIndexPath *>*)indexPathsAroundIndexPath:(NSIndexPath *)idxP nextOrPreivious:(BOOL)isNext count:(NSUInteger)count step:(NSInteger)step {
+    
+    if (count == 0) {
+        return nil;
+    }
+    
+    if (step < 1) {
+        step = 1;
+    }
+    
+    NSInteger section = idxP.section;
+    NSInteger row = idxP.row;
+    section = section < self.tabV.numberOfSections ? section :self.tabV.numberOfSections;
+    row = row <= [self.tabV numberOfRowsInSection:section] ? row :[self.tabV numberOfRowsInSection:section];
+    
+    NSInteger fator = isNext ? 1 : -1;
+    
+    NSMutableArray * arr = [NSMutableArray array];
+    do {
+        row += step * fator;
+        if (row >= 0 && row < [self.tabV numberOfRowsInSection:section]) {
+            [arr addObject:[NSIndexPath indexPathForRow:row inSection:section]];
+        } else {
+        HandleSection:
+            section += fator;
+            if (section < 0 || section >= self.tabV.numberOfSections) {
+                break;
+            } else {
+                if (row < 0) {
+                    row += [self.tabV numberOfRowsInSection:section];
+                    if (row < 0) {
+                        goto HandleSection;
+                    } else {
+                        [arr addObject:[NSIndexPath indexPathForRow:row inSection:section]];
+                    }
+                } else {
+                    row -= [self.tabV numberOfRowsInSection:section - 1];
+                    if (row >= [self.tabV numberOfRowsInSection:section]) {
+                        goto HandleSection;
+                    } else {
+                        [arr addObject:[NSIndexPath indexPathForRow:row inSection:section]];
+                    }
+                }
+            }
+        }
+    } while (arr.count < count);
+    
+    return arr.copy;
+}
+
+-(void)lazyModeLoadCell:(DWTableViewHelperCell *)cell indexPath:(NSIndexPath *)indexPath model:(DWTableViewHelperModel *)model {
+    [self clearCell:cell indexPath:indexPath model:model];
+    if (!self.tabV.isDragging && !self.tabV.decelerating && !self.isScrollingToTop) {
+        [self loadCell:cell model:model];
+    }
+}
+
 #pragma mark --- setter/getter ---
 -(void)setDataSource:(NSArray<DWTableViewHelperModel *> *)dataSource
 {
@@ -932,6 +1129,33 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         _dic4CalCell = [NSMutableDictionary dictionary];
     }
     return _dic4CalCell;
+}
+
+-(NSMutableArray *)data2Load
+{
+    if (!_data2Load) {
+        _data2Load = [NSMutableArray array];
+    }
+    return _data2Load;
+}
+
+-(void)setLoadDataMode:(DWTableViewHelperLoadDataMode)loadDataMode {
+    if (_loadDataMode != loadDataMode) {
+        if (_loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:DWTableViewHelperCellHitTestNotification object:nil];
+        }
+        if (loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ignoreModeReload) name:DWTableViewHelperCellHitTestNotification object:nil];
+        }
+        _loadDataMode = loadDataMode;
+    }
+}
+
+#pragma mark --- override ---
+-(void)dealloc {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    }
 }
 
 #pragma mark --- inline Method ---
@@ -1046,6 +1270,14 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
 @end
 
 
+NSNotificationName const DWTableViewHelperCellHitTestNotification = @"DWTableViewHelperCellHitTestNotification";
+
+@interface DWTableViewHelperCell ()
+
+@property (nonatomic ,strong) UIImageView * loadDataImageView;
+
+@end
+
 @implementation DWTableViewHelperCell
 static UIImage * defaultSelectIcon = nil;
 static UIImage * defaultUnselectIcon = nil;
@@ -1135,6 +1367,8 @@ static UIImage * defaultUnselectIcon = nil;
     ///去除选择背景
     self.multipleSelectionBackgroundView = [UIView new];
     self.selectedBackgroundView = [UIView new];
+    self.loadDataImageView = [UIImageView new];
+    self.loadDataImageView.backgroundColor = [UIColor whiteColor];
 }
 
 -(void)setupConstraints {
@@ -1144,6 +1378,40 @@ static UIImage * defaultUnselectIcon = nil;
 -(void)setModel:(__kindof DWTableViewHelperModel *)model
 {
     _model = model;
+}
+
+-(void)showLoadDataPlaceHolder:(UIImage *)image height:(CGFloat)height{
+    CGRect bounds = self.bounds;
+    bounds.size.height = height;
+    self.loadDataImageView.frame = bounds;
+    [self.contentView addSubview:self.loadDataImageView];
+    if (!image) {
+        image = defaultImageWithHeight(height);
+    }
+    self.loadDataImageView.image = image;
+}
+
+-(void)hideLoadDataPlaceHoler {
+    [self.loadDataImageView removeFromSuperview];
+}
+
+-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    [[NSNotificationCenter defaultCenter] postNotificationName:DWTableViewHelperCellHitTestNotification object:nil];
+    return [super hitTest:point withEvent:event];
+}
+
+static inline UIImage * defaultImageWithHeight(CGFloat height) {
+    if (height < 20) {
+        return nil;
+    } else if (height < 40) {
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage20"]] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 34) resizingMode:(UIImageResizingModeStretch)];
+    } else if (height < 95) {
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage40"]] resizableImageWithCapInsets:UIEdgeInsetsMake(28, 11, 6, 270) resizingMode:UIImageResizingModeStretch];
+    } else if (height < 145) {
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage95"]] resizableImageWithCapInsets:UIEdgeInsetsMake(80, 230, 10, 35) resizingMode:(UIImageResizingModeStretch)];
+    } else {
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage145"]] resizableImageWithCapInsets:UIEdgeInsetsMake(103, 220, 33, 117) resizingMode:(UIImageResizingModeStretch)];
+    }
 }
 
 @end

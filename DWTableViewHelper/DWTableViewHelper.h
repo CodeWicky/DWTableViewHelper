@@ -59,12 +59,17 @@
  version 1.1.2
  展示动画逻辑修改，DWAnimation动画展示方法替换
  
+ version 1.1.3
+ 滚动优化模式添加
+ 高速忽略模式完成
+ 懒加载模式完成
+ 
  */
 
 #import <UIKit/UIKit.h>
 
 #pragma mark --- tableView 代理映射 ---
-@class DWTableViewHelper;
+@class DWTableViewHelperCell;
 @protocol DWTableViewHelperDelegate <NSObject>
 
 @optional
@@ -127,7 +132,7 @@
 
 ///数据源
 -(NSInteger)dw_TableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
--(UITableViewCell *)dw_TableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+-(DWTableViewHelperCell *)dw_TableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 -(NSInteger)dw_NumberOfSectionsInTableView:(UITableView *)tableView;
 -(NSString *)dw_TableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 -(NSString *)dw_TableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section;
@@ -205,6 +210,12 @@
 
 @end
 
+typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优化模式
+    DWTableViewHelperLoadDataDefaultMode,///无优化
+    DWTableViewHelperLoadDataLazyMode,///滚动中不加载cell
+    DWTableViewHelperLoadDataIgnoreHighSpeedMode///不加载高速滚出的cell
+};
+
 #pragma mark --- DWTableViewHelper 工具类 ---
 @class DWTableViewHelperModel;
 /**
@@ -247,6 +258,35 @@
 
 ///cell展示动画
 @property (nonatomic ,strong) id cellShowAnimation;
+
+
+/**
+ 数据加载模式
+ 
+ 此属性为优化tableView滚动时流畅性的属性
+ 
+ DWTableViewHelperLoadDataDefaultMode
+ 默认模式
+ 不含优化体验效果。默认在每个cell即将出现时进行绘制。
+ 
+ DWTableViewHelperLoadDataLazyMode
+ 懒加载模式
+ 当tableView滚动时，认为当前cell不需要加载，以占位图进行展示
+ 
+ DWTableViewHelperLoadDataIgnoreHighSpeedMode
+ 高速滚动忽略模式
+ 当tableView快速滚动时，则认为当中快速略过的cell不需加载，以占位图进行展示
+ 
+ 注：
+ 使用DWTableViewHelperLoadDataIgnoreHighSpeedMode模式时，若cell需要自行实现-(UIView *)hitTest:withEvent:方法，为了更好的滑动体验，请调用父类实现
+ */
+@property (nonatomic ,assign) DWTableViewHelperLoadDataMode loadDataMode;
+
+///优化模式下，不加载的cell展示的图片
+@property (nonatomic ,strong) UIImage * loadDataPlaceHolder;
+
+///忽略模式下当快速滚动级别（数字越小，占位cell越多）
+@property (nonatomic ,assign) NSUInteger ignoreCount;
 
 ///实例化方法
 -(instancetype)initWithTabV:(__kindof UITableView *)tabV dataSource:(NSArray *)dataSource;
@@ -300,6 +340,9 @@
 ///是否从xib文件中加载cell，默认为NO
 @property (nonatomic ,assign) BOOL loadCellFromNib;
 
+///配合DWTableViewHelperLoadDataIgnoreHighSpeedMode使用，标志cell是否被绘制过
+@property (nonatomic ,assign ,readonly) BOOL cellHasBeenDrawn;
+
 @end
 
 #pragma mark --- DWTableViewHelperCell cell基类 ---
@@ -309,6 +352,9 @@
  Cell请继承自本类
  本类所有属性、方法均为统一接口，子类可重写方法，注意调用父类实现
  */
+
+extern NSNotificationName const DWTableViewHelperCellHitTestNotification;
+
 @interface DWTableViewHelperCell : UITableViewCell
 
 ///数据模型
@@ -322,4 +368,26 @@
 
 ///设置数据模型
 -(void)setModel:(__kindof DWTableViewHelperModel *)model NS_REQUIRES_SUPER;
+
+
+/**
+ 展示加载数据视图
+
+ @param image 加载数据图片
+ 
+ 在优化滚动模式下系统会自行调用。会以当前cell大小展示指定的图片。
+ 开发者也可调用或重写此方法，必须实现父类方法
+ */
+-(void)showLoadDataPlaceHolder:(UIImage *)image height:(CGFloat)height NS_REQUIRES_SUPER;
+
+/**
+ 隐藏加载数据视图
+ 
+ 在优化滚动模式下系统会自行调用。隐藏视图。
+ 开发者也可调用或重写此方法，必须实现父类方法
+ */
+-(void)hideLoadDataPlaceHoler NS_REQUIRES_SUPER;
+
+///hit test（一般情况下无需自行实现，如需自行实现，必须调用父类实现）
+-(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event NS_REQUIRES_SUPER;
 @end

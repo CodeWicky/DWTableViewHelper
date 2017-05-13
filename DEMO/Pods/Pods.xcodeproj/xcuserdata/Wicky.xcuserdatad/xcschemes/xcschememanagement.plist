@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>DWTableViewHelper.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,22 +22,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>5AF9E77D90DE2A21FE1D88FBBD345E59</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>731747453D4FA0530DCD237E9BC582EC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>79CBEDA2EB599FF9E8F06D7F1B25AC45</key>
+		<key>9DC8D9E02903E93BD0B2FEC9D846EA20</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9DC8D9E02903E93BD0B2FEC9D846EA20</key>
+		<key>FA61BD678FEAB4438CE273FCCF6C2A65</key>
 		<dict>
 			<key>primary</key>
 			<true/>

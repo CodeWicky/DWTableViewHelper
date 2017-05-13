@@ -1,18 +1,15 @@
 PODS:
   - DWAnimation (1.1.10)
-  - DWTableViewHelper (1.1.2)
   - Masonry (1.0.2)
 
 DEPENDENCIES:
   - DWAnimation (~> 1.1.10)
-  - DWTableViewHelper (~> 1.1.2)
   - Masonry (~> 1.0.2)
 
 SPEC CHECKSUMS:
   DWAnimation: 2f0a7456ec9fff2da2e4d1352552b6cd593d00a9
-  DWTableViewHelper: bf197e05db9558e694c019e7e2c41d9105621fa8
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
 
-PODFILE CHECKSUM: 3a2dc6984e6d98c1f9946ecc56dd266aaa4bf930
+PODFILE CHECKSUM: 30497533825386c1222b0a097d1e87a99eab6b69
 
 COCOAPODS: 1.2.1
