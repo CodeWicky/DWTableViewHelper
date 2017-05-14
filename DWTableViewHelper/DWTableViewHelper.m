@@ -1369,6 +1369,7 @@ static UIImage * defaultUnselectIcon = nil;
 
 -(void)setupUI {
     ///去除选择背景
+    self.backgroundColor = [UIColor whiteColor];
     self.multipleSelectionBackgroundView = [UIView new];
     self.selectedBackgroundView = [UIView new];
     self.loadDataImageView = [UIImageView new];
