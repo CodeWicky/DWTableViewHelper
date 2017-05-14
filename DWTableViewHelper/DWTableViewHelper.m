@@ -932,12 +932,16 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     for (__kindof DWTableViewHelperCell * cell in self.tabV.visibleCells) {
         NSIndexPath * idx = [self.tabV indexPathForCell:cell];
         DWTableViewHelperModel * model = [self modelFromIndexPath:idx];
-        [self loadCell:cell model:model];
+        [self loadCell:cell model:model animated:NO];
     }
 }
 
 -(void)lazyModeReload {
-    [self.tabV reloadRowsAtIndexPaths:self.tabV.indexPathsForVisibleRows withRowAnimation:(UITableViewRowAnimationFade)];
+    for (__kindof DWTableViewHelperCell * cell in self.tabV.visibleCells) {
+        NSIndexPath * idx = [self.tabV indexPathForCell:cell];
+        DWTableViewHelperModel * model = [self modelFromIndexPath:idx];
+        [self loadCell:cell model:model animated:YES];
+    }
 }
 
 -(void)handleData2LoadWithVelocity:(CGPoint)velocity targetContentOffset:(CGPoint)targetContentOffset {
@@ -964,12 +968,12 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     if (self.isScrollingToTop) {
         return;
     }
-    [self loadCell:cell model:model];
+    [self loadCell:cell model:model animated:NO];
 }
 
--(void)loadCell:(__kindof DWTableViewHelperCell *)cell model:(DWTableViewHelperModel *)model {
+-(void)loadCell:(__kindof DWTableViewHelperCell *)cell model:(DWTableViewHelperModel *)model animated:(BOOL)animated {
     ///此处处理占位图移除
-    [cell hideLoadDataPlaceHoler];
+    [cell hideLoadDataPlaceHolerAnimated:animated];
     if (model.cellHasBeenDrawn) {
         return;
     }
@@ -1065,7 +1069,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 -(void)lazyModeLoadCell:(DWTableViewHelperCell *)cell indexPath:(NSIndexPath *)indexPath model:(DWTableViewHelperModel *)model {
     [self clearCell:cell indexPath:indexPath model:model];
     if (!self.tabV.isDragging && !self.tabV.decelerating && !self.isScrollingToTop) {
-        [self loadCell:cell model:model];
+        [self loadCell:cell model:model animated:YES];
     }
 }
 
@@ -1384,15 +1388,19 @@ static UIImage * defaultUnselectIcon = nil;
     CGRect bounds = self.bounds;
     bounds.size.height = height;
     self.loadDataImageView.frame = bounds;
-    [self.contentView addSubview:self.loadDataImageView];
+    [self.contentView addSubview:self.loadDataImageView];///为了保证始终在顶层
     if (!image) {
         image = defaultImageWithHeight(height);
     }
     self.loadDataImageView.image = image;
+    self.loadDataImageView.alpha = 1;
 }
 
--(void)hideLoadDataPlaceHoler {
-    [self.loadDataImageView removeFromSuperview];
+-(void)hideLoadDataPlaceHolerAnimated:(BOOL)animated {
+    [UIView beginAnimations:@"hideAni" context:nil];
+    [UIView setAnimationDuration:animated?0.4:0];
+    self.loadDataImageView.alpha = 0;
+    [UIView commitAnimations];
 }
 
 -(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {

@@ -63,6 +63,8 @@
  滚动优化模式添加
  高速忽略模式完成
  懒加载模式完成
+ 懒加载模式动画隐藏，更加平滑，修复刷新bug。
+ 有没有美工妹子给切几张占位图。。我做的图太丑了。。
  
  */
 
@@ -386,7 +388,7 @@ extern NSNotificationName const DWTableViewHelperCellHitTestNotification;
  在优化滚动模式下系统会自行调用。隐藏视图。
  开发者也可调用或重写此方法，必须实现父类方法
  */
--(void)hideLoadDataPlaceHoler NS_REQUIRES_SUPER;
+-(void)hideLoadDataPlaceHolerAnimated:(BOOL)animated NS_REQUIRES_SUPER;
 
 ///hit test（一般情况下无需自行实现，如需自行实现，必须调用父类实现）
 -(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event NS_REQUIRES_SUPER;
