@@ -59,10 +59,6 @@
     }];
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
-}
-
 -(UITableView *)tabV {
     if (!_tabV) {
         _tabV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 414, 500) style:(UITableViewStyleGrouped)
