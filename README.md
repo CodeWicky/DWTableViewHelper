@@ -46,6 +46,8 @@ All I have done is to bulid a tableView easier and I'm improving it step by step
 
 - Auto calculate the rowHeight and cache it.
 
+- Provide two ways to improve the performance of tableView when scrolling.
+
 ## 功能
 
 - 解耦。
@@ -59,6 +61,8 @@ All I have done is to bulid a tableView easier and I'm improving it step by step
 - 简化TableView列表的选择及多选操作。
 
 - 非固定行高cell会自动计算行高并缓存行高。
+
+- 提供针对tableView滚动流畅性的两种优化方案
 
 ## Usage
 Firstly,drag it into your project or use cocoapods.
