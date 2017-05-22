@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		55DFF9CE75F8617875976FB9 /* libPods-a.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A49CC5042F54C0481E0F48D /* libPods-a.a */; };
+		9B055AEC1ED2C40600098E8B /* DWTableViewHelperResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9B055AEB1ED2C40600098E8B /* DWTableViewHelperResource.bundle */; };
 		9B1060821EC6E91A00A32E96 /* DWTableViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1060811EC6E91A00A32E96 /* DWTableViewHelper.m */; };
 		9B4926C21EBD77C700EF58DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B4926C11EBD77C700EF58DE /* main.m */; };
 		9B4926C51EBD77C700EF58DE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B4926C41EBD77C700EF58DE /* AppDelegate.m */; };
@@ -22,12 +23,12 @@
 		9B9DAC7F1EBEEE6B00196BC7 /* CCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B9DAC7D1EBEEE6A00196BC7 /* CCell.m */; };
 		9B9DAC801EBEEE6B00196BC7 /* CCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B9DAC7E1EBEEE6A00196BC7 /* CCell.xib */; };
 		9BFEB7C61EC711DF00EDE288 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BFEB7C51EC711DF00EDE288 /* icon.png */; };
-		9BFEB7D81EC72FC600EDE288 /* DWTableViewHelperResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9BFEB7D71EC72FC600EDE288 /* DWTableViewHelperResource.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		25EA7A883D9FC3853A5D027E /* Pods-a.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-a.release.xcconfig"; path = "Pods/Target Support Files/Pods-a/Pods-a.release.xcconfig"; sourceTree = "<group>"; };
 		9A49CC5042F54C0481E0F48D /* libPods-a.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-a.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B055AEB1ED2C40600098E8B /* DWTableViewHelperResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = DWTableViewHelperResource.bundle; path = ../../DWTableViewHelper/DWTableViewHelperResource.bundle; sourceTree = "<group>"; };
 		9B1060801EC6E91A00A32E96 /* DWTableViewHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DWTableViewHelper.h; path = ../../DWTableViewHelper/DWTableViewHelper.h; sourceTree = "<group>"; };
 		9B1060811EC6E91A00A32E96 /* DWTableViewHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DWTableViewHelper.m; path = ../../DWTableViewHelper/DWTableViewHelper.m; sourceTree = "<group>"; };
 		9B4926BD1EBD77C700EF58DE /* a.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = a.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,7 +53,6 @@
 		9B9DAC7D1EBEEE6A00196BC7 /* CCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCell.m; sourceTree = "<group>"; };
 		9B9DAC7E1EBEEE6A00196BC7 /* CCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CCell.xib; sourceTree = "<group>"; };
 		9BFEB7C51EC711DF00EDE288 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../../../../icon.png; sourceTree = "<group>"; };
-		9BFEB7D71EC72FC600EDE288 /* DWTableViewHelperResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DWTableViewHelperResource.bundle; sourceTree = "<group>"; };
 		B205B3A7DA99B939C9B6EA02 /* Pods-a.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-a.debug.xcconfig"; path = "Pods/Target Support Files/Pods-a/Pods-a.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -120,7 +120,7 @@
 				9B4926C71EBD77C700EF58DE /* ViewController.m */,
 				9B1060801EC6E91A00A32E96 /* DWTableViewHelper.h */,
 				9B1060811EC6E91A00A32E96 /* DWTableViewHelper.m */,
-				9BFEB7D71EC72FC600EDE288 /* DWTableViewHelperResource.bundle */,
+				9B055AEB1ED2C40600098E8B /* DWTableViewHelperResource.bundle */,
 				9B9DAC761EBEE61800196BC7 /* BModel.h */,
 				9B9DAC771EBEE61800196BC7 /* BModel.m */,
 				9B9DAC791EBEE62D00196BC7 /* BCell.h */,
@@ -208,8 +208,8 @@
 				9BFEB7C61EC711DF00EDE288 /* icon.png in Resources */,
 				9B9DAC801EBEEE6B00196BC7 /* CCell.xib in Resources */,
 				9B4926CD1EBD77C700EF58DE /* Assets.xcassets in Resources */,
+				9B055AEC1ED2C40600098E8B /* DWTableViewHelperResource.bundle in Resources */,
 				9B4926CB1EBD77C700EF58DE /* Main.storyboard in Resources */,
-				9BFEB7D81EC72FC600EDE288 /* DWTableViewHelperResource.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
