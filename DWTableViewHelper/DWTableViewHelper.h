@@ -186,6 +186,8 @@
  cell类型与复用标识两者必须同时在helper或model中至少设置一次。
  若helper及model中均设置正确则model中优先级更高
  
+ 通常情况下，model中会为cellClassStr及cellID智能提供默认值
+ 
  通过helper设置cell类型与复用标识更加适用于以下场景：
  需要共享数据模型但是要展示不同种类cell的场景
  
@@ -199,7 +201,7 @@
 
 ///helper行高
 /**
- 优先级：映射代理行高 > 数据模型行高 > helper行高 > 默认行高44
+ 优先级：映射代理行高 > 数据模型行高 > helper行高 > 自动行高（如果使用自动行高模式） > 默认行高44
  */
 @property (nonatomic ,assign) CGFloat cellRowHeight;
 

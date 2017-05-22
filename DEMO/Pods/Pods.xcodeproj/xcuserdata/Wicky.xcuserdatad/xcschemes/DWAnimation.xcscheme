@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '731747453D4FA0530DCD237E9BC582EC'
+               BlueprintIdentifier = 'E9F32FD89848928BC974264BB1BFDB90'
                BlueprintName = 'DWAnimation'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libDWAnimation.a'>
