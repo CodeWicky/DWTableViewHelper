@@ -138,7 +138,7 @@
 
 ///数据源
 -(NSInteger)dw_TableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
--(DWTableViewHelperCell *)dw_TableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+-(DWTableViewHelperCell *)dw_TableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;///如无特殊情况不需实现此代理，若必须自己实现此代理，也无需实现数据模型赋值。为了实现优化模式，cell赋值数据模型全权交由工具类处理。当然你也可以自己赋值数据模型，不过系统会再次赋值致使你复制无效。实现本代理你可以做一些其他的事情，比如再次操作数据模型，再次操作cell一些不会因为数据模型而改变的属性等等。没啥事别实现这个代理，你能干且有效的事不多=。=
 -(NSInteger)dw_NumberOfSectionsInTableView:(UITableView *)tableView;
 -(NSString *)dw_TableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
 -(NSString *)dw_TableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section;
