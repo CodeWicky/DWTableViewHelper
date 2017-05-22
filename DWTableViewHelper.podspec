@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
   s.author       = { "codeWicky" => "codewicky@163.com" }
   s.source       = { :git => "https://github.com/CodeWicky/DWTableViewHelper.git", :tag => s.version.to_s }
   s.source_files = "DWTableViewHelper/*.{h,m}"
+  s.resource = 'DWCheckBox/DWCheckBoxBundle.bundle'
   s.ios.deployment_target = '7.0'
   s.frameworks   = 'UIKit'
   s.requires_arc = true

@@ -982,7 +982,20 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(void)clearCell:(__kindof DWTableViewHelperCell *)cell indexPath:(NSIndexPath *)indexPath model:(DWTableViewHelperModel *)model {
-    [cell showLoadDataPlaceHolder:self.loadDataPlaceHolder height:[self tableView:self.tabV heightForRowAtIndexPath:indexPath]];
+    
+    UIImage * image;
+    CGFloat height = [self tableView:self.tabV heightForRowAtIndexPath:indexPath];
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_TableView:loadDataPlaceHolderForCell:forRowAtIndexPath:)]) {
+        image = [DWDelegate dw_TableView:self.tabV loadDataPlaceHolderForCell:cell forRowAtIndexPath:indexPath];
+    }
+    if (!image) {
+        image = self.loadDataPlaceHolder;
+    }
+    if (!image) {
+        image = defaultImageWithHeight(height);
+    }
+    
+    [cell showLoadDataPlaceHolder:image height:height];
     [model setValue:@NO forKey:@"cellHasBeenDrawn"];
 }
 
@@ -1172,6 +1185,21 @@ static inline void handlePlaceHolderView(UIView * placeHolderView,UITableView * 
     {
         [tabV addSubview:placeHolderView];
         *hasPlaceHolderView = YES;
+    }
+}
+
+
+static inline UIImage * defaultImageWithHeight(CGFloat height) {
+    if (height < 20) {
+        return nil;
+    } else if (height < 40) {
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage20"]] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 34) resizingMode:(UIImageResizingModeStretch)];
+    } else if (height < 95) {
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage40"]] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 10, 5, 390) resizingMode:UIImageResizingModeStretch];
+    } else if (height < 145) {
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage95"]] resizableImageWithCapInsets:UIEdgeInsetsMake(80, 230, 10, 35) resizingMode:(UIImageResizingModeStretch)];
+    } else {
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage145"]] resizableImageWithCapInsets:UIEdgeInsetsMake(103, 220, 33, 117) resizingMode:(UIImageResizingModeStretch)];
     }
 }
 
@@ -1390,9 +1418,6 @@ static UIImage * defaultUnselectIcon = nil;
     bounds.size.height = height;
     self.loadDataImageView.frame = bounds;
     [self.contentView addSubview:self.loadDataImageView];///为了保证始终在顶层
-    if (!image) {
-        image = defaultImageWithHeight(height);
-    }
     self.loadDataImageView.image = image;
     self.loadDataImageView.alpha = 1;
 }
@@ -1407,20 +1432,6 @@ static UIImage * defaultUnselectIcon = nil;
 -(UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
     [[NSNotificationCenter defaultCenter] postNotificationName:DWTableViewHelperCellHitTestNotification object:nil];
     return [super hitTest:point withEvent:event];
-}
-
-static inline UIImage * defaultImageWithHeight(CGFloat height) {
-    if (height < 20) {
-        return nil;
-    } else if (height < 40) {
-        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage20"]] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 34) resizingMode:(UIImageResizingModeStretch)];
-    } else if (height < 95) {
-        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage40"]] resizableImageWithCapInsets:UIEdgeInsetsMake(28, 11, 6, 270) resizingMode:UIImageResizingModeStretch];
-    } else if (height < 145) {
-        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage95"]] resizableImageWithCapInsets:UIEdgeInsetsMake(80, 230, 10, 35) resizingMode:(UIImageResizingModeStretch)];
-    } else {
-        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage145"]] resizableImageWithCapInsets:UIEdgeInsetsMake(103, 220, 33, 117) resizingMode:(UIImageResizingModeStretch)];
-    }
 }
 
 @end

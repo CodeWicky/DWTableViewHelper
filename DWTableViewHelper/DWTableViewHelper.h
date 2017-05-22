@@ -66,6 +66,9 @@
  懒加载模式动画隐藏，更加平滑，修复刷新bug。
  有没有美工妹子给切几张占位图。。我做的图太丑了。。
  
+ version 1.1.4
+ 添加占位图代理
+ 
  */
 
 #import <UIKit/UIKit.h>
@@ -164,6 +167,9 @@
 ///动画 支持返回CAAniamion对象、DWAnimation对象
 -(BOOL)dw_TableView:(UITableView *)tableView shouldAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 -(id)dw_TableView:(UITableView *)tableView showAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+
+///cell占位图（仅优化模式下有效）
+-(UIImage *)dw_TableView:(UITableView *)tableView loadDataPlaceHolderForCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 @end
 
 #pragma mark --- cell 基础属性协议---
@@ -284,7 +290,13 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
  */
 @property (nonatomic ,assign) DWTableViewHelperLoadDataMode loadDataMode;
 
-///优化模式下，不加载的cell展示的图片
+
+/**
+ 优化模式下，不加载的cell展示的图片
+ 
+ 注：
+ 优先级：代理图片 > helper图片 > 默认图标
+ */
 @property (nonatomic ,strong) UIImage * loadDataPlaceHolder;
 
 ///忽略模式下当快速滚动级别（数字越小，占位cell越多）
