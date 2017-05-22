@@ -68,6 +68,7 @@
  
  version 1.1.4
  添加占位图代理
+ 代理补充cell高度
  
  */
 
@@ -169,7 +170,7 @@
 -(id)dw_TableView:(UITableView *)tableView showAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 
 ///cell占位图（仅优化模式下有效）
--(UIImage *)dw_TableView:(UITableView *)tableView loadDataPlaceHolderForCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+-(UIImage *)dw_TableView:(UITableView *)tableView loadDataPlaceHolderForCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath cellHeight:(CGFloat)cellHeight;
 @end
 
 #pragma mark --- cell 基础属性协议---

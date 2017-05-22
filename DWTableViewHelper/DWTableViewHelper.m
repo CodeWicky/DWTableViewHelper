@@ -985,8 +985,8 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     
     UIImage * image;
     CGFloat height = [self tableView:self.tabV heightForRowAtIndexPath:indexPath];
-    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_TableView:loadDataPlaceHolderForCell:forRowAtIndexPath:)]) {
-        image = [DWDelegate dw_TableView:self.tabV loadDataPlaceHolderForCell:cell forRowAtIndexPath:indexPath];
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_TableView:loadDataPlaceHolderForCell:forRowAtIndexPath:cellHeight:)]) {
+        image = [DWDelegate dw_TableView:self.tabV loadDataPlaceHolderForCell:cell forRowAtIndexPath:indexPath cellHeight:height];
     }
     if (!image) {
         image = self.loadDataPlaceHolder;
