@@ -395,7 +395,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 {
     if (self.selectEnable) {
         if (!self.multiSelect && self.lastSelected) {
-            [tableView deselectRowAtIndexPath:self.lastSelected animated:YES];
+            [tableView deselectRowAtIndexPath:self.lastSelected animated:NO];
         }
         self.lastSelected = indexPath;
         return;
@@ -414,11 +414,11 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 ///editing
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (DWRespond) {
-        return [DWDelegate dw_TableView:tableView editingStyleForRowAtIndexPath:indexPath];
-    }
     if (self.selectEnable) {
         return UITableViewCellEditingStyleInsert | UITableViewCellEditingStyleDelete;
+    }
+    if (DWRespond) {
+        return [DWDelegate dw_TableView:tableView editingStyleForRowAtIndexPath:indexPath];
     }
     return UITableViewCellEditingStyleNone;
 }
@@ -551,14 +551,13 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DWTableViewHelperCell * cell = nil;
-    DWTableViewHelperModel * model = nil;
+    DWTableViewHelperModel * model = [self modelFromIndexPath:indexPath];
     if (DWRespond) {
         cell = [DWDelegate dw_TableView:tableView cellForRowAtIndexPath:indexPath];
         if (!cell) {
             NSAssert(NO, @"you have implemetation the dw_TableView:cellForRowAtIndexPath delegate but pass a nil cell at indexPath of S%ldR%ld",indexPath.section,indexPath.row);
         }
     } else {
-        model = [self modelFromIndexPath:indexPath];
         cell = [self createCellFromModel:model useReuse:YES];
     }
     if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
@@ -1251,6 +1250,9 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
 ///计算的横屏行高
 @property (nonatomic ,assign) CGFloat calRowHeightH;
 
+///原始cell选择样式
+@property (nonatomic ,assign) NSInteger originalSelectionStyle;
+
 @end
 
 @implementation DWTableViewHelperModel
@@ -1264,6 +1266,7 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
         if (!ImageNull) {
             ImageNull = [UIImage new];
         }
+        self.originalSelectionStyle = -1;
         NSString * cellClass = NSStringFromClass([self class]);
         NSArray * arr = [cellClass componentsSeparatedByString:@"Model"];
         if (arr.count) {
@@ -1369,8 +1372,10 @@ static UIImage * defaultUnselectIcon = nil;
 ///适配第一次图片为空的情况
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
-    if (self.selectionStyle == UITableViewCellSelectionStyleNone) {
+    if (editing && self.selectionStyle != UITableViewCellSelectionStyleDefault) {//编辑状态下保证非无选择样式
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
+    } else if (!editing && self.selectionStyle != self.model.originalSelectionStyle) {//退出编辑状态是恢复原始选择样式
+        self.selectionStyle = self.model.originalSelectionStyle;
     }
     BOOL toSetUnselectIcon = self.model.cellEditUnselectedIcon != ImageNull && self.model.cellEditUnselectedIcon != nil;
     for (UIControl *control in self.subviews){
@@ -1400,6 +1405,7 @@ static UIImage * defaultUnselectIcon = nil;
     self.backgroundColor = [UIColor whiteColor];
     self.multipleSelectionBackgroundView = [UIView new];
     self.selectedBackgroundView = [UIView new];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.loadDataImageView = [UIImageView new];
     self.loadDataImageView.backgroundColor = [UIColor whiteColor];
 }
@@ -1411,6 +1417,9 @@ static UIImage * defaultUnselectIcon = nil;
 -(void)setModel:(__kindof DWTableViewHelperModel *)model
 {
     _model = model;
+    if (model.originalSelectionStyle == -1) {//仅在初次生成cell的时候同步cell的选择样式
+        model.originalSelectionStyle = self.selectionStyle;
+    }
 }
 
 -(void)showLoadDataPlaceHolder:(UIImage *)image height:(CGFloat)height{

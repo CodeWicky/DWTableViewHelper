@@ -170,6 +170,7 @@
 
 ///cell占位图（仅优化模式下有效）
 -(UIImage *)dw_TableView:(UITableView *)tableView loadDataPlaceHolderForCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+
 @end
 
 #pragma mark --- cell 基础属性协议---

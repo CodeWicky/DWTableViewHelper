@@ -59,6 +59,10 @@
     }];
 }
 
+//-(UITableViewCellEditingStyle)dw_TableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return UITableViewCellEditingStyleInsert;
+//}
+
 -(UITableView *)tabV {
     if (!_tabV) {
         _tabV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 414, 500) style:(UITableViewStyleGrouped)
@@ -68,7 +72,7 @@
         [self.helper setTheSeperatorToZero];
         self.helper.minAutoRowHeight = 55;
         self.helper.helperDelegate = self;
-        self.helper.loadDataMode = DWTableViewHelperLoadDataLazyMode;
+        self.helper.loadDataMode = DWTableViewHelperLoadDataIgnoreHighSpeedMode;
         self.helper.ignoreCount = 1;
     }
     return _tabV;

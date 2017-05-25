@@ -21,7 +21,6 @@
 		9B9DAC7B1EBEE62D00196BC7 /* BCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B9DAC7A1EBEE62D00196BC7 /* BCell.m */; };
 		9B9DAC7F1EBEEE6B00196BC7 /* CCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B9DAC7D1EBEEE6A00196BC7 /* CCell.m */; };
 		9B9DAC801EBEEE6B00196BC7 /* CCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B9DAC7E1EBEEE6A00196BC7 /* CCell.xib */; };
-		9BFEB7C61EC711DF00EDE288 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9BFEB7C51EC711DF00EDE288 /* icon.png */; };
 		9BFEB7D81EC72FC600EDE288 /* DWTableViewHelperResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 9BFEB7D71EC72FC600EDE288 /* DWTableViewHelperResource.bundle */; };
 /* End PBXBuildFile section */
 
@@ -51,7 +50,6 @@
 		9B9DAC7C1EBEEE6A00196BC7 /* CCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCell.h; sourceTree = "<group>"; };
 		9B9DAC7D1EBEEE6A00196BC7 /* CCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCell.m; sourceTree = "<group>"; };
 		9B9DAC7E1EBEEE6A00196BC7 /* CCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CCell.xib; sourceTree = "<group>"; };
-		9BFEB7C51EC711DF00EDE288 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../../../../../icon.png; sourceTree = "<group>"; };
 		9BFEB7D71EC72FC600EDE288 /* DWTableViewHelperResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DWTableViewHelperResource.bundle; sourceTree = "<group>"; };
 		B205B3A7DA99B939C9B6EA02 /* Pods-a.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-a.debug.xcconfig"; path = "Pods/Target Support Files/Pods-a/Pods-a.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,7 +111,6 @@
 				9B9DAC7C1EBEEE6A00196BC7 /* CCell.h */,
 				9B9DAC7D1EBEEE6A00196BC7 /* CCell.m */,
 				9B9DAC7E1EBEEE6A00196BC7 /* CCell.xib */,
-				9BFEB7C51EC711DF00EDE288 /* icon.png */,
 				9B4926C31EBD77C700EF58DE /* AppDelegate.h */,
 				9B4926C41EBD77C700EF58DE /* AppDelegate.m */,
 				9B4926C61EBD77C700EF58DE /* ViewController.h */,
@@ -205,7 +202,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B4926D01EBD77C700EF58DE /* LaunchScreen.storyboard in Resources */,
-				9BFEB7C61EC711DF00EDE288 /* icon.png in Resources */,
 				9B9DAC801EBEEE6B00196BC7 /* CCell.xib in Resources */,
 				9B4926CD1EBD77C700EF58DE /* Assets.xcassets in Resources */,
 				9B4926CB1EBD77C700EF58DE /* Main.storyboard in Resources */,
