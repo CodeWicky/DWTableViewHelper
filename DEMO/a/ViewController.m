@@ -78,8 +78,22 @@
     return _tabV;
 }
 
+-(BOOL)dw_TableView:(UITableView *)tableView selectModeWillSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.helper setSelect:YES indexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0],[NSIndexPath indexPathForRow:1 inSection:0]]];
+    return YES;
+}
+
+
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    self.helper.selectEnable = !self.helper.selectEnable;
+    static int i = 0;
+    if (i == 0) {
+        self.helper.selectEnable = !self.helper.selectEnable;
+    } else if (i == 1) {
+        [self.helper setSelect:YES indexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0],[NSIndexPath indexPathForRow:3 inSection:0]]];
+    } else if (i == 2) {
+        [self.helper setSelect:NO indexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0],[NSIndexPath indexPathForRow:1 inSection:0]]];
+    }
+    i ++;
 }
 
 -(NSMutableArray *)dataArr {

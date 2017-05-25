@@ -186,7 +186,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(void)setAllSelect:(BOOL)select
 {
-    NSUInteger count = [self numberOfSectionsInTableView:self.tabV];
+    NSUInteger count = self.tabV.numberOfSections;
     if (select) {
         for (int i = 0; i < count; i++) {
             [self setSection:i allSelect:select];
@@ -200,11 +200,11 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(void)setSection:(NSUInteger)section allSelect:(BOOL)select
 {
-    NSUInteger count = [self numberOfSectionsInTableView:self.tabV];
+    NSUInteger count = self.tabV.numberOfSections;
     if (section >= count) {
         return;
     }
-    NSUInteger rows = [self tableView:self.tabV numberOfRowsInSection:section];
+    NSUInteger rows = [self.tabV numberOfRowsInSection:section];
     if (select) {
         for (int i = 0; i < rows; i++) {
             [self.tabV selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section] animated:NO scrollPosition:UITableViewScrollPositionNone];
@@ -218,9 +218,37 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
+-(void)setSelect:(BOOL)select indexPaths:(NSArray <NSIndexPath *>*)indexPaths {
+    if (select) {
+        [indexPaths enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (![self.selectedRows containsObject:obj] && [self validateIndexPath:obj]) {
+                [self.tabV selectRowAtIndexPath:obj animated:NO scrollPosition:UITableViewScrollPositionNone];
+            }
+        }];
+    } else {
+        [indexPaths enumerateObjectsUsingBlock:^(NSIndexPath * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([self.selectedRows containsObject:obj] && [self validateIndexPath:obj]) {
+                [self.tabV deselectRowAtIndexPath:obj animated:NO];
+            }
+        }];
+    }
+}
+
+-(NSArray<NSIndexPath *> *)indexPathsBetween:(NSIndexPath *)idxPA and:(NSIndexPath *)idxPB {
+    if (![self validateIndexPath:idxPA] || ![self validateIndexPath:idxPB]) {
+        return nil;
+    }
+    NSUInteger dis = [self distanceBetweenIndexPathA:idxPB indexPathB:idxPA];
+    NSMutableArray * arr = @[idxPA].mutableCopy;
+    if (dis) {
+        [arr addObjectsFromArray:[self indexPathsAroundIndexPath:idxPA nextOrPreivious:YES count:dis step:1]];
+    }
+    return arr;
+}
+
 -(void)invertSelectAll
 {
-    NSUInteger count = [self numberOfSectionsInTableView:self.tabV];
+    NSUInteger count = self.tabV.numberOfSections;
     for (int i = 0; i < count; i++) {
         [self invertSelectSection:i];
     }
@@ -228,22 +256,29 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(void)invertSelectSection:(NSUInteger)section
 {
-    NSUInteger count = [self numberOfSectionsInTableView:self.tabV];
+    NSUInteger count = self.tabV.numberOfSections;
     if (section >= count) {
         return;
     }
-    NSUInteger rows = [self tableView:self.tabV numberOfRowsInSection:section];
-    NSArray * arr = filterArray(self.selectedRows, ^BOOL(NSIndexPath * obj, NSUInteger idx, NSUInteger count, BOOL *stop) {
+    NSUInteger rows = [self.tabV numberOfRowsInSection:section];
+    NSMutableArray * arr = filterArray(self.selectedRows, ^BOOL(NSIndexPath * obj, NSUInteger idx, NSUInteger count, BOOL *stop) {
         return obj.section == section;
     });
     for (int i = 0; i < rows; i++) {
         __block BOOL select = NO;
+        __block NSIndexPath * idxP;
         [arr enumerateObjectsUsingBlock:^(NSIndexPath * obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if (obj.row == i) {
                 select = YES;
+                idxP = obj;
                 *stop = YES;
             }
         }];
+        
+        if (idxP) {
+            [arr removeObject:idxP];
+        }
+        
         if (select) {
             [self.tabV deselectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section] animated:NO];
         }
@@ -378,13 +413,20 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 ///选中
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.selectEnable && DWDelegate && [DWDelegate respondsToSelector:@selector(dw_TableView:selectModeWillSelectRowAtIndexPath:)] && [DWDelegate dw_TableView:self.tabV selectModeWillSelectRowAtIndexPath:indexPath]) {///选中模式下将要选中
+        return nil;
+    }
+    
     if (DWRespond) {
         return [DWDelegate dw_TableView:tableView willSelectRowAtIndexPath:indexPath];
     }
     return indexPath;
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+-(NSIndexPath *)tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.selectEnable && DWDelegate && [DWDelegate respondsToSelector:@selector(dw_TableView:selectModeWillDeselectRowAtIndexPath:)] && [DWDelegate dw_TableView:self.tabV selectModeWillDeselectRowAtIndexPath:indexPath]) {///选中模式下将要选中
+        return nil;
+    }
     if (DWRespond) {
         return [DWDelegate dw_TableView:tableView willDeselectRowAtIndexPath:indexPath];
     }
@@ -393,6 +435,9 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.selectEnable && DWDelegate && [DWDelegate respondsToSelector:@selector(dw_TableView:selectModeWillSelectRowAtIndexPath:)] && [DWDelegate dw_TableView:tableView selectModeWillSelectRowAtIndexPath:indexPath]) {///选择模式下且实现了选择方法
+        return;
+    }
     if (self.selectEnable) {
         if (!self.multiSelect && self.lastSelected) {
             [tableView deselectRowAtIndexPath:self.lastSelected animated:NO];
@@ -405,6 +450,9 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.selectEnable && DWDelegate && [DWDelegate respondsToSelector:@selector(dw_TableView:selectModeWillDeselectRowAtIndexPath:)] && [DWDelegate dw_TableView:self.tabV selectModeWillDeselectRowAtIndexPath:indexPath]) {///选中模式下将要取消选中
+        return;
+    }
     if (self.selectEnable) {
         self.lastSelected = nil;
         return;
@@ -730,19 +778,28 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 -(BOOL)caculateHaveData {
     NSInteger count = 0;
     if (self.multiSection) {
-        NSInteger sections = [self numberOfSectionsInTableView:self.tabV];
+        NSInteger sections = self.tabV.numberOfSections;
         for (int i = 0; i < sections; i++) {
-            count += [self rowsOfSection:i];
+            count += [self.tabV numberOfRowsInSection:i];
         }
     } else {
-        count = [self rowsOfSection:0];
+        count = [self.tabV numberOfRowsInSection:0];
     }
     return count > 0 ? YES : NO;
 }
 
--(NSInteger)rowsOfSection:(NSUInteger)section
-{
-    return [self tableView:self.tabV numberOfRowsInSection:section];
+-(BOOL)validateIndexPath:(NSIndexPath *)idxP {
+    if (self.tabV.dataSource == nil) {
+        NSAssert(NO, @"you dataSource is nil so we can't calculate the distance.");
+        return NO;
+    }
+    if (idxP.section >= self.tabV.numberOfSections) {
+        return NO;
+    }
+    if (idxP.row >= [self.tabV numberOfRowsInSection:idxP.section]) {
+        return NO;
+    }
+    return YES;
 }
 
 -(CGFloat)autoCalculateRowHeightWithModel:(__kindof DWTableViewHelperModel *)model {
@@ -1217,7 +1274,7 @@ static inline NSArray * DWParas(NSObject * aObj,...){
     return keys.copy;
 };
 
-static inline NSArray * filterArray(NSArray * array,BOOL(^block)(id obj, NSUInteger idx,NSUInteger count,BOOL * stop))
+static inline NSMutableArray * filterArray(NSArray * array,BOOL(^block)(id obj, NSUInteger idx,NSUInteger count,BOOL * stop))
 {
     NSMutableArray * arr = [NSMutableArray array];
     [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -1225,7 +1282,7 @@ static inline NSArray * filterArray(NSArray * array,BOOL(^block)(id obj, NSUInte
             [arr addObject:obj];
         }
     }];
-    return arr.copy;
+    return arr;
 }
 
 static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter () {
@@ -1406,6 +1463,7 @@ static UIImage * defaultUnselectIcon = nil;
     self.multipleSelectionBackgroundView = [UIView new];
     self.selectedBackgroundView = [UIView new];
     self.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     self.loadDataImageView = [UIImageView new];
     self.loadDataImageView.backgroundColor = [UIColor whiteColor];
 }

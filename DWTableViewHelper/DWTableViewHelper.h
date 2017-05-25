@@ -68,6 +68,14 @@
  
  version 1.1.4
  添加占位图代理
+ cell选择样式逻辑修改
+ 反选模式算法优化
+ 添加以数组形式选择方法
+ 添加返回两坐标间所有有效坐标方法
+ 添加选择模式下行为代理
+ 去除DWTableViewHelperCell中-setupConstraints:的强制父类实现调用
+ ///高速截图模式待补充
+ 
  
  */
 
@@ -164,12 +172,27 @@
 -(void)dw_ScrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale;
 -(BOOL)dw_ScrollViewShouldScrollToTop:(UIScrollView *)scrollView;
 
+#pragma mark --- Additional Helper Delegate ---
 ///动画 支持返回CAAniamion对象、DWAnimation对象
 -(BOOL)dw_TableView:(UITableView *)tableView shouldAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 -(id)dw_TableView:(UITableView *)tableView showAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 
 ///cell占位图（仅优化模式下有效）
 -(UIImage *)dw_TableView:(UITableView *)tableView loadDataPlaceHolderForCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+
+///选择（仅选择模式下有效）
+///若代理返回YES，则选择行为由代理控制
+/**
+ 选择（仅选择模式下有效）
+ 
+ 注：
+ 若代理返回YES，则选择行为由代理控制
+ 否则由系统控制选择行为
+ 
+ 切记，因为无论返回YES还是NO代理都会执行，故所有返回NO情况均应先于YES情况执行return语句。
+ */
+-(BOOL)dw_TableView:(UITableView *)tableView selectModeWillSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+-(BOOL)dw_TableView:(UITableView *)tableView selectModeWillDeselectRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -330,6 +353,19 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 ///设置指定分组全部选中或取消全部选中
 -(void)setSection:(NSUInteger)section allSelect:(BOOL)select;
 
+///设置集合内的坐标的选择状态
+-(void)setSelect:(BOOL)select indexPaths:(NSArray <NSIndexPath *>*)indexPaths;
+
+/**
+ 返回两个坐标之间所有有效坐标的数组
+
+ @param idxPA 较小的坐标
+ @param idxPB 较大的坐标
+
+ @return 包含两者的所有有效坐标的数组
+ */
+-(NSArray <NSIndexPath *> *)indexPathsBetween:(NSIndexPath *)idxPA and:(NSIndexPath *)idxPB;
+
 ///反选指定分组
 -(void)invertSelectSection:(NSUInteger)section;
 
@@ -379,7 +415,7 @@ extern NSNotificationName const DWTableViewHelperCellHitTestNotification;
 -(void)setupUI NS_REQUIRES_SUPER;
 
 ///设置子视图约束
--(void)setupConstraints NS_REQUIRES_SUPER;
+-(void)setupConstraints;
 
 ///设置数据模型
 -(void)setModel:(__kindof DWTableViewHelperModel *)model NS_REQUIRES_SUPER;
