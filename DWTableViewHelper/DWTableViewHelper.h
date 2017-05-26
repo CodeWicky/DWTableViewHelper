@@ -74,8 +74,8 @@
  添加返回两坐标间所有有效坐标方法
  添加选择模式下行为代理
  去除DWTableViewHelperCell中-setupConstraints:的强制父类实现调用
- ///高速截图模式待补充
- 
+ 高速滚动截图优化模式完成
+ 懒加载优化模式setOffset加载逻辑补充
  
  */
 
@@ -245,7 +245,8 @@
 typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优化模式
     DWTableViewHelperLoadDataDefaultMode,///无优化
     DWTableViewHelperLoadDataLazyMode,///滚动中不加载cell
-    DWTableViewHelperLoadDataIgnoreHighSpeedMode///不加载高速滚出的cell
+    DWTableViewHelperLoadDataIgnoreHighSpeedMode,///不加载高速滚出的cell
+    DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode,///高速滚出的cell加载截图
 };
 
 #pragma mark --- DWTableViewHelper 工具类 ---

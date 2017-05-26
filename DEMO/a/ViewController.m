@@ -59,10 +59,6 @@
     }];
 }
 
-//-(UITableViewCellEditingStyle)dw_TableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return UITableViewCellEditingStyleInsert;
-//}
-
 -(UITableView *)tabV {
     if (!_tabV) {
         _tabV = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, 414, 500) style:(UITableViewStyleGrouped)
@@ -72,7 +68,7 @@
         [self.helper setTheSeperatorToZero];
         self.helper.minAutoRowHeight = 55;
         self.helper.helperDelegate = self;
-        self.helper.loadDataMode = DWTableViewHelperLoadDataIgnoreHighSpeedMode;
+        self.helper.loadDataMode = DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode;
         self.helper.ignoreCount = 1;
     }
     return _tabV;
@@ -85,15 +81,15 @@
 
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    static int i = 0;
-    if (i == 0) {
-        self.helper.selectEnable = !self.helper.selectEnable;
-    } else if (i == 1) {
-        [self.helper setSelect:YES indexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0],[NSIndexPath indexPathForRow:3 inSection:0]]];
-    } else if (i == 2) {
-        [self.helper setSelect:NO indexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0],[NSIndexPath indexPathForRow:1 inSection:0]]];
-    }
-    i ++;
+//    static int i = 0;
+//    if (i == 0) {
+//        self.helper.selectEnable = !self.helper.selectEnable;
+//    } else if (i == 1) {
+//        [self.helper setSelect:YES indexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0],[NSIndexPath indexPathForRow:3 inSection:0]]];
+//    } else if (i == 2) {
+//        [self.helper setSelect:NO indexPaths:@[[NSIndexPath indexPathForRow:2 inSection:0],[NSIndexPath indexPathForRow:1 inSection:0]]];
+//    }
+//    i ++;
 }
 
 -(NSMutableArray *)dataArr {

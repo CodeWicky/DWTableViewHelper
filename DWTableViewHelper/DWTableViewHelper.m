@@ -7,6 +7,8 @@
 //
 
 #import "DWTableViewHelper.h"
+#import "DWOperationCancelFlag.h"
+#import "DWTransaction.h"
 
 #define SeperatorColor [UIColor lightGrayColor]
 
@@ -78,15 +80,29 @@ static UIImage * ImageNull = nil;
     BOOL hasPlaceHolderView;
 }
 
+///当前tableView
 @property (nonatomic ,strong) UITableView * tabV;
 
+///上一个选择的idxP
 @property (nonatomic ,strong) NSIndexPath * lastSelected;
 
+///计算用cell字典
 @property (nonatomic ,strong) NSMutableDictionary * dic4CalCell;
 
+///是否在滚向头部
 @property (nonatomic ,assign) BOOL isScrollingToTop;
 
+///需要加载的idxPs
 @property (nonatomic ,strong) NSMutableArray * data2Load;
+
+///进程打断工具类
+@property (nonatomic ,strong) DWOperationCancelFlag * flag;
+
+@end
+
+@interface DWTableViewHelperModel ()
+
+@property (nonatomic ,strong) UIImage * cellSnap;
 
 @end
 
@@ -111,6 +127,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         _selectEnable = tabV.editing;
         _minAutoRowHeight = -1;
         _maxAutoRowHeight = -1;
+        _flag = [DWOperationCancelFlag new];
     }
     return self;
 }
@@ -608,7 +625,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     } else {
         cell = [self createCellFromModel:model useReuse:YES];
     }
-    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
         [self ignoreModeLoadCell:cell indexPath:indexPath model:model];
     } else if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode) {
         [self lazyModeLoadCell:cell indexPath:indexPath model:model];
@@ -687,7 +704,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
         [self ignoreModeReload];
         [self.data2Load removeAllObjects];
     }
@@ -695,7 +712,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
         [self handleData2LoadWithVelocity:velocity targetContentOffset:*targetContentOffset];
     }
     if (DWRespond) {
@@ -706,6 +723,9 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode && !decelerate) {
         [self lazyModeReload];
+    }
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode && !decelerate) {//高速截图模式下提交截图任务
+        [self commitSnapTransaction];
     }
     if (DWRespond) {
         [DWDelegate dw_ScrollViewDidEndDragging:scrollView willDecelerate:decelerate];
@@ -720,13 +740,22 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode) {
         [self lazyModeReload];
     }
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
+        [self commitSnapTransaction];
+    }
     DWRespondTo(DWParas(scrollView,nil));
 }
 
 -(void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
         self.isScrollingToTop = NO;
         [self ignoreModeReload];
+    }
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
+        [self commitSnapTransaction];
+    }
+    if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode) {
+        [self lazyModeReload];
     }
     DWRespondTo(DWParas(scrollView,nil));
 }
@@ -762,7 +791,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(void)scrollViewDidScrollToTop:(UIScrollView *)scrollView {
-    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
         self.isScrollingToTop = NO;
         [self ignoreModeReload];
     } else if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode) {
@@ -1037,11 +1066,45 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     [model setValue:@YES forKey:@"cellHasBeenDrawn"];
 }
 
+-(void)commitSnapTransaction {
+    [[DWTransaction dw_TransactionWithTarget:self selector:@selector(snapVisibleCell)] commit];
+}
+
+-(void)snapVisibleCell {
+    [self snapVisibleCellWithCancelFlag:[self.flag restartAnCancelFlag]];
+}
+
+-(void)snapVisibleCellWithCancelFlag:(CancelFlag)flag {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSArray * visibleCells = self.tabV.visibleCells;
+        for (DWTableViewHelperCell * cell in visibleCells) {
+            if (flag()) {
+                return;
+            }
+            DWTableViewHelperModel * model = cell.model;
+            UIImage * image = [self imageFromView:cell];
+            model.cellSnap = image;
+        }
+    });
+}
+
+-(UIImage *)imageFromView:(UIView *)view
+{
+    UIGraphicsBeginImageContextWithOptions(view.frame.size, NO, [UIScreen mainScreen].scale);
+    [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 -(void)clearCell:(__kindof DWTableViewHelperCell *)cell indexPath:(NSIndexPath *)indexPath model:(DWTableViewHelperModel *)model {
     
     UIImage * image;
     CGFloat height = [self tableView:self.tabV heightForRowAtIndexPath:indexPath];
-    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_TableView:loadDataPlaceHolderForCell:forRowAtIndexPath:)]) {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
+        image = model.cellSnap;
+    }
+    if (!image && DWDelegate && [DWDelegate respondsToSelector:@selector(dw_TableView:loadDataPlaceHolderForCell:forRowAtIndexPath:)]) {
         image = [DWDelegate dw_TableView:self.tabV loadDataPlaceHolderForCell:cell forRowAtIndexPath:indexPath];
     }
     if (!image) {
@@ -1214,10 +1277,10 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(void)setLoadDataMode:(DWTableViewHelperLoadDataMode)loadDataMode {
     if (_loadDataMode != loadDataMode) {
-        if (_loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+        if (loadDataMode == DWTableViewHelperLoadDataLazyMode || loadDataMode == DWTableViewHelperLoadDataDefaultMode) {
             [[NSNotificationCenter defaultCenter] removeObserver:self name:DWTableViewHelperCellHitTestNotification object:nil];
         }
-        if (loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+        if (loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(ignoreModeReload) name:DWTableViewHelperCellHitTestNotification object:nil];
         }
         _loadDataMode = loadDataMode;
@@ -1226,7 +1289,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 #pragma mark --- override ---
 -(void)dealloc {
-    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode) {
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
