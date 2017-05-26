@@ -1309,16 +1309,18 @@ static inline void handlePlaceHolderView(UIView * placeHolderView,UITableView * 
 
 
 static inline UIImage * defaultImageWithHeight(CGFloat height) {
-    if (height < 20) {
+    if (height < 30) {
         return nil;
     } else if (height < 40) {
-        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage20"]] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 34) resizingMode:(UIImageResizingModeStretch)];
-    } else if (height < 95) {
-        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage40"]] resizableImageWithCapInsets:UIEdgeInsetsMake(18, 10, 5, 390) resizingMode:UIImageResizingModeStretch];
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage30"]] resizableImageWithCapInsets:UIEdgeInsetsMake(6, 6, 6, 34) resizingMode:(UIImageResizingModeStretch)];
+    } else if (height < 58) {
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage40"]] resizableImageWithCapInsets:UIEdgeInsetsMake(25, 50, 10,150) resizingMode:(UIImageResizingModeStretch)];
+    } else if (height < 102) {
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage58"]] resizableImageWithCapInsets:UIEdgeInsetsMake(26, 60, 28, 180) resizingMode:UIImageResizingModeStretch];
     } else if (height < 145) {
-        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage95"]] resizableImageWithCapInsets:UIEdgeInsetsMake(80, 230, 10, 35) resizingMode:(UIImageResizingModeStretch)];
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage102"]] resizableImageWithCapInsets:UIEdgeInsetsMake(70, 125, 28, 220) resizingMode:(UIImageResizingModeStretch)];
     } else {
-        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage145"]] resizableImageWithCapInsets:UIEdgeInsetsMake(103, 220, 33, 117) resizingMode:(UIImageResizingModeStretch)];
+        return [[UIImage imageNamed:[NSString stringWithFormat:@"DWTableViewHelperResource.bundle/defaultLoadImage145"]] resizableImageWithCapInsets:UIEdgeInsetsMake(100, 150, 40, 240) resizingMode:(UIImageResizingModeStretch)];
     }
 }
 
