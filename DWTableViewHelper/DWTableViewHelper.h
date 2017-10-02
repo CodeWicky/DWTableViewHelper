@@ -76,6 +76,7 @@
  去除DWTableViewHelperCell中-setupConstraints:的强制父类实现调用
  高速滚动截图优化模式完成
  懒加载优化模式setOffset加载逻辑补充
+ 适配iOS11后tableView的sectionHeader与footer代理高度问题
  
  */
 

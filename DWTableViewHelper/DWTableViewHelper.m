@@ -377,6 +377,9 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     if (self.helperDelegate && [self.helperDelegate respondsToSelector:@selector(dw_TableView:viewForHeaderInSection:)]) {
         return [self.helperDelegate dw_TableView:tableView viewForHeaderInSection:section].bounds.size.height;
     }
+    if (@available(iOS 11, *)) {
+        return 0;
+    }
     return 0.01;
 }
 
@@ -387,6 +390,9 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
     if (self.helperDelegate && [self.helperDelegate respondsToSelector:@selector(dw_TableView:heightForFooterInSection:)]) {
         return [self.helperDelegate dw_TableView:tableView viewForFooterInSection:section].bounds.size.height;
+    }
+    if (@available(iOS 11, *)) {
+        return 0;
     }
     return 0.01;
 }
