@@ -77,6 +77,7 @@
  高速滚动截图优化模式完成
  懒加载优化模式setOffset加载逻辑补充
  适配iOS11后tableView的sectionHeader与footer代理高度问题
+ helper添加自动适配TableView内距API
  
  */
 
@@ -373,6 +374,9 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 
 ///反选全部
 -(void)invertSelectAll;
+
+///激活tableView的自动调整状态（适配iOS11）
+-(void)enableTableViewContentInsetAutoAdjust:(BOOL)autoAdjust inViewController:(UIViewController *)vc;
 @end
 
 #pragma mark --- DWTableViewHelperModel 数据模型基类 ---

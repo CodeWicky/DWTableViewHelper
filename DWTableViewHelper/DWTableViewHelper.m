@@ -271,6 +271,17 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
+-(void)enableTableViewContentInsetAutoAdjust:(BOOL)autoAdjust inViewController:(UIViewController *)vc {
+    if ([UIScrollView instancesRespondToSelector:NSSelectorFromString(@"setContentInsetAdjustmentBehavior:")]) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        [_tabV   performSelector:NSSelectorFromString(@"setContentInsetAdjustmentBehavior:") withObject:autoAdjust?@0:@2];
+#pragma clang diagnostic pop
+    } else {
+        vc.automaticallyAdjustsScrollViewInsets = autoAdjust;
+    }
+}
+
 -(void)invertSelectSection:(NSUInteger)section
 {
     NSUInteger count = self.tabV.numberOfSections;
