@@ -118,7 +118,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         _tabV = tabV;
         tabV.delegate = self;
         tabV.dataSource = self;
-        if (UIDevice.currentDevice.systemVersion.floatValue >= 10.0) {
+        if (@available(iOS 10.0,*)) {
             tabV.prefetchDataSource = self;
         }
         _dataSource = dataSource;
@@ -586,26 +586,34 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 ///focus
 - (BOOL)tableView:(UITableView *)tableView canFocusRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (DWRespond) {
-        return [DWDelegate dw_TableView:tableView canFocusRowAtIndexPath:indexPath];
+    if (@available(iOS 9.0,*)) {
+        if (DWRespond) {
+            return [DWDelegate dw_TableView:tableView canFocusRowAtIndexPath:indexPath];
+        }
     }
     return NO;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldUpdateFocusInContext:(UITableViewFocusUpdateContext *)context {
-    if (DWRespond) {
-        return [DWDelegate dw_TableView:tableView shouldUpdateFocusInContext:context];
+    if (@available(iOS 9.0,*)) {
+        if (DWRespond) {
+            return [DWDelegate dw_TableView:tableView shouldUpdateFocusInContext:context];
+        }
     }
     return NO;
 }
 
 - (void)tableView:(UITableView *)tableView didUpdateFocusInContext:(UITableViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator {
-    DWRespondTo(DWParas(tableView,context,coordinator,nil));
+    if (@available(iOS 9.0,*)) {
+        DWRespondTo(DWParas(tableView,context,coordinator,nil));
+    }
 }
 
 - (NSIndexPath *)indexPathForPreferredFocusedViewInTableView:(UITableView *)tableView {
-    if (DWRespond) {
-        return [DWDelegate dw_IndexPathForPreferredFocusedViewInTableView:tableView];
+    if (@available(iOS 9.0,*)) {
+        if (DWRespond) {
+            return [DWDelegate dw_IndexPathForPreferredFocusedViewInTableView:tableView];
+        }
     }
     return nil;
 }
