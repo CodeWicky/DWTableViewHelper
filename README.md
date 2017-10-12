@@ -63,7 +63,7 @@ All I have done is to bulid a tableView easier and I'm improving it step by step
 ## Usage
 Firstly,drag it into your project or use cocoapods.
 
-pod 'DWTableViewHelper'
+	pod 'DWTableViewHelper'
 
 
 To use the DWTableViewHelper,you need to Follow these:
@@ -97,7 +97,7 @@ My note covers every detail.
 ## 如何使用
 首先，你应该将所需文件拖入工程中，或者你也可以用Cocoapods去集成他。
 
-pod 'DWTableViewHelper'
+	pod 'DWTableViewHelper'
 
 当使用DWTableViewHelper的时候，你应该遵从以下几点：
 
