@@ -399,7 +399,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     if (DWRespond) {
         return [DWDelegate dw_TableView:tableView heightForFooterInSection:section];
     }
-    if (self.helperDelegate && [self.helperDelegate respondsToSelector:@selector(dw_TableView:heightForFooterInSection:)]) {
+    if (self.helperDelegate && [self.helperDelegate respondsToSelector:@selector(dw_TableView:viewForFooterInSection:)]) {
         return [self.helperDelegate dw_TableView:tableView viewForFooterInSection:section].bounds.size.height;
     }
     if (@available(iOS 11, *)) {
