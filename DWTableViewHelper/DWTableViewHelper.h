@@ -347,7 +347,7 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 -(void)reloadDataAndHandlePlaceHolderView;
 
 ///刷新列表并在完成时进行回调
--(void)reloadDataWithCompletion:(void(^)())completion;
+-(void)reloadDataWithCompletion:(dispatch_block_t)completion;
 
 ///展示占位图
 -(void)showPlaceHolderView;

@@ -168,7 +168,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return obj;
 }
 
--(void)reloadDataWithCompletion:(void (^)())completion
+-(void)reloadDataWithCompletion:(dispatch_block_t)completion
 {
     if (!completion) {
         [self.tabV reloadData];
@@ -584,6 +584,8 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
 ///focus
 - (BOOL)tableView:(UITableView *)tableView canFocusRowAtIndexPath:(NSIndexPath *)indexPath {
     if (@available(iOS 9.0,*)) {
@@ -617,6 +619,8 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
     return nil;
 }
+#pragma clang diagnostic pop
+
 
 ///dataSource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

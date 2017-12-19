@@ -23,7 +23,7 @@
 
 -(void)start {
     int32_t current = self.signal;
-    self.cancelFlag = ^BOOL(){
+    self.cancelFlag = ^BOOL(void){
 #ifdef __DW__Debug__
         if (self.signal != current) {
             NSLog(@"will cancel operation at %d",current);

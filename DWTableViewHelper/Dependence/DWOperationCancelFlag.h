@@ -10,7 +10,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef BOOL (^CancelFlag)();
+typedef BOOL (^CancelFlag)(void);
 
 @interface DWOperationCancelFlag : NSObject
 
