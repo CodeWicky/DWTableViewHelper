@@ -84,6 +84,8 @@
  
  version 1.1.5.1
  修改自动计算高度API中忽略cell辅助视图宽度的bug
+ 修复自动代理中heightForHeader代理映射错误bug
+ 添加iOS 11后refreshControl自动修复API
  */
 
 #import <UIKit/UIKit.h>
@@ -382,6 +384,9 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 
 ///激活tableView的自动调整状态（适配iOS11）
 -(void)enableTableViewContentInsetAutoAdjust:(BOOL)autoAdjust inViewController:(UIViewController *)vc;
+
+///修复iOS11后refreshControl位置错误
+-(void)fixRefreshControlInsets;
 @end
 
 #pragma mark --- DWTableViewHelperModel 数据模型基类 ---

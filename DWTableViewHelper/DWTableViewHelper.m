@@ -132,10 +132,6 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return self;
 }
 
--(void)setTheSeperatorToZero {
-    [self.tabV setSeparatorInset:UIEdgeInsetsZero];
-}
-
 -(DWTableViewHelperModel *)modelFromIndexPath:(NSIndexPath *)indexPath {
     id obj = nil;
     if (self.multiSection) {
@@ -168,7 +164,20 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return obj;
 }
 
--(void)reloadDataWithCompletion:(dispatch_block_t)completion
+-(void)setTheSeperatorToZero {
+    [self.tabV setSeparatorInset:UIEdgeInsetsZero];
+}
+
+-(void)reloadDataAndHandlePlaceHolderView
+{
+    BOOL haveData = [self caculateHaveData];
+    __weak typeof(self)weakSelf = self;
+    [self reloadDataWithCompletion:^{
+        handlePlaceHolderView(weakSelf.placeHolderView, weakSelf.tabV, !haveData, &hasPlaceHolderView);
+    }];
+}
+
+-(void)reloadDataWithCompletion:(void (^)())completion
 {
     if (!completion) {
         [self.tabV reloadData];
@@ -180,15 +189,6 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
             completion();
         });
     });
-}
-
--(void)reloadDataAndHandlePlaceHolderView
-{
-    BOOL haveData = [self caculateHaveData];
-    __weak typeof(self)weakSelf = self;
-    [self reloadDataWithCompletion:^{
-        handlePlaceHolderView(weakSelf.placeHolderView, weakSelf.tabV, !haveData, &hasPlaceHolderView);
-    }];
 }
 
 -(void)showPlaceHolderView
@@ -263,25 +263,6 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return arr;
 }
 
--(void)invertSelectAll
-{
-    NSUInteger count = self.tabV.numberOfSections;
-    for (int i = 0; i < count; i++) {
-        [self invertSelectSection:i];
-    }
-}
-
--(void)enableTableViewContentInsetAutoAdjust:(BOOL)autoAdjust inViewController:(UIViewController *)vc {
-    if ([UIScrollView instancesRespondToSelector:NSSelectorFromString(@"setContentInsetAdjustmentBehavior:")]) {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        [_tabV   performSelector:NSSelectorFromString(@"setContentInsetAdjustmentBehavior:") withObject:autoAdjust?@0:@2];
-#pragma clang diagnostic pop
-    } else {
-        vc.automaticallyAdjustsScrollViewInsets = autoAdjust;
-    }
-}
-
 -(void)invertSelectSection:(NSUInteger)section
 {
     NSUInteger count = self.tabV.numberOfSections;
@@ -314,6 +295,30 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         {
             [self.tabV selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section] animated:NO scrollPosition:UITableViewScrollPositionNone];
         }
+    }
+}
+
+-(void)invertSelectAll
+{
+    NSUInteger count = self.tabV.numberOfSections;
+    for (int i = 0; i < count; i++) {
+        [self invertSelectSection:i];
+    }
+}
+
+-(void)enableTableViewContentInsetAutoAdjust:(BOOL)autoAdjust inViewController:(UIViewController *)vc {
+    if (@available(iOS 11.0,*)) {
+        _tabV.contentInsetAdjustmentBehavior = autoAdjust?UIScrollViewContentInsetAdjustmentAutomatic:UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        vc.automaticallyAdjustsScrollViewInsets = autoAdjust;
+    }
+}
+
+-(void)fixRefreshControlInsets {
+    if (@available(iOS 11.0,*)) {
+        _tabV.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        _tabV.contentInset = UIEdgeInsetsMake(64, 0, 49, 0);
+        _tabV.scrollIndicatorInsets = _tabV.contentInset;
     }
 }
 
@@ -399,7 +404,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     if (DWRespond) {
         return [DWDelegate dw_TableView:tableView heightForFooterInSection:section];
     }
-    if (self.helperDelegate && [self.helperDelegate respondsToSelector:@selector(dw_TableView:heightForFooterInSection:)]) {
+    if (self.helperDelegate && [self.helperDelegate respondsToSelector:@selector(dw_TableView:viewForFooterInSection:)]) {
         return [self.helperDelegate dw_TableView:tableView viewForFooterInSection:section].bounds.size.height;
     }
     if (@available(iOS 11, *)) {
