@@ -319,8 +319,13 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
  高速滚动忽略模式
  当tableView快速滚动时，则认为当中快速略过的cell不需加载，以占位图进行展示
  
+ DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode
+ 高速滚动加载截图模式
+ 当tableView快速滚动时，则认为当中快速略过的cell不需展示真实数据，以缓存的对应cell截图进行显示，若为缓存过截图则以占位图展示。（截图会在tableView停止滚动后提交截图任务，截图任务会在runLoop进入空闲状态时自动执行）
+ 
  注：
- 使用DWTableViewHelperLoadDataIgnoreHighSpeedMode模式时，若cell需要自行实现-(UIView *)hitTest:withEvent:方法，为了更好的滑动体验，请调用父类实现
+ 1.高速忽略模式下，由于需要计算结束滚动处所要展示的cell，故适用于定行高时，若在自动计算行高模式下会有偏差，且偏差具有累积效应。
+ 2.使用DWTableViewHelperLoadDataIgnoreHighSpeedMode模式时，若cell需要自行实现-(UIView *)hitTest:withEvent:方法，为了更好的滑动体验，请调用父类实现。
  */
 @property (nonatomic ,assign) DWTableViewHelperLoadDataMode loadDataMode;
 
