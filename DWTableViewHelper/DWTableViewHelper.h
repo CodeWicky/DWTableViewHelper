@@ -82,7 +82,7 @@
  helper添加自动适配TableView内距API
  适配iOS11后tableView的sectionHeader与footer代理高度问题
  
- version 1.1.5.1
+ version 1.1.6
  修改自动计算高度API中忽略cell辅助视图宽度的bug
  修复自动代理中heightForHeader代理映射错误bug
  添加iOS 11后refreshControl自动修复API
