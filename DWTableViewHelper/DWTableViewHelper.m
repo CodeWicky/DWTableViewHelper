@@ -177,7 +177,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }];
 }
 
--(void)reloadDataWithCompletion:(void (^)())completion
+-(void)reloadDataWithCompletion:(dispatch_block_t)completion
 {
     if (!completion) {
         [self.tabV reloadData];
