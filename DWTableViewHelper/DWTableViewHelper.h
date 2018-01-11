@@ -393,6 +393,15 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 
 ///修复iOS11后refreshControl位置错误
 -(void)fixRefreshControlInsets;
+
+
+/**
+ 这只自动放大的头视图，与tableHeaderView相互冲突
+
+ @param header 设置的headerView
+ @param handler 当滚动时的触发回调，可在此处处理导航透明度
+ */
+-(void)setAutoZoomHeader:(UIView *)header scrollHandler:(void(^)(CGFloat contentoffset))handler;
 @end
 
 #pragma mark --- DWTableViewHelperModel 数据模型基类 ---

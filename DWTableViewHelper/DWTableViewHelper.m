@@ -98,6 +98,16 @@ static UIImage * ImageNull = nil;
 ///进程打断工具类
 @property (nonatomic ,strong) DWOperationCancelFlag * flag;
 
+///自动缩放头视图回调
+@property (nonatomic ,copy) void(^autoZoomHeaderHandler)(CGFloat contentoffset);
+
+//自动缩放头视图模式
+@property (nonatomic ,assign) BOOL autoZoomHeaderMode;
+
+@property (nonatomic ,strong) UIView * autoZoomHeader;
+
+@property (nonatomic ,assign) CGRect autoZoomOriFrm;
+
 @end
 
 @interface DWTableViewHelperModel ()
@@ -191,18 +201,15 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     });
 }
 
--(void)showPlaceHolderView
-{
+-(void)showPlaceHolderView {
     handlePlaceHolderView(self.placeHolderView, self.tabV, YES, &hasPlaceHolderView);
 }
 
--(void)hidePlaceHolderView
-{
+-(void)hidePlaceHolderView {
     handlePlaceHolderView(self.placeHolderView, self.tabV, NO, &hasPlaceHolderView);
 }
 
--(void)setAllSelect:(BOOL)select
-{
+-(void)setAllSelect:(BOOL)select {
     NSUInteger count = self.tabV.numberOfSections;
     if (select) {
         for (int i = 0; i < count; i++) {
@@ -215,8 +222,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
--(void)setSection:(NSUInteger)section allSelect:(BOOL)select
-{
+-(void)setSection:(NSUInteger)section allSelect:(BOOL)select {
     NSUInteger count = self.tabV.numberOfSections;
     if (section >= count) {
         return;
@@ -319,6 +325,62 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         _tabV.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
         _tabV.contentInset = UIEdgeInsetsMake(64, 0, 49, 0);
         _tabV.scrollIndicatorInsets = _tabV.contentInset;
+    }
+}
+
+-(void)setAutoZoomHeader:(UIView *)header scrollHandler:(void (^)(CGFloat))handler {
+    
+    if (header == nil) {
+        [self removeAutoZoomHeader];
+        return;
+    }
+    
+    ///添加容器层，保证header在边缘处被剪切
+    UIView * container = [[UIView alloc] initWithFrame:_tabV.frame];
+    container.backgroundColor = _tabV.backgroundColor;
+    container.clipsToBounds = YES;
+    UIView * superView = _tabV.superview;
+    [superView insertSubview:container belowSubview:_tabV];
+    _tabV.frame = _tabV.bounds;
+    [container addSubview:_tabV];
+
+    ///添加占位视图
+    CGRect headerBounds = header.bounds;
+    headerBounds.size.width = _tabV.bounds.size.width;
+    UIView * placeHolder = [[UIView alloc] initWithFrame:headerBounds];
+    _tabV.tableHeaderView = placeHolder;
+    _tabV.backgroundColor = [UIColor clearColor];
+    
+    ///添加头视图
+    header.frame = header.bounds;
+    [container insertSubview:header belowSubview:_tabV];
+    
+    ///设置相关值
+    self.autoZoomHeader = header;
+    self.autoZoomHeaderHandler = handler;
+    self.autoZoomOriFrm = header.bounds;
+    self.autoZoomHeaderMode = YES;
+}
+
+-(void)removeAutoZoomHeader {
+    if (self.autoZoomHeaderMode) {
+        
+        ///放回原父视图
+        UIView * container = _tabV.superview;
+        UIView * superView = container.superview;
+        CGRect containerFrm = _tabV.superview.frame;
+        _tabV.frame = containerFrm;
+        [superView insertSubview:_tabV belowSubview:container];
+        
+        ///移除容器层及头视图
+        [container removeFromSuperview];
+        _tabV.tableHeaderView = nil;
+        
+        ///恢复默认值
+        self.autoZoomHeaderMode = NO;
+        self.autoZoomHeader = nil;
+        self.autoZoomHeaderHandler = nil;
+        self.autoZoomOriFrm = CGRectNull;
     }
 }
 
@@ -730,6 +792,29 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 ///scroll
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    ///自动缩放模式
+    if (self.autoZoomHeaderMode && self.autoZoomHeader) {
+        CGFloat offsetY = scrollView.contentOffset.y;
+        CGRect desFrm = self.autoZoomOriFrm;
+        if (offsetY >= 0) {
+            if (desFrm.size.height - offsetY >= 0) {
+                desFrm.origin.y = -offsetY;
+            } else {
+                desFrm.origin.y = -desFrm.size.height;
+            }
+        } else {
+            CGFloat height = desFrm.size.height - offsetY;
+            CGFloat width = desFrm.size.width * 1.0 / desFrm.size.height * height;
+            CGFloat originX = (desFrm.size.width - width) / 2.0;
+            desFrm.size.width = width;
+            desFrm.size.height = height;
+            desFrm.origin.x = originX;
+        }
+        self.autoZoomHeader.frame = desFrm;
+        if (self.autoZoomHeaderHandler) {
+            self.autoZoomHeaderHandler(offsetY);
+        }
+    }
     DWRespondTo(DWParas(scrollView,nil));
 }
 

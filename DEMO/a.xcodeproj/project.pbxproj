@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		211A4B2C2000CA3900DC30B2 /* timg.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 211A4B2B2000CA3800DC30B2 /* timg.jpg */; };
 		55DFF9CE75F8617875976FB9 /* libPods-a.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A49CC5042F54C0481E0F48D /* libPods-a.a */; };
 		9B4926C21EBD77C700EF58DE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B4926C11EBD77C700EF58DE /* main.m */; };
 		9B4926C51EBD77C700EF58DE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B4926C41EBD77C700EF58DE /* AppDelegate.m */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		211A4B2B2000CA3800DC30B2 /* timg.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = timg.jpg; sourceTree = "<group>"; };
 		25EA7A883D9FC3853A5D027E /* Pods-a.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-a.release.xcconfig"; path = "Pods/Target Support Files/Pods-a/Pods-a.release.xcconfig"; sourceTree = "<group>"; };
 		9A49CC5042F54C0481E0F48D /* libPods-a.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-a.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B4926BD1EBD77C700EF58DE /* a.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = a.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,6 +116,7 @@
 				9B9DAC701EBED80C00196BC7 /* ACell.m */,
 				9B9DAC711EBED80C00196BC7 /* AModel.h */,
 				9B9DAC721EBED80C00196BC7 /* AModel.m */,
+				211A4B2B2000CA3800DC30B2 /* timg.jpg */,
 				9B9DAC7C1EBEEE6A00196BC7 /* CCell.h */,
 				9B9DAC7D1EBEEE6A00196BC7 /* CCell.m */,
 				9B9DAC7E1EBEEE6A00196BC7 /* CCell.xib */,
@@ -232,6 +235,7 @@
 				9B4926D01EBD77C700EF58DE /* LaunchScreen.storyboard in Resources */,
 				9B9DAC801EBEEE6B00196BC7 /* CCell.xib in Resources */,
 				9B4926CD1EBD77C700EF58DE /* Assets.xcassets in Resources */,
+				211A4B2C2000CA3900DC30B2 /* timg.jpg in Resources */,
 				9B4926CB1EBD77C700EF58DE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
