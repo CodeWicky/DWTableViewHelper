@@ -142,7 +142,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return self;
 }
 
--(DWTableViewHelperModel *)modelFromIndexPath:(NSIndexPath *)indexPath {
+-(__kindof DWTableViewHelperModel *)modelFromIndexPath:(NSIndexPath *)indexPath {
     id obj = nil;
     if (self.multiSection) {
         obj = self.dataSource[indexPath.section];
@@ -1088,6 +1088,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     if (model.loadCellFromNib) {
         cell = [[NSBundle mainBundle] loadNibNamed:aCellClassStr owner:nil options:nil].lastObject;
         if (cell && !useReuse) {
+            [cell setValue:@(YES) forKey:@"_just4Cal"];
             self.dic4CalCell[aCellClassStr] = cell;
         }
         return cell;
@@ -1095,6 +1096,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     
     cell = [[cellClass alloc] initWithStyle:(UITableViewCellStyleDefault) reuseIdentifier:cellIDTemp];
     if (cell && !useReuse) {
+        [cell setValue:@(YES) forKey:@"_just4Cal"];
         self.dic4CalCell[aCellClassStr] = cell;
     }
     return cell;

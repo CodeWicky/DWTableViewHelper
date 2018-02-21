@@ -87,6 +87,9 @@
  修复自动代理中heightForHeader代理映射错误bug
  添加iOS 11后refreshControl自动修复API
  更新事务类相关API
+ 
+ version 1.1.7
+ cell添加计算行高标志位
  */
 
 #import <UIKit/UIKit.h>
@@ -346,7 +349,7 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 -(instancetype)initWithTabV:(__kindof UITableView *)tabV dataSource:(NSArray *)dataSource;
 
 ///取出对应indexPath对应的数据模型（具有容错机制）
--(DWTableViewHelperModel *)modelFromIndexPath:(NSIndexPath *)indexPath;
+-(__kindof DWTableViewHelperModel *)modelFromIndexPath:(NSIndexPath *)indexPath;
 
 ///让分割线归零
 -(void)setTheSeperatorToZero;
@@ -438,6 +441,9 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 extern NSNotificationName const DWTableViewHelperCellHitTestNotification;
 
 @interface DWTableViewHelperCell : UITableViewCell
+
+///计算用cell，只有仅用于自动计算行高的cell会将此标志位置为真
+@property (nonatomic ,assign ,readonly) BOOL just4Cal;
 
 ///数据模型
 @property (nonatomic ,strong)__kindof DWTableViewHelperModel * model;

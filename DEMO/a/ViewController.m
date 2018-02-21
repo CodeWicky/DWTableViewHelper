@@ -70,7 +70,7 @@
         _tabV = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, 414, 500) style:(UITableViewStylePlain)
                  ];
         self.helper = [[DWTableViewHelper alloc] initWithTabV:_tabV dataSource:self.dataArr];
-//        self.helper.useAutoRowHeight = YES;
+        self.helper.useAutoRowHeight = YES;
         [self.helper setTheSeperatorToZero];
 //        self.helper.minAutoRowHeight = 55;
         self.helper.helperDelegate = self;
