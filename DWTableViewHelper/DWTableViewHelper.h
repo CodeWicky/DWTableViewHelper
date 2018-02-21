@@ -89,6 +89,7 @@
  更新事务类相关API
  
  version 1.1.7
+ 添加头视图自动放大
  cell添加计算行高标志位
  */
 
@@ -399,7 +400,7 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 
 
 /**
- 这只自动放大的头视图，与tableHeaderView相互冲突
+ 设置自动放大的头视图，与tableHeaderView相互冲突
 
  @param header 设置的headerView
  @param handler 当滚动时的触发回调，可在此处处理导航透明度
