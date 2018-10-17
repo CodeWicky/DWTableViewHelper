@@ -1546,6 +1546,11 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
     }
 }
 
+-(void)setNeedsReAutoCalculateRowHeight {
+    self.calRowHeightH = -1;
+    self.calRowHeightV = -1;
+}
+
 @end
 
 

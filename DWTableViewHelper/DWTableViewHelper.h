@@ -91,6 +91,9 @@
  version 1.1.7
  添加头视图自动放大
  cell添加计算行高标志位
+ 
+ version 1.1.7.1
+ model添加重新自动计算高度接口
  */
 
 #import <UIKit/UIKit.h>
@@ -428,6 +431,9 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 
 ///配合DWTableViewHelperLoadDataIgnoreHighSpeedMode使用，标志cell是否被绘制过
 @property (nonatomic ,assign ,readonly) BOOL cellHasBeenDrawn;
+
+///设置需要重新自动计算高度
+-(void)setNeedsReAutoCalculateRowHeight;
 
 @end
 
