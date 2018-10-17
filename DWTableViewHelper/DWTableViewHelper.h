@@ -94,6 +94,7 @@
  
  version 1.1.7.1
  model添加重新自动计算高度接口
+ helper添加设置所有model均需重新计算接口
  */
 
 #import <UIKit/UIKit.h>
@@ -401,7 +402,6 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 ///修复iOS11后refreshControl位置错误
 -(void)fixRefreshControlInsets;
 
-
 /**
  设置自动放大的头视图，与tableHeaderView相互冲突
 
@@ -409,6 +409,10 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
  @param handler 当滚动时的触发回调，可在此处处理导航透明度
  */
 -(void)setAutoZoomHeader:(UIView *)header scrollHandler:(void(^)(CGFloat contentoffset))handler;
+
+///设置当前所有模型均为需要重新自动计算高度
+-(void)setAllNeedsReAutoCalculateRowHeight;
+
 @end
 
 #pragma mark --- DWTableViewHelperModel 数据模型基类 ---

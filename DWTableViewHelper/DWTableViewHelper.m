@@ -384,6 +384,22 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
+-(void)setAllNeedsReAutoCalculateRowHeight {
+    [self.dataSource enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self setObjNeedsReAutoCalculateRowHeight:obj];
+    }];
+}
+
+-(void)setObjNeedsReAutoCalculateRowHeight:(id)anObj {
+    if ([anObj isKindOfClass:[NSArray class]]) {
+        [((NSArray *)anObj) enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [self setObjNeedsReAutoCalculateRowHeight:obj];
+        }];
+    } else if ([anObj isKindOfClass:[DWTableViewHelperModel class]]) {
+        [((__kindof DWTableViewHelperModel *)anObj) setNeedsReAutoCalculateRowHeight];
+    }
+}
+
 #pragma mark --- delegate Map Start ---
 ///display
 -(void)tableView:(UITableView *)tableView willDisplayCell:(DWTableViewHelperCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -1504,8 +1520,7 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
 @synthesize cellClassStr,cellID,cellRowHeight,cellEditSelectedIcon,cellEditUnselectedIcon;
 
 -(instancetype)init{
-    self = [super init];
-    if (self) {
+    if (self = [super init]) {
         self.cellRowHeight = -1;
         if (!ImageNull) {
             ImageNull = [UIImage new];
