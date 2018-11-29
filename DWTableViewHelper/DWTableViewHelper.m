@@ -460,6 +460,9 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     if (self.useAutoRowHeight) {//返回放回自动计算的行高
         return [self autoCalculateRowHeightWithModel:model];
     }
+    if (self.tabV.rowHeight >= 0) {
+        return self.tabV.rowHeight;
+    }
     return 44;
 }
 

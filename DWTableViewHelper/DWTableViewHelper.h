@@ -95,6 +95,9 @@
  version 1.1.7.1
  model添加重新自动计算高度接口
  helper添加设置所有model均需重新计算接口
+ 
+ version 1.1.7.2
+ 当无指定行高时，添加使用tableView.rowHeight逻辑
  */
 
 #import <UIKit/UIKit.h>
