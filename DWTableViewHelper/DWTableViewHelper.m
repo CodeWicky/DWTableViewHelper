@@ -174,6 +174,26 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return obj;
 }
 
+-(DWTableViewHelperCell *)dequeueReusableCellWithModel:(__kindof DWTableViewHelperModel *)model {
+    if (!model) {
+        return nil;
+    }
+    return [self createCellFromModel:model useReuse:YES];
+}
+
+-(void)handleLoadDataWithCell:(__kindof DWTableViewHelperCell *)cell indexPath:(NSIndexPath *)indexPath model:(__kindof DWTableViewHelperModel *)model {
+    if (!cell || !indexPath || !model) {
+        return;
+    }
+    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
+        [self ignoreModeLoadCell:cell indexPath:indexPath model:model];
+    } else if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode) {
+        [self lazyModeLoadCell:cell indexPath:indexPath model:model];
+    } else {
+        cell.model = model;
+    }
+}
+
 -(void)setTheSeperatorToZero {
     [self.tabV setSeparatorInset:UIEdgeInsetsZero];
 }
@@ -740,13 +760,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     } else {
         cell = [self createCellFromModel:model useReuse:YES];
     }
-    if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
-        [self ignoreModeLoadCell:cell indexPath:indexPath model:model];
-    } else if (self.loadDataMode == DWTableViewHelperLoadDataLazyMode) {
-        [self lazyModeLoadCell:cell indexPath:indexPath model:model];
-    } else {
-        cell.model = model;
-    }
+    [self handleLoadDataWithCell:cell indexPath:indexPath model:model];
     return cell;
 }
 
@@ -1497,7 +1511,6 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
         PlaceHolderCellModelAvoidCrashing.cellRowHeight = 0;
         PlaceHolderCellModelAvoidCrashing.cellClassStr = NSStringFromClass([DWTableViewHelperCell class]);
         PlaceHolderCellModelAvoidCrashing.cellID = @"PlaceHolderCellAvoidCrashing";
-        
     }
     return PlaceHolderCellModelAvoidCrashing;
 }
