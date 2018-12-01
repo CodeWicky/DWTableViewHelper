@@ -101,6 +101,9 @@
  
  version 1.1.7.3
  添加外部自行实现cellForRow代理后，取重用cell的方法及处理LoadDataMode的方法
+ 
+ version 1.1.7.4
+ 移除LoadDataMode方法，内部自动调用，开发者无需处理
  */
 
 #import <UIKit/UIKit.h>
@@ -364,9 +367,6 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 
 ///根据重用id及indexPath取出重用的cell（外界重写cellForRow代理时调用，可根据模型动态生成cell）
 -(__kindof DWTableViewHelperCell *)dequeueReusableCellWithModel:(__kindof DWTableViewHelperModel *)model;
-
-///处理数据加载模式（外界重写cellForRow代理时调用，处理不同的数据加载模式）
--(void)handleLoadDataWithCell:(__kindof DWTableViewHelperCell *)cell indexPath:(NSIndexPath *)indexPath model:(__kindof DWTableViewHelperModel *)model;
 
 ///让分割线归零
 -(void)setTheSeperatorToZero;
