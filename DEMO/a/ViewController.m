@@ -68,7 +68,6 @@
 -(DWTableViewHelperCell *)dw_TableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DWTableViewHelperModel * model = [self.helper modelFromIndexPath:indexPath];
     DWTableViewHelperCell * cell = [self.helper dequeueReusableCellWithModel:model];
-    [self.helper handleLoadDataWithCell:cell indexPath:indexPath model:model];
     return cell;
 }
 
