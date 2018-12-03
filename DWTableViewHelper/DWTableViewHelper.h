@@ -101,6 +101,9 @@
  
  version 1.1.7.3
  添加外部自行实现cellForRow代理后，取重用cell的方法及处理LoadDataMode的方法
+ 
+ version 1.1.7.4
+ 修复reload前判断是否存在数据引起的处理错误
  */
 
 #import <UIKit/UIKit.h>

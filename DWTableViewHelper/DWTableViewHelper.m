@@ -200,10 +200,10 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(void)reloadDataAndHandlePlaceHolderView
 {
-    BOOL haveData = [self caculateHaveData];
     __weak typeof(self)weakSelf = self;
     [self reloadDataWithCompletion:^{
-        handlePlaceHolderView(weakSelf.placeHolderView, weakSelf.tabV, !haveData, &hasPlaceHolderView);
+        ///修复reload前判断是否存在数据引起的处理错误
+        handlePlaceHolderView(weakSelf.placeHolderView, weakSelf.tabV, ![self caculateHaveData], &hasPlaceHolderView);
     }];
 }
 
