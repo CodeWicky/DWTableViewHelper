@@ -104,6 +104,10 @@
  
  version 1.1.7.4
  移除LoadDataMode方法，内部自动调用，开发者无需处理
+
+ version 1.1.7.5
+ 修复reload前判断是否存在数据引起的处理错误
+
  */
 
 #import <UIKit/UIKit.h>
