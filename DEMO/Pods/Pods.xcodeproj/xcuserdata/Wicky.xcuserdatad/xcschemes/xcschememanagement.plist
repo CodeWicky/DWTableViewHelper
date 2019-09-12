@@ -9,6 +9,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>DWKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>DWTableViewHelper.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -21,22 +31,6 @@
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>731747453D4FA0530DCD237E9BC582EC</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9DC8D9E02903E93BD0B2FEC9D846EA20</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FA61BD678FEAB4438CE273FCCF6C2A65</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>

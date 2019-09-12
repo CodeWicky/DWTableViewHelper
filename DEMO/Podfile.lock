@@ -1,15 +1,31 @@
 PODS:
   - DWAnimation (1.1.10)
+  - DWKit/DWUtils/DWOperationCancelFlag (0.0.0.4)
+  - DWTableViewHelper (1.1.7.4):
+    - DWKit/DWUtils/DWOperationCancelFlag
   - Masonry (1.0.2)
 
 DEPENDENCIES:
   - DWAnimation (~> 1.1.10)
+  - DWTableViewHelper (from `../`)
   - Masonry (~> 1.0.2)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - DWAnimation
+    - DWKit
+    - Masonry
+
+EXTERNAL SOURCES:
+  DWTableViewHelper:
+    :path: "../"
 
 SPEC CHECKSUMS:
   DWAnimation: 2f0a7456ec9fff2da2e4d1352552b6cd593d00a9
+  DWKit: d7c2414cee5b1a262083c3a8254f79cfa5707941
+  DWTableViewHelper: 2e217fcff1818b03d0863792672dea4db909f0c6
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
 
-PODFILE CHECKSUM: 30497533825386c1222b0a097d1e87a99eab6b69
+PODFILE CHECKSUM: a3f8980ef2af31d5e471b0b396f1eb4890a170bf
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.7.2
