@@ -1,8 +1,10 @@
 PODS:
   - DWAnimation (1.1.10)
-  - DWKit/DWUtils/DWOperationCancelFlag (0.0.0.4)
-  - DWTableViewHelper (1.1.7.4):
+  - DWKit/DWUtils/DWOperationCancelFlag (0.0.0.7)
+  - DWKit/DWUtils/DWTransaction (0.0.0.7)
+  - DWTableViewHelper (1.1.7.5.1):
     - DWKit/DWUtils/DWOperationCancelFlag
+    - DWKit/DWUtils/DWTransaction
   - Masonry (1.0.2)
 
 DEPENDENCIES:
@@ -22,8 +24,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   DWAnimation: 2f0a7456ec9fff2da2e4d1352552b6cd593d00a9
-  DWKit: d7c2414cee5b1a262083c3a8254f79cfa5707941
-  DWTableViewHelper: 2e217fcff1818b03d0863792672dea4db909f0c6
+  DWKit: 7a032ebc700253bac71fa9d4b54f5b45ab5ef4fb
+  DWTableViewHelper: 72c49772eaf034f191ca4552f472204dc773cb43
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
 
 PODFILE CHECKSUM: a3f8980ef2af31d5e471b0b396f1eb4890a170bf

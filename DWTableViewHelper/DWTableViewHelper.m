@@ -203,7 +203,10 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     __weak typeof(self)weakSelf = self;
     [self reloadDataWithCompletion:^{
         ///修复reload前判断是否存在数据引起的处理错误
-        handlePlaceHolderView(weakSelf.placeHolderView, weakSelf.tabV, ![self caculateHaveData], &hasPlaceHolderView);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wimplicit-retain-self"
+        handlePlaceHolderView(weakSelf.placeHolderView, weakSelf.tabV, ![weakSelf caculateHaveData], &hasPlaceHolderView);
+#pragma clang diagnostic pop
     }];
 }
 
@@ -1222,7 +1225,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(void)commitSnapTransaction {
-    [[DWTransaction dw_TransactionWithTarget:self selector:@selector(snapVisibleCell)] commit];
+    [[DWTransaction transactionWithTarget:self selector:@selector(snapVisibleCell)] commit];
 }
 
 -(void)snapVisibleCell {
