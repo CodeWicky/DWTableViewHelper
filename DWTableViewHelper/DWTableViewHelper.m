@@ -7,8 +7,8 @@
 //
 
 #import "DWTableViewHelper.h"
-#import "DWOperationCancelFlag.h"
-#import "DWTransaction.h"
+#import <DWKit/DWOperationCancelFlag.h>
+#import <DWKit/DWTransaction.h>
 
 #define SeperatorColor [UIColor lightGrayColor]
 
