@@ -107,6 +107,11 @@
 
  version 1.1.7.5
  修复reload前判断是否存在数据引起的处理错误
+ 
+ version 1.1.7.6
+ 跟随FDTemplateLayoutCell补充自动计算行高的核心算法（本次发现在计算行高时，若遇到行高计算不准确时（确保约束正确的情况下通常是因为label为多行Label且Label的宽度不定，可能横向约束存在MoreThanOrEqualTo或者LessThanOrEqualTo此类约束导致无法准去自动计算行高），可以通过设置Label的label.preferredMaxLayoutWidth来尝试解决问题，截至目前我亲测好用）
+ 修改DWTableViewHelperModel中cellID及cellClassStr的默认值行为。当设置cellClassStr时自动更改cellID默认值，给与不设cellID而程序正常运行更大的灵活性
+ 修改部分代理当外部返回不合法值时，按照内部既定逻辑处理。为外部单独定制个别cell而其他cell使用默认行为提供可能性
 
  */
 

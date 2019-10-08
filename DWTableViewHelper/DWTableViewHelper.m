@@ -470,9 +470,16 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 ///height
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    ///即使外部设置代理，若外部返回小于0则认为外部不想设置此cell，则有框架按内部规则计算。否则按外部返回值为准。
+    CGFloat height = -1;
     if (DWRespond) {
-        return [DWDelegate dw_TableView:tableView heightForRowAtIndexPath:indexPath];
+        height = [DWDelegate dw_TableView:tableView heightForRowAtIndexPath:indexPath];
     }
+    
+    if (height >= 0) {
+        return height;
+    }
+    
     DWTableViewHelperModel * model = [self modelFromIndexPath:indexPath];
     if (model.cellRowHeight >= 0) {
         return model.cellRowHeight;
@@ -491,9 +498,15 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+    CGFloat height = -1;
     if (DWRespond) {
-        return [DWDelegate dw_TableView:tableView heightForHeaderInSection:section];
+        height = [DWDelegate dw_TableView:tableView heightForHeaderInSection:section];
     }
+    
+    if (height >= 0) {
+        return height;
+    }
+    
     if (self.helperDelegate && [self.helperDelegate respondsToSelector:@selector(dw_TableView:viewForHeaderInSection:)]) {
         return [self.helperDelegate dw_TableView:tableView viewForHeaderInSection:section].bounds.size.height;
     }
@@ -505,9 +518,15 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    CGFloat height = -1;
     if (DWRespond) {
-        return [DWDelegate dw_TableView:tableView heightForFooterInSection:section];
+        height = [DWDelegate dw_TableView:tableView heightForFooterInSection:section];
     }
+    
+    if (height >= 0) {
+        return height;
+    }
+    
     if (self.helperDelegate && [self.helperDelegate respondsToSelector:@selector(dw_TableView:viewForFooterInSection:)]) {
         return [self.helperDelegate dw_TableView:tableView viewForFooterInSection:section].bounds.size.height;
     }
@@ -615,9 +634,11 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (DWRespond) {
         return [DWDelegate dw_TableView:tableView titleForDeleteConfirmationButtonForRowAtIndexPath:indexPath];
     }
+    
     return @"Delete";
 }
 
@@ -734,9 +755,15 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 ///dataSource
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSInteger number = -1;
     if (DWRespond) {
-        return [DWDelegate dw_TableView:tableView numberOfRowsInSection:section];
+        number = [DWDelegate dw_TableView:tableView numberOfRowsInSection:section];
     }
+    
+    if (number >= 0) {
+        return number;
+    }
+    
     if (self.multiSection) {
         id obj = self.dataSource[section];
         if (![obj isKindOfClass:[NSArray class]]) {
@@ -757,10 +784,9 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     DWTableViewHelperModel * model = [self modelFromIndexPath:indexPath];
     if (DWRespond) {
         cell = [DWDelegate dw_TableView:tableView cellForRowAtIndexPath:indexPath];
-        if (!cell) {
-            NSAssert(NO, @"you have implemetation the dw_TableView:cellForRowAtIndexPath delegate but pass a nil cell at indexPath of S%ldR%ld",indexPath.section,indexPath.row);
-        }
-    } else {
+    }
+    
+    if (!cell) {
         cell = [self createCellFromModel:model useReuse:YES];
     }
     [self handleLoadDataWithCell:cell indexPath:indexPath model:model];
@@ -769,9 +795,15 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    NSInteger number = -1;
     if (DWRespond) {
-        return [DWDelegate dw_NumberOfSectionsInTableView:tableView];
+        number = [DWDelegate dw_NumberOfSectionsInTableView:tableView];
     }
+    
+    if (number >= 0) {
+        return number;
+    }
+    
     if (self.multiSection) {
         return self.dataSource.count;
     }
@@ -1025,6 +1057,14 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     cellBounds.size.width = width;
     cell.bounds = cellBounds;
     CGFloat accessoryViewWidth;
+    
+    for (UIView *view in self.tabV.subviews) {
+        if ([view isKindOfClass:NSClassFromString(@"UITableViewIndex")]) {
+            accessoryViewWidth = view.bounds.size.width;
+            break;
+        }
+    }
+    
     //根据辅助视图校正width
     if (cell.accessoryView) {
         accessoryViewWidth = (cell.accessoryView.bounds.size.width + 16);
@@ -1040,6 +1080,11 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         };
         accessoryViewWidth = accessoryWidth[cell.accessoryType];
     }
+    
+    if ([UIScreen mainScreen].scale >= 3 && [UIScreen mainScreen].bounds.size.width >= 414) {
+        accessoryViewWidth += 4;
+    }
+    
     width -= accessoryViewWidth;
     CGFloat height = 0;
     if (width > 0) {//如果不是非自适应模式则添加约束后计算约束后高度
@@ -1532,11 +1577,19 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
 ///原始cell选择样式
 @property (nonatomic ,assign) NSInteger originalSelectionStyle;
 
+///默认cell类
+@property (nonatomic ,copy) NSString * defaultCellClassStr;
+
+///默认cellID
+@property (nonatomic ,copy) NSString * defaultCellID;
+
 @end
 
 @implementation DWTableViewHelperModel
 
-@synthesize cellClassStr,cellID,cellRowHeight,cellEditSelectedIcon,cellEditUnselectedIcon;
+@synthesize cellRowHeight,cellEditSelectedIcon,cellEditUnselectedIcon;
+@synthesize cellClassStr = _cellClassStr;
+@synthesize cellID = _cellID;
 
 -(instancetype)init{
     if (self = [super init]) {
@@ -1562,6 +1615,35 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
     return self;
 }
 
+-(void)setNeedsReAutoCalculateRowHeight {
+    self.calRowHeightH = -1;
+    self.calRowHeightV = -1;
+}
+
+#pragma mark --- setter/getter ---
+-(NSString *)cellClassStr {
+    if (!_cellClassStr) {
+        return self.defaultCellClassStr;
+    }
+    return _cellClassStr;
+}
+
+-(void)setCellClassStr:(NSString *)cellClassStr {
+    if (![_cellClassStr isEqualToString:cellClassStr]) {
+        _cellClassStr = cellClassStr;
+        if (!_cellID) {
+            _defaultCellID = [NSString stringWithFormat:@"%@DefaultCellID",cellClassStr];
+        }
+    }
+}
+
+-(NSString *)cellID {
+    if (!_cellID) {
+        return self.defaultCellID;
+    }
+    return _cellID;
+}
+
 -(CGFloat)autoCalRowHeight {
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     if (UIDeviceOrientationIsPortrait(orientation) || orientation == UIDeviceOrientationUnknown) {
@@ -1580,9 +1662,26 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
     }
 }
 
--(void)setNeedsReAutoCalculateRowHeight {
-    self.calRowHeightH = -1;
-    self.calRowHeightV = -1;
+
+-(NSString *)defaultCellClassStr {
+    if (!_defaultCellClassStr) {
+        NSString * cellClass = NSStringFromClass([self class]);
+        NSArray * arr = [cellClass componentsSeparatedByString:@"Model"];
+        if (arr.count) {
+            cellClass = [NSString stringWithFormat:@"%@Cell",arr.firstObject];
+        } else {
+            cellClass = @"DWTableViewHelperCell";
+        }
+        _defaultCellClassStr = cellClass;
+    }
+    return _defaultCellClassStr;
+}
+
+-(NSString *)defaultCellID {
+    if (!_defaultCellID) {
+        _defaultCellID = [NSString stringWithFormat:@"%@DefaultCellID",self.defaultCellClassStr];
+    }
+    return _defaultCellID;
 }
 
 @end
