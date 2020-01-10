@@ -124,97 +124,99 @@
 @optional
 
 ///展示定制
--(void)dw_TableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
--(void)dw_TableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0);
--(void)dw_TableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0);
--(void)dw_TableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath NS_AVAILABLE_IOS(6_0);
--(void)dw_TableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0);
--(void)dw_TableView:(UITableView *)tableView didEndDisplayingFooterView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0);
+-(void)dw_tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+-(void)dw_tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0);
+-(void)dw_tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0);
+-(void)dw_tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath NS_AVAILABLE_IOS(6_0);
+-(void)dw_tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0);
+-(void)dw_tableView:(UITableView *)tableView didEndDisplayingFooterView:(UIView *)view forSection:(NSInteger)section NS_AVAILABLE_IOS(6_0);
 
 ///高度定制
--(CGFloat)dw_TableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
--(CGFloat)dw_TableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
--(CGFloat)dw_TableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section;
+-(CGFloat)dw_tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
+-(CGFloat)dw_tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section;
+-(CGFloat)dw_tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section;
 
 ///组头、组尾视图
--(UIView *)dw_TableView:(__kindof UITableView *)tableView viewForHeaderInSection:(NSInteger)section;
--(UIView *)dw_TableView:(__kindof UITableView *)tableView viewForFooterInSection:(NSInteger)section;
+-(UIView *)dw_tableView:(__kindof UITableView *)tableView viewForHeaderInSection:(NSInteger)section;
+-(UIView *)dw_tableView:(__kindof UITableView *)tableView viewForFooterInSection:(NSInteger)section;
 
 ///辅助视图
--(void)dw_TableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath;
+-(void)dw_tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath;
 
 ///选中高亮
--(BOOL)dw_TableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath;
--(void)dw_TableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath;
--(void)dw_TableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath;
+-(BOOL)dw_tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath;
+-(void)dw_tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath;
+-(void)dw_tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath;
 
 ///选中
--(NSIndexPath *)dw_TableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath;
--(NSIndexPath *)dw_TableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath;
--(void)dw_TableView:(__kindof UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
--(void)dw_TableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath;
+-(NSIndexPath *)dw_tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+-(NSIndexPath *)dw_tableView:(UITableView *)tableView willDeselectRowAtIndexPath:(NSIndexPath *)indexPath;
+-(void)dw_tableView:(__kindof UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+-(void)dw_tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath;
 
 ///编辑
--(UITableViewCellEditingStyle)dw_TableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath;
--(NSString *)dw_TableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath;
--(NSArray<UITableViewRowAction *> *)dw_TableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath;
--(BOOL)dw_TableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath;///grouped 模式下有效，返回移动时是否缩进
--(void)dw_TableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath;
--(void)dw_TableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath;
--(NSIndexPath *)dw_TableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath;///移动时可通过源位置和目标位置判断应该到达的位置，通常情况下无需实现或返回proposedDestinationIndexPath即为不做特殊处理
--(BOOL)dw_TableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath;
--(BOOL)dw_TableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath;
+-(UITableViewCellEditingStyle)dw_tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath;
+-(NSString *)dw_tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath;
+-(NSArray<UITableViewRowAction *> *)dw_tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath;
+-(BOOL)dw_tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath;///grouped 模式下有效，返回移动时是否缩进
+-(void)dw_tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath;
+-(void)dw_tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath;
+-(NSIndexPath *)dw_tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath;///移动时可通过源位置和目标位置判断应该到达的位置，通常情况下无需实现或返回proposedDestinationIndexPath即为不做特殊处理
+-(BOOL)dw_tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath;
+-(BOOL)dw_tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath;
 
 ///缩进
--(NSInteger)dw_TableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath;///返回cell缩进级别。cell缩进级别不同时可调用此代理
+-(NSInteger)dw_tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath;///返回cell缩进级别。cell缩进级别不同时可调用此代理
 
 ///Copy/Paste 长按显示菜单栏，三个代理需同时实现
--(BOOL)dw_TableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath;
--(BOOL)dw_TableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender;
--(void)dw_TableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender;
+-(BOOL)dw_tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath;
+-(BOOL)dw_tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender;
+-(void)dw_tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender;
 
 ///焦点 控制焦点的移动，可用于遥控器相关开发
--(BOOL)dw_TableView:(UITableView *)tableView canFocusRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(9_0);
--(BOOL)dw_TableView:(UITableView *)tableView shouldUpdateFocusInContext:(UITableViewFocusUpdateContext *)context NS_AVAILABLE_IOS(9_0);
--(void)dw_TableView:(UITableView *)tableView didUpdateFocusInContext:(UITableViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator NS_AVAILABLE_IOS(9_0);
--(NSIndexPath *)dw_IndexPathForPreferredFocusedViewInTableView:(UITableView *)tableView NS_AVAILABLE_IOS(9_0);
+-(BOOL)dw_tableView:(UITableView *)tableView canFocusRowAtIndexPath:(NSIndexPath *)indexPath NS_AVAILABLE_IOS(9_0);
+-(BOOL)dw_tableView:(UITableView *)tableView shouldUpdateFocusInContext:(UITableViewFocusUpdateContext *)context NS_AVAILABLE_IOS(9_0);
+-(void)dw_tableView:(UITableView *)tableView didUpdateFocusInContext:(UITableViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator NS_AVAILABLE_IOS(9_0);
+-(NSIndexPath *)dw_indexPathForPreferredFocusedViewInTableView:(UITableView *)tableView NS_AVAILABLE_IOS(9_0);
 
 ///数据源
--(NSInteger)dw_TableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
--(DWTableViewHelperCell *)dw_TableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
--(NSInteger)dw_NumberOfSectionsInTableView:(UITableView *)tableView;
--(NSString *)dw_TableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
--(NSString *)dw_TableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section;
--(NSArray<NSString *> *)dw_SectionIndexTitlesForTableView:(UITableView *)tableView;
-- (NSInteger)dw_TableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index;
--(void)dw_TableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath;
--(void)dw_TableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
+-(NSInteger)dw_tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;
+-(DWTableViewHelperCell *)dw_tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
+-(NSInteger)dw_numberOfSectionsInTableView:(UITableView *)tableView;
+-(NSString *)dw_tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section;
+-(NSString *)dw_tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section;
+-(NSArray<NSString *> *)dw_sectionIndexTitlesForTableView:(UITableView *)tableView;
+- (NSInteger)dw_tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index;
+-(void)dw_tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath;
+-(void)dw_tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath;
 
 ///预加载
--(void)dw_TableView:(UITableView *)tableView prefetchRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths;
--(void)dw_TableView:(UITableView *)tableView cancelPrefetchingForRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths;
+-(void)dw_tableView:(UITableView *)tableView prefetchRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths;
+-(void)dw_tableView:(UITableView *)tableView cancelPrefetchingForRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths;
 
 ///滑动
--(void)dw_ScrollViewDidScroll:(UIScrollView *)scrollView;
--(void)dw_ScrollViewDidZoom:(UIScrollView *)scrollView;
--(void)dw_ScrollViewWillBeginDragging:(UIScrollView *)scrollView;
--(void)dw_ScrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset;
--(void)dw_ScrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
--(void)dw_ScrollViewWillBeginDecelerating:(UIScrollView *)scrollView;
--(void)dw_ScrollViewDidEndDecelerating:(UIScrollView *)scrollView;
--(void)dw_ScrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView;
--(UIView *)dw_ViewForZoomingInScrollView:(UIScrollView *)scrollView;
--(void)dw_ScrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view;
--(void)dw_ScrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale;
--(BOOL)dw_ScrollViewShouldScrollToTop:(UIScrollView *)scrollView;
+-(void)dw_scrollViewDidScroll:(UIScrollView *)scrollView;
+-(void)dw_scrollViewDidZoom:(UIScrollView *)scrollView;
+-(void)dw_scrollViewWillBeginDragging:(UIScrollView *)scrollView;
+-(void)dw_scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset;
+-(void)dw_scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate;
+-(void)dw_scrollViewWillBeginDecelerating:(UIScrollView *)scrollView;
+-(void)dw_scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+-(void)dw_scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView;
+-(UIView *)dw_viewForZoomingInScrollView:(UIScrollView *)scrollView;
+-(void)dw_scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view;
+-(void)dw_scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale;
+-(BOOL)dw_scrollViewShouldScrollToTop:(UIScrollView *)scrollView;
+-(void)dw_scrollViewDidScrollToTop:(UIScrollView *)scrollView;
+-(void)dw_scrollViewDidChangeAdjustedContentInset:(UIScrollView *)scrollView API_AVAILABLE(ios(11.0), tvos(11.0));
 
 #pragma mark --- Additional Helper Delegate ---
 ///动画 支持返回CAAniamion对象、DWAnimation对象
--(BOOL)dw_TableView:(UITableView *)tableView shouldAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
--(id)dw_TableView:(UITableView *)tableView showAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+-(BOOL)dw_tableView:(UITableView *)tableView shouldAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+-(id)dw_tableView:(UITableView *)tableView showAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 
 ///cell占位图（仅优化模式下有效）
--(UIImage *)dw_TableView:(UITableView *)tableView loadDataPlaceHolderForCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
+-(UIImage *)dw_tableView:(UITableView *)tableView loadDataPlaceHolderForCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath;
 
 ///选择（仅选择模式下有效）
 ///若代理返回YES，则选择行为由代理控制
@@ -227,8 +229,8 @@
  
  切记，因为无论返回YES还是NO代理都会执行，故所有返回NO情况均应先于YES情况执行return语句。
  */
--(BOOL)dw_TableView:(UITableView *)tableView selectModeWillSelectRowAtIndexPath:(NSIndexPath *)indexPath;
--(BOOL)dw_TableView:(UITableView *)tableView selectModeWillDeselectRowAtIndexPath:(NSIndexPath *)indexPath;
+-(BOOL)dw_tableView:(UITableView *)tableView selectModeWillSelectRowAtIndexPath:(NSIndexPath *)indexPath;
+-(BOOL)dw_tableView:(UITableView *)tableView selectModeWillDeselectRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -256,6 +258,12 @@
 
 ///复用标识
 @property (nonatomic ,copy) NSString * cellID;
+
+///是否使用自使用行高
+/**
+ 优先级最低，计算一次并缓存
+ */
+@property (nonatomic ,assign) BOOL useAutoRowHeight;
 
 ///helper行高
 /**
@@ -312,12 +320,6 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 
 ///返回被选中的cell的indexPath的数组
 @property (nonatomic ,strong) NSArray * selectedRows;
-
-///是否使用自使用行高
-/**
- 优先级最低，计算一次并缓存
- */
-@property (nonatomic ,assign) BOOL useAutoRowHeight;
 
 ///最小自动行高
 @property (nonatomic ,assign) CGFloat minAutoRowHeight;

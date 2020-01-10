@@ -59,13 +59,13 @@
     [self.dataArr addObject:newM];
 }
 
-//-(id)dw_TableView:(UITableView *)tableView showAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-//    return [[DWAnimation alloc] initAnimationWithLayer:nil animationKey:@"animation" animationCreater:^(DWAnimationMaker *maker) {
-//        maker.scaleFrom(0).scaleTo(1).duration(0.4).install();
-//    }];
-//}
+-(id)dw_tableView:(UITableView *)tableView showAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    return [[DWAnimation alloc] initAnimationWithLayer:nil animationKey:@"animation" animationCreater:^(DWAnimationMaker *maker) {
+        maker.scaleFrom(0).scaleTo(1).duration(0.4).install();
+    }];
+}
 
--(DWTableViewHelperCell *)dw_TableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(DWTableViewHelperCell *)dw_tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     DWTableViewHelperModel * model = [self.helper modelFromIndexPath:indexPath];
     DWTableViewHelperCell * cell = [self.helper dequeueReusableCellWithModel:model];
     return cell;
