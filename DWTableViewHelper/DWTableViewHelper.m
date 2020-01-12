@@ -606,6 +606,24 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return nil;
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunguarded-availability"
+-(UISwipeActionsConfiguration *)tableView:(UITableView *)tableView leadingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:leadingSwipeActionsConfigurationForRowAtIndexPath:)]) {
+        return [DWDelegate dw_tableView:tableView leadingSwipeActionsConfigurationForRowAtIndexPath:indexPath];
+    }
+    return nil;
+}
+
+-(UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:trailingSwipeActionsConfigurationForRowAtIndexPath:)]) {
+        return [DWDelegate dw_tableView:tableView trailingSwipeActionsConfigurationForRowAtIndexPath:indexPath];
+    }
+    return nil;
+}
+
+#pragma clang diagnostic pop
+
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:shouldIndentWhileEditingRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView shouldIndentWhileEditingRowAtIndexPath:indexPath];
@@ -702,6 +720,60 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
     return nil;
 }
+
+-(BOOL)tableView:(UITableView *)tableView shouldSpringLoadRowAtIndexPath:(NSIndexPath *)indexPath withContext:(id<UISpringLoadedInteractionContext>)context {
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:shouldSpringLoadRowAtIndexPath:withContext:)]) {
+        return [DWDelegate dw_tableView:tableView shouldSpringLoadRowAtIndexPath:indexPath withContext:context];
+    }
+    return YES;
+}
+
+-(BOOL)tableView:(UITableView *)tableView shouldBeginMultipleSelectionInteractionAtIndexPath:(NSIndexPath *)indexPath {
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:shouldBeginMultipleSelectionInteractionAtIndexPath:)]) {
+        return [DWDelegate dw_tableView:tableView shouldBeginMultipleSelectionInteractionAtIndexPath:indexPath];
+    }
+    return NO;
+}
+
+-(void)tableView:(UITableView *)tableView didBeginMultipleSelectionInteractionAtIndexPath:(NSIndexPath *)indexPath {
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:didBeginMultipleSelectionInteractionAtIndexPath:)]) {
+        [DWDelegate dw_tableView:tableView didBeginMultipleSelectionInteractionAtIndexPath:indexPath];
+    }
+}
+
+-(void)tableViewDidEndMultipleSelectionInteraction:(UITableView *)tableView {
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableViewDidEndMultipleSelectionInteraction:)]) {
+        [DWDelegate dw_tableViewDidEndMultipleSelectionInteraction:tableView];
+    }
+}
+
+-(UIContextMenuConfiguration *)tableView:(UITableView *)tableView contextMenuConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath point:(CGPoint)point {
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:contextMenuConfigurationForRowAtIndexPath:point:)]) {
+        return [DWDelegate dw_tableView:tableView contextMenuConfigurationForRowAtIndexPath:indexPath point:point];
+    }
+    return nil;
+}
+
+-(UITargetedPreview *)tableView:(UITableView *)tableView previewForHighlightingContextMenuWithConfiguration:(UIContextMenuConfiguration *)configuration {
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:previewForHighlightingContextMenuWithConfiguration:)]) {
+        return [DWDelegate dw_tableView:tableView previewForHighlightingContextMenuWithConfiguration:configuration];
+    }
+    return nil;
+}
+
+-(UITargetedPreview *)tableView:(UITableView *)tableView previewForDismissingContextMenuWithConfiguration:(UIContextMenuConfiguration *)configuration {
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:previewForDismissingContextMenuWithConfiguration:)]) {
+        return [DWDelegate dw_tableView:tableView previewForDismissingContextMenuWithConfiguration:configuration];
+    }
+    return nil;
+}
+
+-(void)tableView:(UITableView *)tableView willPerformPreviewActionForMenuWithConfiguration:(UIContextMenuConfiguration *)configuration animator:(id<UIContextMenuInteractionCommitAnimating>)animator {
+    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:willPerformPreviewActionForMenuWithConfiguration:animator:)]) {
+        [DWDelegate dw_tableView:tableView willPerformPreviewActionForMenuWithConfiguration:configuration animator:animator];
+    }
+}
+
 #pragma clang diagnostic pop
 
 

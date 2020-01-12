@@ -112,6 +112,7 @@
  跟随FDTemplateLayoutCell补充自动计算行高的核心算法（本次发现在计算行高时，若遇到行高计算不准确时（确保约束正确的情况下通常是因为label为多行Label且Label的宽度不定，可能横向约束存在MoreThanOrEqualTo或者LessThanOrEqualTo此类约束导致无法准去自动计算行高），可以通过设置Label的label.preferredMaxLayoutWidth来尝试解决问题，截至目前我亲测好用）
  修改DWTableViewHelperModel中cellID及cellClassStr的默认值行为。当设置cellClassStr时自动更改cellID默认值，给与不设cellID而程序正常运行更大的灵活性
  修改部分代理当外部返回不合法值时，按照内部既定逻辑处理。为外部单独定制个别cell而其他cell使用默认行为提供可能性
+ 增加对单独cell的自动行高控制
 
  */
 
@@ -158,6 +159,8 @@
 -(UITableViewCellEditingStyle)dw_tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath;
 -(NSString *)dw_tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath;
 -(NSArray<UITableViewRowAction *> *)dw_tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath;
+-(UISwipeActionsConfiguration *)dw_tableView:(UITableView *)tableView leadingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath API_AVAILABLE(ios(11.0)) API_UNAVAILABLE(tvos);
+- (UISwipeActionsConfiguration *)dw_tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath API_AVAILABLE(ios(11.0)) API_UNAVAILABLE(tvos);
 -(BOOL)dw_tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath;///grouped 模式下有效，返回移动时是否缩进
 -(void)dw_tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath;
 -(void)dw_tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath;
@@ -178,6 +181,14 @@
 -(BOOL)dw_tableView:(UITableView *)tableView shouldUpdateFocusInContext:(UITableViewFocusUpdateContext *)context NS_AVAILABLE_IOS(9_0);
 -(void)dw_tableView:(UITableView *)tableView didUpdateFocusInContext:(UITableViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator NS_AVAILABLE_IOS(9_0);
 -(NSIndexPath *)dw_indexPathForPreferredFocusedViewInTableView:(UITableView *)tableView NS_AVAILABLE_IOS(9_0);
+-(BOOL)dw_tableView:(UITableView *)tableView shouldSpringLoadRowAtIndexPath:(NSIndexPath *)indexPath withContext:(id<UISpringLoadedInteractionContext>)context API_AVAILABLE(ios(11.0)) API_UNAVAILABLE(tvos, watchos);
+-(BOOL)dw_tableView:(UITableView *)tableView shouldBeginMultipleSelectionInteractionAtIndexPath:(NSIndexPath *)indexPath API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);
+-(void)dw_tableView:(UITableView *)tableView didBeginMultipleSelectionInteractionAtIndexPath:(NSIndexPath *)indexPath API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);
+-(void)dw_tableViewDidEndMultipleSelectionInteraction:(UITableView *)tableView API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(tvos, watchos);
+- (UIContextMenuConfiguration *)dw_tableView:(UITableView *)tableView contextMenuConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath point:(CGPoint)point API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(watchos, tvos);
+- (UITargetedPreview *)dw_tableView:(UITableView *)tableView previewForHighlightingContextMenuWithConfiguration:(UIContextMenuConfiguration *)configuration API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(watchos, tvos);
+- (UITargetedPreview *)dw_tableView:(UITableView *)tableView previewForDismissingContextMenuWithConfiguration:(UIContextMenuConfiguration *)configuration API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(watchos, tvos);
+- (void)dw_tableView:(UITableView *)tableView willPerformPreviewActionForMenuWithConfiguration:(UIContextMenuConfiguration *)configuration animator:(id<UIContextMenuInteractionCommitAnimating>)animator API_AVAILABLE(ios(13.0)) API_UNAVAILABLE(watchos, tvos);
 
 ///数据源
 -(NSInteger)dw_tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section;

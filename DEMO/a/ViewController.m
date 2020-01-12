@@ -43,6 +43,7 @@
     for (NSString * str in temp) {
         AModel * model = [AModel new];
         model.title = str;
+        model.useAutoRowHeight = YES;
         [self.dataArr addObject:model];
     }
     
@@ -57,6 +58,10 @@
     newM.cellClassStr = @"CCell";
     newM.cellID = @"IDIDI";
     [self.dataArr addObject:newM];
+    
+    
+    NSLog(@"%f",UITableViewAutomaticDimension);
+    
 }
 
 -(id)dw_tableView:(UITableView *)tableView showAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -76,7 +81,7 @@
         _tabV = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, 414, 500) style:(UITableViewStylePlain)
                  ];
         self.helper = [[DWTableViewHelper alloc] initWithTabV:_tabV dataSource:self.dataArr];
-        self.helper.useAutoRowHeight = YES;
+//        self.helper.useAutoRowHeight = YES;
         [self.helper setTheSeperatorToZero];
 //        self.helper.minAutoRowHeight = 55;
         self.helper.helperDelegate = self;
