@@ -363,10 +363,28 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
+-(BOOL)strictFrame:(CGRect)frame inTableView:(UITableView *)tableView {
+    if (!self.strictCellAction) {
+        return YES;
+    }
+    CGFloat offset = tableView.contentOffset.y;
+    ///如果cell的最大Y小于偏移量或者最小Y大于偏移量加tableView高度，说明其实不在tableView展示区域内，return
+    if (CGRectGetMinY(frame) - offset > CGRectGetHeight(tableView.bounds)) {
+        return NO;
+    } else if (CGRectGetMaxY(frame) - offset < 0) {
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark --- delegate Map Start ---
 ///display
 -(void)tableView:(UITableView *)tableView willDisplayCell:(DWTableViewHelperCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (![self strictFrame:cell.frame inTableView:tableView]) {
+        return;
+    }
+    
     if (self.cellEditSelectedIcon && cell.model.cellEditSelectedIcon == ImageNull) {
         cell.model.cellEditSelectedIcon = self.cellEditSelectedIcon;
     }
@@ -382,12 +400,20 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    if (![self strictFrame:view.frame inTableView:tableView]) {
+        return;
+    }
+    
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:willDisplayHeaderView:forSection:)]) {
         [DWDelegate dw_tableView:tableView willDisplayHeaderView:view forSection:section];
     }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    if (![self strictFrame:view.frame inTableView:tableView]) {
+        return;
+    }
+    
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:willDisplayFooterView:forSection:)]) {
         [DWDelegate dw_tableView:tableView willDisplayFooterView:view forSection:section];
     }
@@ -805,6 +831,10 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    CGRect frame = [tableView rectForRowAtIndexPath:indexPath];
+    if (![self strictFrame:frame inTableView:tableView]) {
+        return placeHolderCell();
+    }
     DWTableViewHelperCell * cell = nil;
     DWTableViewHelperModel * model = [self modelFromIndexPath:indexPath];
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:cellForRowAtIndexPath:)]) {
@@ -1564,6 +1594,15 @@ static inline void handlePlaceHolderView(UIView * placeHolderView,UITableView * 
         [tabV addSubview:placeHolderView];
         *hasPlaceHolderView = YES;
     }
+}
+
+static inline UITableViewCell * placeHolderCell() {
+    static UITableViewCell * cell = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cell = [UITableViewCell new];
+    });
+    return cell;
 }
 
 

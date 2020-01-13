@@ -369,7 +369,6 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
  */
 @property (nonatomic ,assign) DWTableViewHelperLoadDataMode loadDataMode;
 
-
 /**
  优化模式下，不加载的cell展示的图片
  
@@ -380,6 +379,13 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 
 ///忽略模式下当快速滚动级别（数字越小，占位cell越多）
 @property (nonatomic ,assign) NSUInteger ignoreCount;
+
+/**
+ 严格控制cell动作代理
+ 
+ 当行高大于44时，tableView首次会按照行高44计算执行wilDisplayCell及cellForRow两个代理，即实际展示的cell要比代理展示的cell较少。可以通过对外屏蔽此处代理调用来保证只有cell即将被展示出时才会调用willDisplayCell及cellForRow两个代理。默认关闭。
+ */
+@property (nonatomic ,assign) BOOL strictCellAction;
 
 ///实例化方法
 -(instancetype)initWithTabV:(__kindof UITableView *)tabV dataSource:(NSArray *)dataSource;
