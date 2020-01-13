@@ -86,6 +86,7 @@
 //        self.helper.minAutoRowHeight = 55;
         self.helper.helperDelegate = self;
         [self.helper enableTableViewContentInsetAutoAdjust:NO inViewController:nil];
+        self.helper.strictCellAction = YES;
         
 //        self.helper.loadDataMode = DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode;
 //        self.helper.ignoreCount = 1;

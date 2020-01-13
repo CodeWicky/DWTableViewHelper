@@ -61,10 +61,8 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 @synthesize cellClassStr,cellID,cellRowHeight,useAutoRowHeight,cellEditSelectedIcon,cellEditUnselectedIcon;
 
--(instancetype)initWithTabV:(__kindof UITableView *)tabV dataSource:(NSArray *)dataSource
-{
-    self = [super init];
-    if (self) {
+-(instancetype)initWithTabV:(__kindof UITableView *)tabV dataSource:(NSArray *)dataSource {
+    if (self = [super init]) {
         _tabV = tabV;
         tabV.delegate = self;
         tabV.dataSource = self;
@@ -98,9 +96,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
             NSAssert(NO, @"you set to use multiSection but the obj in section %ld row %ld of dataSource is not kind of DWTableViewHelperModel but %@",indexPath.section,indexPath.row,NSStringFromClass([obj class]));
             obj = PlaceHolderCellModelAvoidCrashingGetter();
         }
-    }
-    else
-    {
+    } else {
         obj = self.dataSource[indexPath.row];
         if (![obj isKindOfClass:[DWTableViewHelperModel class]]) {
             NSAssert(NO, @"you set to not use multiSection but the obj in row %ld of dataSource is not kind of DWTableViewHelperModel but %@",indexPath.row,NSStringFromClass([obj class]));
@@ -178,9 +174,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         for (int i = 0; i < count; i++) {
             [self setSection:i allSelect:select];
         }
-    }
-    else
-    {
+    } else {
         [self.tabV reloadData];
     }
 }
@@ -195,9 +189,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         for (int i = 0; i < rows; i++) {
             [self.tabV selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section] animated:NO scrollPosition:UITableViewScrollPositionNone];
         }
-    }
-    else
-    {
+    } else {
         for (int i = 0; i < rows; i++) {
             [self.tabV deselectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section] animated:NO];
         }
@@ -259,9 +251,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         
         if (select) {
             [self.tabV deselectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section] animated:NO];
-        }
-        else
-        {
+        } else {
             [self.tabV selectRowAtIndexPath:[NSIndexPath indexPathForRow:i inSection:section] animated:NO scrollPosition:UITableViewScrollPositionNone];
         }
     }
@@ -363,10 +353,28 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
+-(BOOL)strictFrame:(CGRect)frame inTableView:(UITableView *)tableView {
+    if (!self.strictCellAction) {
+        return YES;
+    }
+    CGFloat offset = tableView.contentOffset.y;
+    ///如果cell的最大Y小于偏移量或者最小Y大于偏移量加tableView高度，说明其实不在tableView展示区域内，return
+    if (CGRectGetMinY(frame) - offset > CGRectGetHeight(tableView.bounds)) {
+        return NO;
+    } else if (CGRectGetMaxY(frame) - offset < 0) {
+        return NO;
+    }
+    return YES;
+}
+
 #pragma mark --- delegate Map Start ---
 ///display
 -(void)tableView:(UITableView *)tableView willDisplayCell:(DWTableViewHelperCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (![self strictFrame:cell.frame inTableView:tableView]) {
+        return;
+    }
+    
     if (self.cellEditSelectedIcon && cell.model.cellEditSelectedIcon == ImageNull) {
         cell.model.cellEditSelectedIcon = self.cellEditSelectedIcon;
     }
@@ -382,12 +390,20 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    if (![self strictFrame:view.frame inTableView:tableView]) {
+        return;
+    }
+    
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:willDisplayHeaderView:forSection:)]) {
         [DWDelegate dw_tableView:tableView willDisplayHeaderView:view forSection:section];
     }
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    if (![self strictFrame:view.frame inTableView:tableView]) {
+        return;
+    }
+    
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:willDisplayFooterView:forSection:)]) {
         [DWDelegate dw_tableView:tableView willDisplayFooterView:view forSection:section];
     }
@@ -546,11 +562,11 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return indexPath;
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.selectEnable && DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:selectModeWillSelectRowAtIndexPath:)] && [DWDelegate dw_tableView:tableView selectModeWillSelectRowAtIndexPath:indexPath]) {///选择模式下且实现了选择方法
         return;
     }
+    
     if (self.selectEnable) {
         if (!self.multiSelect && self.lastSelected) {
             [tableView deselectRowAtIndexPath:self.lastSelected animated:NO];
@@ -564,11 +580,11 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
--(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.selectEnable && DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:selectModeWillDeselectRowAtIndexPath:)] && [DWDelegate dw_tableView:self.tabV selectModeWillDeselectRowAtIndexPath:indexPath]) {///选中模式下将要取消选中
         return;
     }
+    
     if (self.selectEnable) {
         self.lastSelected = nil;
         return;
@@ -580,13 +596,15 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 ///editing
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.selectEnable) {
         return UITableViewCellEditingStyleInsert | UITableViewCellEditingStyleDelete;
     }
+    
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:editingStyleForRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView editingStyleForRowAtIndexPath:indexPath];
     }
+    
     return UITableViewCellEditingStyleNone;
 }
 
@@ -778,8 +796,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 
 ///dataSource
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger number = -1;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:numberOfRowsInSection:)]) {
         number = [DWDelegate dw_tableView:tableView numberOfRowsInSection:section];
@@ -803,8 +820,11 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return self.dataSource.count;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    CGRect frame = [tableView rectForRowAtIndexPath:indexPath];
+    if (![self strictFrame:frame inTableView:tableView]) {
+        return placeHolderCell();
+    }
     DWTableViewHelperCell * cell = nil;
     DWTableViewHelperModel * model = [self modelFromIndexPath:indexPath];
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:cellForRowAtIndexPath:)]) {
@@ -818,8 +838,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return cell;
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger number = -1;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_numberOfSectionsInTableView:)]) {
         number = [DWDelegate dw_numberOfSectionsInTableView:tableView];
@@ -889,8 +908,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 ///scroll
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     ///自动缩放模式
     if (self.autoZoomHeaderMode && self.autoZoomHeader) {
         CGFloat offsetY = scrollView.contentOffset.y;
@@ -1124,9 +1142,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     //根据辅助视图校正width
     if (cell.accessoryView) {
         accessoryViewWidth = (cell.accessoryView.bounds.size.width + 16);
-    }
-    else
-    {
+    } else {
         static const CGFloat accessoryWidth[] = {
             [UITableViewCellAccessoryNone] = 0,
             [UITableViewCellAccessoryDisclosureIndicator] = 34,
@@ -1558,12 +1574,19 @@ static inline void handlePlaceHolderView(UIView * placeHolderView,UITableView * 
     if (!toSetHave && *hasPlaceHolderView) {
         [placeHolderView removeFromSuperview];
         *hasPlaceHolderView = NO;
-    }
-    else if (toSetHave && !*hasPlaceHolderView)
-    {
+    } else if (toSetHave && !*hasPlaceHolderView) {
         [tabV addSubview:placeHolderView];
         *hasPlaceHolderView = YES;
     }
+}
+
+static inline UITableViewCell * placeHolderCell() {
+    static UITableViewCell * cell = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        cell = [UITableViewCell new];
+    });
+    return cell;
 }
 
 
@@ -1755,10 +1778,8 @@ NSNotificationName const DWTableViewHelperCellHitTestNotification = @"DWTableVie
 static UIImage * defaultSelectIcon = nil;
 static UIImage * defaultUnselectIcon = nil;
 
--(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+-(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         [self setupUI];
         [self setupConstraints];
     }
@@ -1771,8 +1792,7 @@ static UIImage * defaultUnselectIcon = nil;
     [self setupConstraints];
 }
 
--(void)layoutSubviews
-{
+-(void)layoutSubviews {
     BOOL toSetSelectIcon = self.model.cellEditSelectedIcon != ImageNull && self.model.cellEditSelectedIcon != nil;
     BOOL toSetUnselectIcon = self.model.cellEditUnselectedIcon != ImageNull && self.model.cellEditUnselectedIcon != nil;
     for (UIControl *control in self.subviews){
