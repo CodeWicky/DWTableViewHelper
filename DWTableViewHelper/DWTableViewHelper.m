@@ -138,8 +138,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     [self.tabV setSeparatorInset:UIEdgeInsetsZero];
 }
 
--(void)reloadDataAndHandlePlaceHolderView
-{
+-(void)reloadDataAndHandlePlaceHolderView {
     __weak typeof(self)weakSelf = self;
     [self reloadDataWithCompletion:^{
         ///修复reload前判断是否存在数据引起的处理错误
@@ -150,8 +149,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }];
 }
 
--(void)reloadDataWithCompletion:(dispatch_block_t)completion
-{
+-(void)reloadDataWithCompletion:(dispatch_block_t)completion {
     if (!completion) {
         [self.tabV reloadData];
         return;
@@ -228,8 +226,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return arr;
 }
 
--(void)invertSelectSection:(NSUInteger)section
-{
+-(void)invertSelectSection:(NSUInteger)section {
     NSUInteger count = self.tabV.numberOfSections;
     if (section >= count) {
         return;
@@ -261,8 +258,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
--(void)invertSelectAll
-{
+-(void)invertSelectAll {
     NSUInteger count = self.tabV.numberOfSections;
     for (int i = 0; i < count; i++) {
         [self invertSelectSection:i];
@@ -373,8 +369,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 #pragma mark --- delegate Map Start ---
 ///display
--(void)tableView:(UITableView *)tableView willDisplayCell:(DWTableViewHelperCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(void)tableView:(UITableView *)tableView willDisplayCell:(DWTableViewHelperCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (![self strictFrame:cell.frame inTableView:tableView]) {
         return;
     }
@@ -406,7 +401,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+-(void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
     if (![self strictFrame:view.frame inTableView:tableView]) {
         return;
     }
@@ -416,7 +411,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
-- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(DWTableViewHelperCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+-(void)tableView:(UITableView *)tableView didEndDisplayingCell:(DWTableViewHelperCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:didEndDisplayingCell:forRowAtIndexPath:)]) {
         [DWDelegate dw_tableView:tableView didEndDisplayingCell:cell forRowAtIndexPath:indexPath];
     }
@@ -424,21 +419,20 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     cell.model.currentDisplayIndexPath = nil;
 }
 
-- (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section {
+-(void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:didEndDisplayingHeaderView:forSection:)]) {
         [DWDelegate dw_tableView:tableView didEndDisplayingHeaderView:view forSection:section];
     }
 }
 
-- (void)tableView:(UITableView *)tableView didEndDisplayingFooterView:(UIView *)view forSection:(NSInteger)section {
+-(void)tableView:(UITableView *)tableView didEndDisplayingFooterView:(UIView *)view forSection:(NSInteger)section {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:didEndDisplayingFooterView:forSection:)]) {
         [DWDelegate dw_tableView:tableView didEndDisplayingFooterView:view forSection:section];
     }
 }
 
 ///height
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     ///即使外部设置代理，若外部返回小于0则认为外部不想设置此cell，则有框架按内部规则计算。否则按外部返回值为准。
     CGFloat height = -1;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:heightForRowAtIndexPath:)]) {
@@ -465,8 +459,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return 44;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     CGFloat height = -1;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:heightForHeaderInSection:)]) {
         height = [DWDelegate dw_tableView:tableView heightForHeaderInSection:section];
@@ -486,8 +479,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return 0.01;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     CGFloat height = -1;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:heightForFooterInSection:)]) {
         height = [DWDelegate dw_tableView:tableView heightForFooterInSection:section];
@@ -514,8 +506,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return nil;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
-{
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:viewForFooterInSection:)]) {
         return [DWDelegate dw_tableView:tableView viewForFooterInSection:section];
     }
@@ -523,34 +514,34 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 ///accessory
-- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:accessoryButtonTappedForRowWithIndexPath:)]) {
         [DWDelegate dw_tableView:tableView accessoryButtonTappedForRowWithIndexPath:indexPath];
     }
 }
 
 ///highlight
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+-(BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:shouldHighlightRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView shouldHighlightRowAtIndexPath:indexPath];
     }
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:didHighlightRowAtIndexPath:)]) {
         [DWDelegate dw_tableView:tableView didHighlightRowAtIndexPath:indexPath];
     }
 }
 
-- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:didUnhighlightRowAtIndexPath:)]) {
         [DWDelegate dw_tableView:tableView didUnhighlightRowAtIndexPath:indexPath];
     }
 }
 
 ///选中
-- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.selectEnable && DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:selectModeWillSelectRowAtIndexPath:)] && [DWDelegate dw_tableView:self.tabV selectModeWillSelectRowAtIndexPath:indexPath]) {///选中模式下将要选中
         return nil;
     }
@@ -605,7 +596,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 ///editing
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.selectEnable) {
         return UITableViewCellEditingStyleInsert | UITableViewCellEditingStyleDelete;
     }
@@ -617,7 +608,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return UITableViewCellEditingStyleNone;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:titleForDeleteConfirmationButtonForRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView titleForDeleteConfirmationButtonForRowAtIndexPath:indexPath];
@@ -626,7 +617,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return @"Delete";
 }
 
-- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:editActionsForRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView editActionsForRowAtIndexPath:indexPath];
     }
@@ -651,40 +642,40 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 #pragma clang diagnostic pop
 
-- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+-(BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:shouldIndentWhileEditingRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView shouldIndentWhileEditingRowAtIndexPath:indexPath];
     }
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView willBeginEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:willBeginEditingRowAtIndexPath:)]) {
         [DWDelegate dw_tableView:tableView willBeginEditingRowAtIndexPath:indexPath];
     }
 }
 
-- (void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView didEndEditingRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:didEndEditingRowAtIndexPath:)]) {
         [DWDelegate dw_tableView:tableView didEndEditingRowAtIndexPath:indexPath];
     }
 }
 
-- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+-(NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:targetIndexPathForMoveFromRowAtIndexPath:toProposedIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView targetIndexPathForMoveFromRowAtIndexPath:sourceIndexPath toProposedIndexPath:proposedDestinationIndexPath];
     }
     return proposedDestinationIndexPath;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:canEditRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView canEditRowAtIndexPath:indexPath];
     }
     return YES;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+-(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:canMoveRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView canMoveRowAtIndexPath:indexPath];
     }
@@ -692,7 +683,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 ///indentation
-- (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:indentationLevelForRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
     }
@@ -700,19 +691,19 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 ///copy / paste
-- (BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
+-(BOOL)tableView:(UITableView *)tableView shouldShowMenuForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:shouldShowMenuForRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView shouldShowMenuForRowAtIndexPath:indexPath];
     }
     return NO;
 }
-- (BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+-(BOOL)tableView:(UITableView *)tableView canPerformAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:canPerformAction:forRowAtIndexPath:withSender:)]) {
         return [DWDelegate dw_tableView:tableView canPerformAction:action forRowAtIndexPath:indexPath withSender:sender];
     }
     return NO;
 }
-- (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
+-(void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:performAction:forRowAtIndexPath:withSender:)]) {
         [DWDelegate dw_tableView:tableView performAction:action forRowAtIndexPath:indexPath withSender:sender];
     }
@@ -721,27 +712,27 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
 ///focus
-- (BOOL)tableView:(UITableView *)tableView canFocusRowAtIndexPath:(NSIndexPath *)indexPath {
+-(BOOL)tableView:(UITableView *)tableView canFocusRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:canFocusRowAtIndexPath:)]) {
         return [DWDelegate dw_tableView:tableView canFocusRowAtIndexPath:indexPath];
     }
     return NO;
 }
 
-- (BOOL)tableView:(UITableView *)tableView shouldUpdateFocusInContext:(UITableViewFocusUpdateContext *)context {
+-(BOOL)tableView:(UITableView *)tableView shouldUpdateFocusInContext:(UITableViewFocusUpdateContext *)context {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:shouldUpdateFocusInContext:)]) {
         return [DWDelegate dw_tableView:tableView shouldUpdateFocusInContext:context];
     }
     return NO;
 }
 
-- (void)tableView:(UITableView *)tableView didUpdateFocusInContext:(UITableViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator {
+-(void)tableView:(UITableView *)tableView didUpdateFocusInContext:(UITableViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:didUpdateFocusInContext:withAnimationCoordinator:)]) {
         [DWDelegate dw_tableView:tableView didUpdateFocusInContext:context withAnimationCoordinator:coordinator];
     }
 }
 
-- (NSIndexPath *)indexPathForPreferredFocusedViewInTableView:(UITableView *)tableView {
+-(NSIndexPath *)indexPathForPreferredFocusedViewInTableView:(UITableView *)tableView {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_indexPathForPreferredFocusedViewInTableView:)]) {
         return [DWDelegate dw_indexPathForPreferredFocusedViewInTableView:tableView];
     }
@@ -884,33 +875,33 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     return nil;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+-(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:sectionForSectionIndexTitle:atIndex:)]) {
         return [DWDelegate dw_tableView:tableView sectionForSectionIndexTitle:title atIndex:index];
     }
     return index;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:commitEditingStyle:forRowAtIndexPath:)]) {
         [DWDelegate dw_tableView:tableView commitEditingStyle:editingStyle forRowAtIndexPath:indexPath];
     }
 }
 
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+-(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:moveRowAtIndexPath:toIndexPath:)]) {
         [DWDelegate dw_tableView:tableView moveRowAtIndexPath:sourceIndexPath toIndexPath:destinationIndexPath];
     }
 }
 
 ///prefetch
-- (void)tableView:(UITableView *)tableView prefetchRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
+-(void)tableView:(UITableView *)tableView prefetchRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:prefetchRowsAtIndexPaths:)]) {
         [DWDelegate dw_tableView:tableView prefetchRowsAtIndexPaths:indexPaths];
     }
 }
 
-- (void)tableView:(UITableView *)tableView cancelPrefetchingForRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
+-(void)tableView:(UITableView *)tableView cancelPrefetchingForRowsAtIndexPaths:(NSArray<NSIndexPath *> *)indexPaths {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:cancelPrefetchingForRowsAtIndexPaths:)]) {
         [DWDelegate dw_tableView:tableView cancelPrefetchingForRowsAtIndexPaths:indexPaths];
     }
@@ -1064,7 +1055,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
-- (void)scrollViewDidChangeAdjustedContentInset:(UIScrollView *)scrollView {
+-(void)scrollViewDidChangeAdjustedContentInset:(UIScrollView *)scrollView {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_scrollViewDidChangeAdjustedContentInset:)]) {
         [DWDelegate dw_scrollViewDidChangeAdjustedContentInset:scrollView];
     }
@@ -1128,8 +1119,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 ///根据cell计算cell的高度（代码源自FDTemplateLayoutCell）
--(CGFloat)calculateCellHeightWithCell:(UITableViewCell *)cell
-{
+-(CGFloat)calculateCellHeightWithCell:(UITableViewCell *)cell {
     CGFloat width = self.tabV.bounds.size.width;
     
     if (width <= 0) {
@@ -1372,8 +1362,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     });
 }
 
--(UIImage *)imageFromView:(UIView *)view
-{
+-(UIImage *)imageFromView:(UIView *)view {
     UIGraphicsBeginImageContextWithOptions(view.frame.size, NO, [UIScreen mainScreen].scale);
     [view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
@@ -1490,16 +1479,14 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 #pragma mark --- setter/getter ---
--(void)setDataSource:(NSArray<DWTableViewHelperModel *> *)dataSource
-{
+-(void)setDataSource:(NSArray<DWTableViewHelperModel *> *)dataSource {
     _dataSource = dataSource;
     if (self.placeHolderView) {
         handlePlaceHolderView(self.placeHolderView,self.tabV, ![self caculateHaveData], &hasPlaceHolderView);
     }
 }
 
--(void)setPlaceHolderView:(UIView *)placeHolderView
-{
+-(void)setPlaceHolderView:(UIView *)placeHolderView {
     if (_placeHolderView == placeHolderView) {
         return;
     }
@@ -1512,8 +1499,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
--(void)setSelectEnable:(BOOL)selectEnable
-{
+-(void)setSelectEnable:(BOOL)selectEnable {
     _selectEnable = selectEnable;
     if (!selectEnable) {
         self.lastSelected = nil;
@@ -1521,8 +1507,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     [self.tabV setEditing:selectEnable animated:YES];
 }
 
--(void)setMultiSelect:(BOOL)multiSelect
-{
+-(void)setMultiSelect:(BOOL)multiSelect {
     _multiSelect = multiSelect;
     if (!multiSelect) {
         if (self.selectedRows.count > 1) {
@@ -1538,21 +1523,18 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
--(NSArray *)selectedRows
-{
+-(NSArray *)selectedRows {
     return self.tabV.indexPathsForSelectedRows.copy;
 }
 
--(NSMutableDictionary *)dic4CalCell
-{
+-(NSMutableDictionary *)dic4CalCell {
     if (!_dic4CalCell) {
         _dic4CalCell = [NSMutableDictionary dictionary];
     }
     return _dic4CalCell;
 }
 
--(NSMutableArray *)data2Load
-{
+-(NSMutableArray *)data2Load {
     if (!_data2Load) {
         _data2Load = [NSMutableArray array];
     }
@@ -1579,7 +1561,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 #pragma mark --- inline Method ---
-static inline void handlePlaceHolderView(UIView * placeHolderView,UITableView * tabV,BOOL toSetHave,BOOL * hasPlaceHolderView){
+static inline void handlePlaceHolderView(UIView * placeHolderView,UITableView * tabV,BOOL toSetHave,BOOL * hasPlaceHolderView) {
     if (!toSetHave && *hasPlaceHolderView) {
         [placeHolderView removeFromSuperview];
         *hasPlaceHolderView = NO;
@@ -1630,8 +1612,7 @@ static inline UIImage * defaultImageWithHeight(CGFloat height) {
 //    return keys.copy;
 //};
 
-static inline NSMutableArray * filterArray(NSArray * array,BOOL(^block)(id obj, NSUInteger idx,NSUInteger count,BOOL * stop))
-{
+static inline NSMutableArray * filterArray(NSArray * array,BOOL(^block)(id obj, NSUInteger idx,NSUInteger count,BOOL * stop)) {
     NSMutableArray * arr = [NSMutableArray array];
     [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if (block(obj,idx,arr.count,stop)) {
@@ -1679,7 +1660,7 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
 @synthesize cellClassStr = _cellClassStr;
 @synthesize cellID = _cellID;
 
--(instancetype)init{
+-(instancetype)init {
     if (self = [super init]) {
         self.cellRowHeight = -1;
         if (!ImageNull) {
@@ -1837,7 +1818,7 @@ static UIImage * defaultUnselectIcon = nil;
 }
 
 ///适配第一次图片为空的情况
-- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+-(void)setEditing:(BOOL)editing animated:(BOOL)animated {
     [super setEditing:editing animated:animated];
     if (editing && self.selectionStyle != UITableViewCellSelectionStyleDefault) {//编辑状态下保证非无选择样式
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
@@ -1882,15 +1863,14 @@ static UIImage * defaultUnselectIcon = nil;
     
 }
 
--(void)setModel:(__kindof DWTableViewHelperModel *)model
-{
+-(void)setModel:(__kindof DWTableViewHelperModel *)model {
     _model = model;
     if (model.originalSelectionStyle == -1) {//仅在初次生成cell的时候同步cell的选择样式
         model.originalSelectionStyle = self.selectionStyle;
     }
 }
 
--(void)showLoadDataPlaceHolder:(UIImage *)image height:(CGFloat)height{
+-(void)showLoadDataPlaceHolder:(UIImage *)image height:(CGFloat)height {
     CGRect bounds = self.bounds;
     bounds.size.height = height;
     self.loadDataImageView.frame = bounds;
