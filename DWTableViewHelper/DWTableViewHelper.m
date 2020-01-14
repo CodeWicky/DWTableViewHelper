@@ -54,6 +54,10 @@ static UIImage * ImageNull = nil;
 
 @property (nonatomic ,strong) UIImage * cellSnap;
 
+@property (nonatomic ,weak) __kindof DWTableViewHelperCell * currentDisplayCell;
+
+@property (nonatomic ,strong) NSIndexPath * currentDisplayIndexPath;
+
 @end
 
 @implementation DWTableViewHelper
@@ -375,6 +379,9 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         return;
     }
     
+    cell.model.currentDisplayCell = cell;
+    cell.model.currentDisplayIndexPath = indexPath;
+    
     if (self.cellEditSelectedIcon && cell.model.cellEditSelectedIcon == ImageNull) {
         cell.model.cellEditSelectedIcon = self.cellEditSelectedIcon;
     }
@@ -409,10 +416,12 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
-- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(DWTableViewHelperCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath {
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:didEndDisplayingCell:forRowAtIndexPath:)]) {
         [DWDelegate dw_tableView:tableView didEndDisplayingCell:cell forRowAtIndexPath:indexPath];
     }
+    cell.model.currentDisplayCell = nil;
+    cell.model.currentDisplayIndexPath = nil;
 }
 
 - (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section {
@@ -826,10 +835,10 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         return placeHolderCell();
     }
     DWTableViewHelperCell * cell = nil;
-    DWTableViewHelperModel * model = [self modelFromIndexPath:indexPath];
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:cellForRowAtIndexPath:)]) {
         cell = [DWDelegate dw_tableView:tableView cellForRowAtIndexPath:indexPath];
     }
+    DWTableViewHelperModel * model = [self modelFromIndexPath:indexPath];
     
     if (!cell) {
         cell = [self createCellFromModel:model useReuse:YES];

@@ -477,6 +477,22 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 ///配合DWTableViewHelperLoadDataIgnoreHighSpeedMode使用，标志cell是否被绘制过
 @property (nonatomic ,assign ,readonly) BOOL cellHasBeenDrawn;
 
+/**
+ 当前正在展示的cell
+ 
+ 在willDisplayCell之后被赋值为对应的cell，在didEndDisplaying之后被置空
+ */
+@property (nonatomic ,weak ,readonly) __kindof DWTableViewHelperCell * currentDisplayCell;
+
+/**
+ 当前正在展示的cell对应的indexPath
+ 
+ 在willDisplayCell之后被赋值为对应的cell的indexPath，在didEndDisplaying之后被置空
+ */
+@property (nonatomic ,strong ,readonly) NSIndexPath * currentDisplayIndexPath;
+
+
+
 ///设置需要重新自动计算高度
 -(void)setNeedsReAutoCalculateRowHeight;
 
