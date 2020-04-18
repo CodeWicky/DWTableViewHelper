@@ -374,14 +374,16 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         return;
     }
     
-    cell.model.currentDisplayCell = cell;
-    cell.model.currentDisplayIndexPath = indexPath;
-    
-    if (self.cellEditSelectedIcon && cell.model.cellEditSelectedIcon == ImageNull) {
-        cell.model.cellEditSelectedIcon = self.cellEditSelectedIcon;
-    }
-    if (self.cellEditUnselectedIcon && cell.model.cellEditUnselectedIcon == ImageNull) {
-        cell.model.cellEditUnselectedIcon = self.cellEditUnselectedIcon;
+    if ([cell isKindOfClass:[DWTableViewHelperCell class]]) {
+        cell.model.currentDisplayCell = cell;
+        cell.model.currentDisplayIndexPath = indexPath;
+        
+        if (self.cellEditSelectedIcon && cell.model.cellEditSelectedIcon == ImageNull) {
+            cell.model.cellEditSelectedIcon = self.cellEditSelectedIcon;
+        }
+        if (self.cellEditUnselectedIcon && cell.model.cellEditUnselectedIcon == ImageNull) {
+            cell.model.cellEditUnselectedIcon = self.cellEditUnselectedIcon;
+        }
     }
     
     [self handleCellShowAnimationWithTableView:tableView cell:cell indexPath:indexPath];
@@ -415,8 +417,11 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:didEndDisplayingCell:forRowAtIndexPath:)]) {
         [DWDelegate dw_tableView:tableView didEndDisplayingCell:cell forRowAtIndexPath:indexPath];
     }
-    cell.model.currentDisplayCell = nil;
-    cell.model.currentDisplayIndexPath = nil;
+    
+    if ([cell isKindOfClass:[DWTableViewHelperCell class]]) {
+        cell.model.currentDisplayCell = nil;
+        cell.model.currentDisplayIndexPath = nil;
+    }   
 }
 
 -(void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section {
