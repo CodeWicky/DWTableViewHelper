@@ -12,9 +12,10 @@
 
 #define SeperatorColor [UIColor lightGrayColor]
 #define DWDelegate self.helperDelegate
+#define DWValidHeight(height) (height >= 0 || height == UITableViewAutomaticDimension)
 
 static UIImage * ImageNull = nil;
-
+const CGFloat DWTableViewHelperAutomaticDimensionAndCache = -91.0702;
 @interface DWTableViewHelper ()<UITableViewDelegate,UITableViewDataSource,UITableViewDataSourcePrefetching>
 {
     BOOL hasPlaceHolderView;
@@ -75,10 +76,10 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         }
         _dataSource = dataSource;
         _multiSection = NO;
-        self.cellRowHeight = -1;
+        self.cellRowHeight = DWTableViewHelperAutomaticDimensionAndCache;
         _selectEnable = tabV.editing;
-        _minAutoRowHeight = -1;
-        _maxAutoRowHeight = -1;
+        _minAutoRowHeight = DWTableViewHelperAutomaticDimensionAndCache;
+        _maxAutoRowHeight = DWTableViewHelperAutomaticDimensionAndCache;
         _flag = [DWOperationCancelFlag new];
     }
     return self;
@@ -317,7 +318,6 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 -(void)removeAutoZoomHeader {
     if (self.autoZoomHeaderMode) {
-        
         ///放回原父视图
         UIView * container = _tabV.superview;
         UIView * superView = container.superview;
@@ -353,27 +353,9 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
--(BOOL)strictFrame:(CGRect)frame inTableView:(UITableView *)tableView {
-    if (!self.strictCellAction) {
-        return YES;
-    }
-    CGFloat offset = tableView.contentOffset.y;
-    ///如果cell的最大Y小于偏移量或者最小Y大于偏移量加tableView高度，说明其实不在tableView展示区域内，return
-    if (CGRectGetMinY(frame) - offset > CGRectGetHeight(tableView.bounds)) {
-        return NO;
-    } else if (CGRectGetMaxY(frame) - offset < 0) {
-        return NO;
-    }
-    return YES;
-}
-
 #pragma mark --- delegate Map Start ---
 ///display
 -(void)tableView:(UITableView *)tableView willDisplayCell:(DWTableViewHelperCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (![self strictFrame:cell.frame inTableView:tableView]) {
-        return;
-    }
-    
     if ([cell isKindOfClass:[DWTableViewHelperCell class]]) {
         cell.model.currentDisplayCell = cell;
         cell.model.currentDisplayIndexPath = indexPath;
@@ -394,20 +376,12 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
-    if (![self strictFrame:view.frame inTableView:tableView]) {
-        return;
-    }
-    
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:willDisplayHeaderView:forSection:)]) {
         [DWDelegate dw_tableView:tableView willDisplayHeaderView:view forSection:section];
     }
 }
 
 -(void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
-    if (![self strictFrame:view.frame inTableView:tableView]) {
-        return;
-    }
-    
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:willDisplayFooterView:forSection:)]) {
         [DWDelegate dw_tableView:tableView willDisplayFooterView:view forSection:section];
     }
@@ -439,43 +413,54 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 ///height
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     ///即使外部设置代理，若外部返回小于0则认为外部不想设置此cell，则有框架按内部规则计算。否则按外部返回值为准。
-    CGFloat height = -1;
+    CGFloat height = DWTableViewHelperAutomaticDimensionAndCache;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:heightForRowAtIndexPath:)]) {
         height = [DWDelegate dw_tableView:tableView heightForRowAtIndexPath:indexPath];
     }
     
-    if (height >= 0) {
+    ///如果外部告诉一个大于零的行高，或者自动计算且不缓存的好高，则使用这个行高
+    if (DWValidHeight(height)) {
         return height;
     }
     
+    ///否则从模型中取，如果模型中指定大于零或者自动计算不缓存，直接返回
     DWTableViewHelperModel * model = [self modelFromIndexPath:indexPath];
-    if (model.cellRowHeight >= 0) {
+    if (DWValidHeight(model.cellRowHeight)) {
         return model.cellRowHeight;
     }
-    if (self.cellRowHeight >= 0) {
-        return self.cellRowHeight;
-    }
-    if (self.useAutoRowHeight || model.useAutoRowHeight) {//返回放回自动计算的行高
+    
+    ///如果模型指定使用自动计算，则计算并缓存
+    if (model.useAutoRowHeight) {
         return [self autoCalculateRowHeightWithModel:model];
     }
-    if (self.tabV.rowHeight >= 0) {
+    
+    ///如果helper指定大于零或者自动计算不缓存，也返回
+    if (DWValidHeight(self.cellRowHeight)) {
+        return self.cellRowHeight;
+    }
+    
+    ///自动计算并缓存
+    if (self.useAutoRowHeight) {//返回放回自动计算的行高
+        return [self autoCalculateRowHeightWithModel:model];
+    }
+    
+    ///否则返回tabV的行高设置
+    if (DWValidHeight(self.tabV.rowHeight)) {
         return self.tabV.rowHeight;
     }
+    
+    ///返回默认行高
     return 44;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    CGFloat height = -1;
+    CGFloat height = DWTableViewHelperAutomaticDimensionAndCache;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:heightForHeaderInSection:)]) {
         height = [DWDelegate dw_tableView:tableView heightForHeaderInSection:section];
     }
     
-    if (height >= 0) {
+    if (DWValidHeight(height)) {
         return height;
-    }
-    
-    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:viewForHeaderInSection:)]) {
-        return [DWDelegate dw_tableView:tableView viewForHeaderInSection:section].bounds.size.height;
     }
     
     if (@available(iOS 11, *)) {
@@ -485,18 +470,15 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    CGFloat height = -1;
+    CGFloat height = DWTableViewHelperAutomaticDimensionAndCache;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:heightForFooterInSection:)]) {
         height = [DWDelegate dw_tableView:tableView heightForFooterInSection:section];
     }
     
-    if (height >= 0) {
+    if (DWValidHeight(height)) {
         return height;
     }
     
-    if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:viewForFooterInSection:)]) {
-        return [DWDelegate dw_tableView:tableView viewForFooterInSection:section].bounds.size.height;
-    }
     if (@available(iOS 11, *)) {
         return 0;
     }
@@ -826,10 +808,6 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CGRect frame = [tableView rectForRowAtIndexPath:indexPath];
-    if (![self strictFrame:frame inTableView:tableView]) {
-        return placeHolderCell();
-    }
     DWTableViewHelperCell * cell = nil;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:cellForRowAtIndexPath:)]) {
         cell = [DWDelegate dw_tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -1128,7 +1106,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     CGFloat width = self.tabV.bounds.size.width;
     
     if (width <= 0) {
-        return -1;
+        return DWTableViewHelperAutomaticDimensionAndCache;
     }
     
     CGRect cellBounds = cell.bounds;
@@ -1238,7 +1216,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     
     Class cellClass = NSClassFromString(aCellClassStr);
     if (!cellClass) {
-        NSAssert(NO, @"cannot load a cellClass from %@,check the cellClassStr you have set",model.cellClassStr.length?model.cellClassStr:self.cellClassStr);
+        NSAssert(NO, @"cannot load a cellClass from %@,check the cellClassStr you have set",aCellClassStr);
         return nil;
     }
     
@@ -1576,16 +1554,6 @@ static inline void handlePlaceHolderView(UIView * placeHolderView,UITableView * 
     }
 }
 
-static inline UITableViewCell * placeHolderCell() {
-    static UITableViewCell * cell = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        cell = [UITableViewCell new];
-    });
-    return cell;
-}
-
-
 static inline UIImage * defaultImageWithHeight(CGFloat height) {
     if (height < 30) {
         return nil;
@@ -1667,7 +1635,7 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
 
 -(instancetype)init {
     if (self = [super init]) {
-        self.cellRowHeight = -1;
+        self.cellRowHeight = DWTableViewHelperAutomaticDimensionAndCache;
         if (!ImageNull) {
             ImageNull = [UIImage new];
         }
@@ -1683,15 +1651,15 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
         self.cellID = [NSString stringWithFormat:@"%@DefaultCellID",cellClass];
         self.cellEditSelectedIcon = ImageNull;
         self.cellEditUnselectedIcon = ImageNull;
-        self.calRowHeightH = -1;
-        self.calRowHeightV = -1;
+        self.calRowHeightH = DWTableViewHelperAutomaticDimensionAndCache;
+        self.calRowHeightV = DWTableViewHelperAutomaticDimensionAndCache;
     }
     return self;
 }
 
 -(void)setNeedsReAutoCalculateRowHeight {
-    self.calRowHeightH = -1;
-    self.calRowHeightV = -1;
+    self.calRowHeightH = DWTableViewHelperAutomaticDimensionAndCache;
+    self.calRowHeightV = DWTableViewHelperAutomaticDimensionAndCache;
 }
 
 #pragma mark --- setter/getter ---

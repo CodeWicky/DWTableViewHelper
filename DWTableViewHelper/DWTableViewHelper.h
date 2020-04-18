@@ -248,6 +248,14 @@
 
 @end
 
+/**
+ 自适应缓存高度。当行高代理中，返回此值时，代表使用内部计算的约束高度并缓存下来。
+ 
+ 当需要使用代理模式指定行高时，但同时其中一部分cell行高希望由框架内部进行自动计算并且缓存下来时，可以返回这个值DWTableViewHelperAutomaticDimensionAndCache。
+ 当需要使用代理模式指定行高，且行高有UIKit进行计算，同时又不需要缓存时，应返回UITableViewAutomaticDimension。
+ */
+UIKIT_EXTERN const CGFloat DWTableViewHelperAutomaticDimensionAndCache;
+
 #pragma mark --- cell 基础属性协议---
 @protocol DWTableViewHelperCellProperty <NSObject>
 /**
@@ -383,20 +391,13 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 ///忽略模式下当快速滚动级别（数字越小，占位cell越多）
 @property (nonatomic ,assign) NSUInteger ignoreCount;
 
-/**
- 严格控制cell动作代理
- 
- 当行高大于44时，tableView首次会按照行高44计算执行wilDisplayCell及cellForRow两个代理，即实际展示的cell要比代理展示的cell较少。可以通过对外屏蔽此处代理调用来保证只有cell即将被展示出时才会调用willDisplayCell及cellForRow两个代理。默认关闭。
- */
-@property (nonatomic ,assign) BOOL strictCellAction;
-
 ///实例化方法
 -(instancetype)initWithTabV:(__kindof UITableView *)tabV dataSource:(NSArray *)dataSource;
 
 ///取出对应indexPath对应的数据模型（具有容错机制）
 -(__kindof DWTableViewHelperModel *)modelFromIndexPath:(NSIndexPath *)indexPath;
 
-///根据重用id及indexPath取出重用的cell（外界重写cellForRow代理时调用，可根据模型动态生成cell）
+///根据模型取出重用的cell（外界重写cellForRow代理时调用，可根据模型动态生成cell）
 -(__kindof DWTableViewHelperCell *)dequeueReusableCellWithModel:(__kindof DWTableViewHelperModel *)model;
 
 ///让分割线归零
