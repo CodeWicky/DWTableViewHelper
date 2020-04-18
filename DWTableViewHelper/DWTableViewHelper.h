@@ -113,9 +113,9 @@
  修改DWTableViewHelperModel中cellID及cellClassStr的默认值行为。当设置cellClassStr时自动更改cellID默认值，给与不设cellID而程序正常运行更大的灵活性
  修改部分代理当外部返回不合法值时，按照内部既定逻辑处理。为外部单独定制个别cell而其他cell使用默认行为提供可能性
  增加对单独cell的自动行高控制
- 增加对cell动作的严格模式
  增加model对当前展示cell及indexPath的引用
- 
+ 增加对单独cell使用非缓存高度的支持
+ 增加header及footer对自适应高度的支持
 
  */
 
