@@ -78,15 +78,6 @@
     return cell;
 }
 
--(DWTableViewHelperModel *)dw_tableView:(UITableView *)tableView modelForHeaderInSection:(NSInteger)section {
-    static DWTableViewHelperModel * model = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        model = [DWTableViewHelperModel new];
-    });
-    return model;
-}
-
 -(UIView *)dw_tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     UIView * header = [UIView new];
     header.backgroundColor = [UIColor redColor];
@@ -102,9 +93,9 @@
     return header;
 }
 
-//-(CGFloat)dw_tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    return UITableViewAutomaticDimension;
-//}
+-(CGFloat)dw_tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return UITableViewAutomaticDimension;
+}
 
 -(UITableView *)tabV {
     if (!_tabV) {
@@ -141,7 +132,7 @@
 //
 //
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    CGRect frame = [self.tabV rectForRowAtIndexPath:[NSIndexPath indexPathForRow:12 inSection:0]];
+    [self.helper setAutoZoomHeader:nil scrollHandler:nil];
 }
 
 -(NSMutableArray *)dataArr {
