@@ -88,6 +88,10 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 -(__kindof DWTableViewHelperModel *)modelFromIndexPath:(NSIndexPath *)indexPath {
     id obj = nil;
     if (self.multiSection) {
+        if (indexPath.section >= self.dataSource.count) {
+            NSAssert(NO, @"can't fetch model at indexPath(%ld-%ld) for currentDataSource count is %ld",indexPath.section,indexPath.row,self.dataSource.count);
+            return nil;
+        }
         obj = self.dataSource[indexPath.section];
         if (![obj isKindOfClass:[NSArray class]]) {
             NSAssert(NO, @"you set to use multiSection but the obj in section %ld of dataSource is not kind of NSArray but %@",indexPath.section,NSStringFromClass([obj class]));
@@ -96,12 +100,20 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
             }
             return nil;
         }
+        if (indexPath.row >= [obj count]) {
+            NSAssert(NO, @"can't fetch model at indexPath(%ld-%ld) for currentDataSource subArr count is %ld",indexPath.section,indexPath.row,[obj count]);
+            return nil;
+        }
         obj = self.dataSource[indexPath.section][indexPath.row];
         if (![obj isKindOfClass:[DWTableViewHelperModel class]]) {
             NSAssert(NO, @"you set to use multiSection but the obj in section %ld row %ld of dataSource is not kind of DWTableViewHelperModel but %@",indexPath.section,indexPath.row,NSStringFromClass([obj class]));
             obj = PlaceHolderCellModelAvoidCrashingGetter();
         }
     } else {
+        if (indexPath.row >= self.dataSource.count) {
+            NSAssert(NO, @"can't fetch model at indexPath(%ld-%ld) for currentDataSource count is %ld",indexPath.section,indexPath.row,self.dataSource.count);
+            return nil;
+        }
         obj = self.dataSource[indexPath.row];
         if (![obj isKindOfClass:[DWTableViewHelperModel class]]) {
             NSAssert(NO, @"you set to not use multiSection but the obj in row %ld of dataSource is not kind of DWTableViewHelperModel but %@",indexPath.row,NSStringFromClass([obj class]));
