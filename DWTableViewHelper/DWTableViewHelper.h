@@ -120,6 +120,9 @@
  增加对单独cell使用非缓存高度的支持
  增加header及footer对自适应高度的支持
  增加modelFromIndexPath对数组越界的容错处理
+ 
+ version 1.1.7.7.1
+ 修改helper行高返回合法值及优先级
  */
 
 #import <UIKit/UIKit.h>
@@ -292,7 +295,7 @@ UIKIT_EXTERN const CGFloat DWTableViewHelperAutomaticDimensionAndCache;
 
 ///helper行高
 /**
- 优先级：映射代理行高 > 数据模型行高 > helper行高 > 默认行高44
+ 优先级：映射代理行高 > 数据模型行高 > 模型指定的自动行高 > helper行高 > helper指定的自动行高 > 默认行高44
  */
 @property (nonatomic ,assign) CGFloat cellRowHeight;
 

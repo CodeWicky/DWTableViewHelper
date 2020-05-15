@@ -428,13 +428,12 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     CGFloat height = DWTableViewHelperAutomaticDimensionAndCache;
     if (DWDelegate && [DWDelegate respondsToSelector:@selector(dw_tableView:heightForRowAtIndexPath:)]) {
         height = [DWDelegate dw_tableView:tableView heightForRowAtIndexPath:indexPath];
+        ///如果外部告诉一个大于零的行高，或者自动计算且不缓存的好高，则使用这个行高
+        if (DWValidHeight(height)) {
+            return height;
+        }
     }
-    
-    ///如果外部告诉一个大于零的行高，或者自动计算且不缓存的好高，则使用这个行高
-    if (DWValidHeight(height)) {
-        return height;
-    }
-    
+
     ///否则从模型中取，如果模型中指定大于零或者自动计算不缓存，直接返回
     DWTableViewHelperModel * model = [self modelFromIndexPath:indexPath];
     if (DWValidHeight(model.cellRowHeight)) {
@@ -443,7 +442,10 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     
     ///如果模型指定使用自动计算，则计算并缓存
     if (model.useAutoRowHeight) {
-        return [self autoCalculateRowHeightWithModel:model];
+        height = [self autoCalculateRowHeightWithModel:model];
+        if (DWValidHeight(height)) {
+            return height;
+        }
     }
     
     ///如果helper指定大于零或者自动计算不缓存，也返回
@@ -451,9 +453,12 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         return self.cellRowHeight;
     }
     
-    ///自动计算并缓存
-    if (self.useAutoRowHeight) {//返回放回自动计算的行高
-        return [self autoCalculateRowHeightWithModel:model];
+    ///自动计算并缓存（如果没有因为model指定的自动计算才重新计算）
+    if (!model.useAutoRowHeight && self.useAutoRowHeight) {//返回放回自动计算的行高
+        height = [self autoCalculateRowHeightWithModel:model];
+        if (DWValidHeight(height)) {
+            return height;
+        }
     }
     
     ///否则返回tabV的行高设置
