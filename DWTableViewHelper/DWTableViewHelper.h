@@ -123,6 +123,11 @@
  
  version 1.1.7.7.1
  修改helper行高返回合法值及优先级
+ 
+ version 1.1.7.8
+ 增加兼容模式，modelFromIndexPath兼容更多异常情况
+ 行高计算修改部分问题
+ createCell增加兼容模式
  */
 
 #import <UIKit/UIKit.h>
@@ -485,6 +490,9 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 
 ///配合DWTableViewHelperLoadDataIgnoreHighSpeedMode使用，标志cell是否被绘制过
 @property (nonatomic ,assign ,readonly) BOOL cellHasBeenDrawn;
+
+///仅为了避免异常崩溃而生成的占位model
+@property (nonatomic ,assign ,readonly) BOOL placeHolderAvoidCrashing;
 
 /**
  当前正在展示的cell

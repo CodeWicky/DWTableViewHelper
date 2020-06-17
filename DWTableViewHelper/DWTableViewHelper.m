@@ -16,6 +16,15 @@
 
 static UIImage * ImageNull = nil;
 const CGFloat DWTableViewHelperAutomaticDimensionAndCache = -91.0702;
+
+@interface DWTableviewHelperPlaceHolderCell : DWTableViewHelperCell
+
+@end
+
+@implementation DWTableviewHelperPlaceHolderCell
+
+@end
+
 @interface DWTableViewHelper ()<UITableViewDelegate,UITableViewDataSource,UITableViewDataSourcePrefetching>
 {
     BOOL hasPlaceHolderView;
@@ -59,6 +68,8 @@ const CGFloat DWTableViewHelperAutomaticDimensionAndCache = -91.0702;
 
 @property (nonatomic ,strong) NSIndexPath * currentDisplayIndexPath;
 
+@property (nonatomic ,assign) BOOL placeHolderAvoidCrashing;
+
 @end
 
 @implementation DWTableViewHelper
@@ -90,7 +101,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     if (self.multiSection) {
         if (indexPath.section >= self.dataSource.count) {
             NSAssert(NO, @"can't fetch model at indexPath(%ld-%ld) for currentDataSource count is %ld",indexPath.section,indexPath.row,self.dataSource.count);
-            return nil;
+            return PlaceHolderCellModelAvoidCrashingGetter();
         }
         obj = self.dataSource[indexPath.section];
         if (![obj isKindOfClass:[NSArray class]]) {
@@ -98,11 +109,11 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
             if ([obj isKindOfClass:[DWTableViewHelperModel class]]) {
                 return obj;
             }
-            return nil;
+            return PlaceHolderCellModelAvoidCrashingGetter();
         }
         if (indexPath.row >= [obj count]) {
             NSAssert(NO, @"can't fetch model at indexPath(%ld-%ld) for currentDataSource subArr count is %ld",indexPath.section,indexPath.row,[obj count]);
-            return nil;
+            return PlaceHolderCellModelAvoidCrashingGetter();
         }
         obj = self.dataSource[indexPath.section][indexPath.row];
         if (![obj isKindOfClass:[DWTableViewHelperModel class]]) {
@@ -112,7 +123,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     } else {
         if (indexPath.row >= self.dataSource.count) {
             NSAssert(NO, @"can't fetch model at indexPath(%ld-%ld) for currentDataSource count is %ld",indexPath.section,indexPath.row,self.dataSource.count);
-            return nil;
+            return PlaceHolderCellModelAvoidCrashingGetter();
         }
         obj = self.dataSource[indexPath.row];
         if (![obj isKindOfClass:[DWTableViewHelperModel class]]) {
@@ -1120,6 +1131,11 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
 
 ///根据cell计算cell的高度（代码源自FDTemplateLayoutCell）
 -(CGFloat)calculateCellHeightWithCell:(UITableViewCell *)cell {
+    
+    if (!cell || [cell isKindOfClass:[DWTableviewHelperPlaceHolderCell class]]) {
+        return 0.01;
+    }
+    
     CGFloat width = self.tabV.bounds.size.width;
     
     if (width <= 0) {
@@ -1129,7 +1145,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     CGRect cellBounds = cell.bounds;
     cellBounds.size.width = width;
     cell.bounds = cellBounds;
-    CGFloat accessoryViewWidth;
+    CGFloat accessoryViewWidth = 0;
     
     for (UIView *view in self.tabV.subviews) {
         if ([view isKindOfClass:NSClassFromString(@"UITableViewIndex")]) {
@@ -1140,7 +1156,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     
     //根据辅助视图校正width
     if (cell.accessoryView) {
-        accessoryViewWidth = (cell.accessoryView.bounds.size.width + 16);
+        accessoryViewWidth += (cell.accessoryView.bounds.size.width + 16);
     } else {
         static const CGFloat accessoryWidth[] = {
             [UITableViewCellAccessoryNone] = 0,
@@ -1149,7 +1165,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
             [UITableViewCellAccessoryCheckmark] = 40,
             [UITableViewCellAccessoryDetailButton] = 48
         };
-        accessoryViewWidth = accessoryWidth[cell.accessoryType];
+        accessoryViewWidth += accessoryWidth[cell.accessoryType];
     }
     
     if ([UIScreen mainScreen].scale >= 3 && [UIScreen mainScreen].bounds.size.width >= 414) {
@@ -1216,7 +1232,8 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         aCellClassStr = self.cellClassStr;
     } else {
         NSAssert(NO, @"cellClassStr and cellID must be set together at least one time in DWTableViewHelperModel or DWTableViewHelper");
-        return nil;
+        cellIDTemp =  PlaceHolderCellModelAvoidCrashingGetter().cellID;
+        aCellClassStr = PlaceHolderCellModelAvoidCrashingGetter().cellClassStr;
     }
     __kindof DWTableViewHelperCell * cell = nil;
     if (useReuse) {
@@ -1234,7 +1251,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     Class cellClass = NSClassFromString(aCellClassStr);
     if (!cellClass) {
         NSAssert(NO, @"cannot load a cellClass from %@,check the cellClassStr you have set",aCellClassStr);
-        return nil;
+        cellClass = NSClassFromString(PlaceHolderCellModelAvoidCrashingGetter().cellClassStr);
     }
     
     if (model.loadCellFromNib) {
@@ -1616,8 +1633,9 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
     if (PlaceHolderCellModelAvoidCrashing == nil) {
         PlaceHolderCellModelAvoidCrashing = [DWTableViewHelperModel new];
         PlaceHolderCellModelAvoidCrashing.cellRowHeight = 0;
-        PlaceHolderCellModelAvoidCrashing.cellClassStr = NSStringFromClass([DWTableViewHelperCell class]);
+        PlaceHolderCellModelAvoidCrashing.cellClassStr = NSStringFromClass([DWTableviewHelperPlaceHolderCell class]);
         PlaceHolderCellModelAvoidCrashing.cellID = @"PlaceHolderCellAvoidCrashing";
+        PlaceHolderCellModelAvoidCrashing.placeHolderAvoidCrashing = YES;
     }
     return PlaceHolderCellModelAvoidCrashing;
 }
