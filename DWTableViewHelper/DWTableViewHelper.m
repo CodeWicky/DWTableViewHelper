@@ -124,11 +124,6 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
         if (indexPath.row >= self.dataSource.count) {
             NSAssert(NO, @"can't fetch model at indexPath(%ld-%ld) for currentDataSource count is %ld",indexPath.section,indexPath.row,self.dataSource.count);
             return PlaceHolderCellModelAvoidCrashingGetter();
-            
-            
-            
-            
-            
         }
         obj = self.dataSource[indexPath.row];
         if (![obj isKindOfClass:[DWTableViewHelperModel class]]) {
