@@ -21,7 +21,7 @@ const CGFloat DWTableViewHelperAutomaticDimensionAndCache = -91.0702;
 
 @end
 
-@implementation DWTableviewHelperPlaceHolderCell
+@interface DWTableviewHelperPlaceHolderModel : DWTableViewHelperModel
 
 @end
 
@@ -1631,11 +1631,7 @@ static inline NSMutableArray * filterArray(NSArray * array,BOOL(^block)(id obj, 
 
 static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter () {
     if (PlaceHolderCellModelAvoidCrashing == nil) {
-        PlaceHolderCellModelAvoidCrashing = [DWTableViewHelperModel new];
-        PlaceHolderCellModelAvoidCrashing.cellRowHeight = 0;
-        PlaceHolderCellModelAvoidCrashing.cellClassStr = NSStringFromClass([DWTableviewHelperPlaceHolderCell class]);
-        PlaceHolderCellModelAvoidCrashing.cellID = @"PlaceHolderCellAvoidCrashing";
-        PlaceHolderCellModelAvoidCrashing.placeHolderAvoidCrashing = YES;
+        PlaceHolderCellModelAvoidCrashing = [DWTableviewHelperPlaceHolderModel new];
     }
     return PlaceHolderCellModelAvoidCrashing;
 }
@@ -1901,3 +1897,25 @@ static UIImage * defaultUnselectIcon = nil;
 
 @end
 
+@implementation DWTableviewHelperPlaceHolderModel
+
+#pragma mark --- override ---
+-(instancetype)init {
+    if (self = [super init]) {
+        self.cellRowHeight = 0;
+        self.cellClassStr = NSStringFromClass([DWTableviewHelperPlaceHolderCell class]);
+        self.cellID = @"PlaceHolderCellAvoidCrashing";
+        self.placeHolderAvoidCrashing = YES;
+    }
+    return self;
+}
+
+-(void)setValue:(id)value forUndefinedKey:(NSString *)key {
+    
+}
+
+@end
+
+@implementation DWTableviewHelperPlaceHolderCell
+
+@end

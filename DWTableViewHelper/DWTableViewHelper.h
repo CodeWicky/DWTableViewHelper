@@ -128,6 +128,10 @@
  增加兼容模式，modelFromIndexPath兼容更多异常情况
  行高计算修改部分问题
  createCell增加兼容模式
+ 
+ version 1.1.7.9
+ placeHolderModel增加容错处理
+ 
  */
 
 #import <UIKit/UIKit.h>
