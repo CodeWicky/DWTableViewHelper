@@ -132,6 +132,11 @@
  version 1.1.7.9
  placeHolderModel增加容错处理
  
+ version 1.1.7.10
+ placeHolderModel及cell均做消息转发优化，防止Unrecognized selector crash崩溃
+ 增加helper专属串行队列
+
+ 
  */
 
 #import <UIKit/UIKit.h>
@@ -471,6 +476,14 @@ typedef NS_ENUM(NSUInteger, DWTableViewHelperLoadDataMode) {///数据加载优�
 
 ///设置当前所有模型均为需要重新自动计算高度
 -(void)setAllNeedsReAutoCalculateRowHeight;
+
+typedef void(^DWTableViewHelperQueueHandler)(DWTableViewHelper * helper);
+/**
+ 在helper内部的串行队列中执行任务
+
+ @param handler 执行任务的回调
+ */
+-(void)performInHelperQueue:(DWTableViewHelperQueueHandler)handler;
 
 @end
 

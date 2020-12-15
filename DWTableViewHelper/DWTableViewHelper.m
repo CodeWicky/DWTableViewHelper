@@ -9,6 +9,7 @@
 #import "DWTableViewHelper.h"
 #import <DWKit/DWOperationCancelFlag.h>
 #import <DWKit/DWTransaction.h>
+#import <DWKit/DWForwardingTarget.h>
 
 #define SeperatorColor [UIColor lightGrayColor]
 #define DWDelegate self.helperDelegate
@@ -57,6 +58,8 @@ const CGFloat DWTableViewHelperAutomaticDimensionAndCache = -91.0702;
 @property (nonatomic ,strong) UIView * autoZoomHeader;
 
 @property (nonatomic ,assign) CGRect autoZoomOriFrm;
+
+@property (nonatomic ,strong) dispatch_queue_t serial_Q;
 
 @end
 
@@ -374,6 +377,17 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     } else if ([anObj isKindOfClass:[DWTableViewHelperModel class]]) {
         [((__kindof DWTableViewHelperModel *)anObj) setNeedsReAutoCalculateRowHeight];
     }
+}
+
+-(void)performInHelperQueue:(DWTableViewHelperQueueHandler)handler {
+    if (!handler) {
+        return;
+    }
+    dispatch_sync(self.serial_Q, ^{
+        if (handler) {
+            handler(self);
+        }
+    });
 }
 
 #pragma mark --- delegate Map Start ---
@@ -1570,6 +1584,13 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
+-(dispatch_queue_t)serial_Q {
+    if (!_serial_Q) {
+        _serial_Q = dispatch_queue_create("com.DWTableViewHelper.serialQueue", NULL);
+    }
+    return _serial_Q;
+}
+
 #pragma mark --- override ---
 -(void)dealloc {
     if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
@@ -1914,8 +1935,16 @@ static UIImage * defaultUnselectIcon = nil;
     
 }
 
+-(id)forwardingTargetForSelector:(SEL)aSelector {
+    return [DWForwardingTarget forwardingTargetForSelector:aSelector];
+}
+
 @end
 
 @implementation DWTableviewHelperPlaceHolderCell
+
+-(id)forwardingTargetForSelector:(SEL)aSelector {
+    return [DWForwardingTarget forwardingTargetForSelector:aSelector];
+}
 
 @end

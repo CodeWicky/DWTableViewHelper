@@ -12,4 +12,6 @@
 
 @property (nonatomic ,copy) NSString * title;
 
+-(void)say;
+
 @end

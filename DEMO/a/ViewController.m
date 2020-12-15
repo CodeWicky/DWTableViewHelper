@@ -12,7 +12,7 @@
 #import "ACell.h"
 #import "BCell.h"
 #import <Masonry.h>
-
+#import <DWKit/DWForwardingTarget.h>
 
 @interface ViewController ()<DWTableViewHelperDelegate,UITableViewDataSource,UITableViewDelegate>
 
@@ -60,10 +60,6 @@
     newM.cellClassStr = @"CCell";
     newM.cellID = @"IDIDI";
     [self.dataArr addObject:newM];
-    
-    
-    NSLog(@"%f",UITableViewAutomaticDimension);
-    
 }
 
 -(id)dw_tableView:(UITableView *)tableView showAnimationWithCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -111,6 +107,11 @@
 //        self.helper.loadDataMode = DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode;
 //        self.helper.ignoreCount = 1;
 //        [_tabV registerClass:[ACell class] forCellReuseIdentifier:@"cellID"];
+        
+        [DWForwardingTarget setDebugAssertEnable:NO];
+        
+        BModel * tmp = [self.helper modelFromIndexPath:[NSIndexPath indexPathForRow:1000 inSection:100]];
+        [tmp say];
     }
     return _tabV;
 }
