@@ -92,49 +92,30 @@
  添加头视图自动放大
  cell添加计算行高标志位
  
- version 1.1.7.1
+ version 1.1.8
  model添加重新自动计算高度接口
- helper添加设置所有model均需重新计算接口
- 
- version 1.1.7.2
- 当无指定行高时，添加使用tableView.rowHeight逻辑
- 
- version 1.1.7.3
- 添加外部自行实现cellForRow代理后，取重用cell的方法及处理LoadDataMode的方法
- 
- version 1.1.7.4
- 移除LoadDataMode方法，内部自动调用，开发者无需处理
-
- version 1.1.7.5
- 修复reload前判断是否存在数据引起的处理错误
- 
- version 1.1.7.6
+ helper添加设置所有model均需重新计算接口（version 1.1.7.1）
+ 当无指定行高时，添加使用tableView.rowHeight逻辑（version 1.1.7.2）
+ 添加外部自行实现cellForRow代理后，取重用cell的方法及处理LoadDataMode的方法（version 1.1.7.3）
+ 移除LoadDataMode方法，内部自动调用，开发者无需处理（version 1.1.7.4）
+ 修复reload前判断是否存在数据引起的处理错误（version 1.1.7.5）
  跟随FDTemplateLayoutCell补充自动计算行高的核心算法（本次发现在计算行高时，若遇到行高计算不准确时（确保约束正确的情况下通常是因为label为多行Label且Label的宽度不定，可能横向约束存在MoreThanOrEqualTo或者LessThanOrEqualTo此类约束导致无法准去自动计算行高），可以通过设置Label的label.preferredMaxLayoutWidth来尝试解决问题，截至目前我亲测好用）
- 修改DWTableViewHelperModel中cellID及cellClassStr的默认值行为。当设置cellClassStr时自动更改cellID默认值，给与不设cellID而程序正常运行更大的灵活性
- 
-
- version 1.1.7.7
+ 修改DWTableViewHelperModel中cellID及cellClassStr的默认值行为。当设置cellClassStr时自动更改cellID默认值，给与不设cellID而程序正常运行更大的灵活性（version 1.1.7.6）
  修改部分代理当外部返回不合法值时，按照内部既定逻辑处理。为外部单独定制个别cell而其他cell使用默认行为提供可能性
  增加对单独cell的自动行高控制
  增加model对当前展示cell及indexPath的引用
  增加对单独cell使用非缓存高度的支持
  增加header及footer对自适应高度的支持
- 增加modelFromIndexPath对数组越界的容错处理
- 
- version 1.1.7.7.1
- 修改helper行高返回合法值及优先级
- 
- version 1.1.7.8
+ 增加modelFromIndexPath对数组越界的容错处理（version 1.1.7.7）
+ 修改helper行高返回合法值及优先级（version 1.1.7.7.1）
  增加兼容模式，modelFromIndexPath兼容更多异常情况
  行高计算修改部分问题
- createCell增加兼容模式
- 
- version 1.1.7.9
- placeHolderModel增加容错处理
- 
- version 1.1.7.10
+ createCell增加兼容模式（version 1.1.7.8）
+ placeHolderModel增加容错处理（version 1.1.7.9）
  placeHolderModel及cell均做消息转发优化，防止Unrecognized selector crash崩溃
- 增加helper专属串行队列
+ 增加helper专属串行队列（version 1.1.7.10）
+ 修改defaultCellClass逻辑，并且增加防崩溃处理。
+ 
 
  
  */
