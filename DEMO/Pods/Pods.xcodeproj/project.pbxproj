@@ -8,18 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		0096B5A8BA8E4F2BFD8839D0FE7CD696 /* MASLayoutConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 671BBE605E181A56E4DC0609AF2B70BB /* MASLayoutConstraint.m */; };
-		06634DD2195D402D69AC87D5C4F099DE /* DWTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FD52E93B4F5BC6F4E82A5725BCE9157 /* DWTransaction.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		020C60329FF9E8C00249F0E8AE9BEAB3 /* DWOperationCancelFlag.h in Headers */ = {isa = PBXBuildFile; fileRef = 51610A860A795FB8E1DD8FC9AB0E73E1 /* DWOperationCancelFlag.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		115ACCE253A886181B55773DDC70D6ED /* MASViewConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = 00A3526BAAC0B87573F31771BC8B47EA /* MASViewConstraint.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		14103D764FF942E32A25F7CFBFEE06A1 /* DWAnimation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4445B879F1E08FA15CB922ED422DB904 /* DWAnimation-dummy.m */; };
 		1B19A4A9BE80A7433A617D0377700773 /* CALayer+DWAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = A9746DC50F320595A5669308DCA93ACE /* CALayer+DWAnimation.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		1E5D56FF58658F9F45723CA2940489EE /* MASConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8ECC98AE86ABA04E3C0DB946BDBFA5A9 /* MASConstraintMaker.m */; };
 		2468C589B10921A1975A7010717B0BC5 /* DWAnimationAbstraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 16C9EE954D128BAEC892C06145A660A3 /* DWAnimationAbstraction.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		31863F12100E478DF070F3DEA531917E /* DWForwardingTarget.h in Headers */ = {isa = PBXBuildFile; fileRef = 414C0276F981D05E713AEFB06DA0E29F /* DWForwardingTarget.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3B6DE512DA46EA430385C0DCF24CE566 /* DWAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = C3B7FBAFBB64BFE87D425CBA52B99F6F /* DWAnimation.m */; };
 		3CDD58EA36B951A7D620072D86496121 /* DWAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = 1F7FCA8F4256580FC0FDD7496A1369EE /* DWAnimation.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		42947699890A199B08A896144A878D80 /* MASViewAttribute.h in Headers */ = {isa = PBXBuildFile; fileRef = B7E6831B88E67536213CBDB2C6EE1B56 /* MASViewAttribute.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		46692A2E77157B00827182C8DC686F72 /* View+MASAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CBF6BBB361106DD84AF7E8A56CE8C798 /* View+MASAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		47FF614D8FC86D6F8B702217337E4C55 /* DWTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 3EDE494578EBB1701DFB9319A9381CA5 /* DWTransaction.m */; };
 		49C54F2CA545F05DE55CFE2AE5F9ED61 /* DWTableViewHelper-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 87399444351443B3B402C26D1A421B40 /* DWTableViewHelper-dummy.m */; };
 		4CE091F886EC6324673EFE0AEBBEA0FE /* MASConstraint+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = AE6918F2E00F52F00A59D55FA9927B9E /* MASConstraint+Private.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4F1E0682CBAA4E1EE6C6463F45412513 /* DWForwardingTarget.m in Sources */ = {isa = PBXBuildFile; fileRef = A5CC751060589B8C7B0BA45559F7FA9D /* DWForwardingTarget.m */; };
 		572D05B146EAA3EF5530A0D0E34904A0 /* MASViewConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C46E9C41A2E0E5A85018CF740D557D /* MASViewConstraint.m */; };
 		578E7296E01C1C4B7C9B402D398B5254 /* DWTableViewHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 79FE3AFB7B64DDDD40C340A9452B8807 /* DWTableViewHelper.m */; };
 		59EA578EED8BAC126FDC60C32AE11521 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D58B78D2066EA0423BE4733D404A118 /* NSLayoutConstraint+MASDebugAdditions.m */; };
@@ -29,7 +32,6 @@
 		65E88072A2BDC576BFC85E67EF9FBBC6 /* MASUtilities.h in Headers */ = {isa = PBXBuildFile; fileRef = 65C294B4BB34950DF817FE4A22312939 /* MASUtilities.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		71CBB27C44FEFD8037DAC7915FE66935 /* UIView+DWAnimation.h in Headers */ = {isa = PBXBuildFile; fileRef = C320953AC90728180DB59530704272DF /* UIView+DWAnimation.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		74444FFC3EB0C70B5EC71542BFD6E353 /* DWAnimationMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 245F124BAEEEE10ECE3D3DBD1782DF11 /* DWAnimationMaker.m */; };
-		76303EF8ED4BAAD2938263AC62523CFB /* DWOperationCancelFlag.h in Headers */ = {isa = PBXBuildFile; fileRef = 6E53E7BD072E0BC41F71244CC249A72D /* DWOperationCancelFlag.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		780119F375853DBE6593DF5CAF531E7C /* DWAnimationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE376D115E7238311591099C738DACC /* DWAnimationManager.m */; };
 		7CF2AC7A3B3ED03B30C1E4ED662B0551 /* MASLayoutConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = E88B96EF263693972EFBEFC54F6D2B6F /* MASLayoutConstraint.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		81F811A56B6724F7E8E2D25364E595E3 /* NSArray+MASShorthandAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F51564AB8EDF921D38A79C3B665837F /* NSArray+MASShorthandAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -43,21 +45,21 @@
 		A5888B8FC49B4FF9322FD0B134F77CE2 /* DWAnimationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B4EB100DEF07560DA68317FE06EB8E1 /* DWAnimationManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		A893FFB0F9137E298D6752729850D1D6 /* MASViewAttribute.m in Sources */ = {isa = PBXBuildFile; fileRef = D82340EF50CFB67A4AA70D71F613B1E1 /* MASViewAttribute.m */; };
 		B20A0E5D8F9BCED1A82793C4BE9E7258 /* Masonry.h in Headers */ = {isa = PBXBuildFile; fileRef = D9D69305C0B6295669A1A4F7FE5CBAEF /* Masonry.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B5D1A959F59741C4C264F9EF88A8BBAB /* DWTransaction.h in Headers */ = {isa = PBXBuildFile; fileRef = 6C31D6457279E345077EABB4D5FDA919 /* DWTransaction.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		B946AFB1A725D85E07F645A7EF086383 /* NSArray+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 86BAF354601D17C46820E46D08B9DA4E /* NSArray+MASAdditions.m */; };
 		C05FC6699632FE712174ED875A605410 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0318EF67ED983C3FB49F9E8B0AADF400 /* ViewController+MASAdditions.m */; };
-		C080902E86C14F28F65A95F2EBBCE915 /* DWOperationCancelFlag.m in Sources */ = {isa = PBXBuildFile; fileRef = 94045F7194F613B1494818ADB9B9D9F8 /* DWOperationCancelFlag.m */; };
 		C74D2E856ADC8139CD00DBD184061B23 /* NSLayoutConstraint+MASDebugAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E43663ABC2779DB13DBC9AE29DB8CA4B /* NSLayoutConstraint+MASDebugAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		C7920681F0164686C56327ED3C6AAC58 /* View+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F898159E5068F777CEB4434F83FEB857 /* View+MASAdditions.m */; };
 		CF7280D2042100C9D931094223A0FBF0 /* DWAnimationGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 763488D6B2E2DFD1BD7AAE95FD9386AC /* DWAnimationGroup.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		D0A57E0AF1F1D2D1B8A932E7820D81CE /* DWAnimationConstant.h in Headers */ = {isa = PBXBuildFile; fileRef = 03257C1B86E049A11F2AC7C1FE0DFCCB /* DWAnimationConstant.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		D72EE0E749232B2C899702FC1C9402BB /* Masonry-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AC792407D4BA993DFE073E38D3B6CF0A /* Masonry-dummy.m */; };
-		D808A30F10E854CB2DF4C2F434AA3C9D /* DWTransaction.m in Sources */ = {isa = PBXBuildFile; fileRef = 6719F9F9916C9F2D8549031862031E89 /* DWTransaction.m */; };
 		D976264B796B3C8A9E970B62C9BB9933 /* Pods-a-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 47221B579FD532E06973AC32704FB9EE /* Pods-a-dummy.m */; };
+		E44D506EADA75BAEFDC0DB46FF6B6932 /* DWOperationCancelFlag.m in Sources */ = {isa = PBXBuildFile; fileRef = F5FE1001056AE475005E7BD5CCD5FB8D /* DWOperationCancelFlag.m */; };
 		E76935CFF4AF327F8D9A7C1935F7D900 /* ViewController+MASAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 248E1FB2CF862D2B44B42E6EA9BD0B87 /* ViewController+MASAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EB663E3E1EB4BB670DC29B77DB330135 /* MASConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = AC66096007AD303AAA87F335C9E7D112 /* MASConstraint.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		EE936A6838005A5ED1BC5F74BE37B7BD /* MASConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2921C3AA871C25316FB7745AB24F4 /* MASConstraint.m */; };
 		F1B75048874B8773E5568E6D3ACA12E4 /* NSArray+MASAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 6831F3B9E643CF8B40F0222324EE1906 /* NSArray+MASAdditions.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		F26D6CF13801953BA6D64326D7B89223 /* DWKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22A41630028FC38B214517638DD11FD6 /* DWKit-dummy.m */; };
+		F296BEF509C5C2B80AB2F1AA5BB27E0C /* DWKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 904F23260F467552D89AB4CDCEA897E4 /* DWKit-dummy.m */; };
 		FFD14B9E781587612431350D3CD13161 /* DWTableViewHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B51D0CE9ABE52AD2B22EEE6E3E029EF /* DWTableViewHelper.h */; settings = {ATTRIBUTES = (Project, ); }; };
 /* End PBXBuildFile section */
 
@@ -112,28 +114,28 @@
 		1B51D0CE9ABE52AD2B22EEE6E3E029EF /* DWTableViewHelper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWTableViewHelper.h; path = DWTableViewHelper/DWTableViewHelper.h; sourceTree = "<group>"; };
 		1F7FCA8F4256580FC0FDD7496A1369EE /* DWAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWAnimation.h; path = DWAnimation/DWAnimation.h; sourceTree = "<group>"; };
 		1FFED36A657123030ABB700256D73F15 /* libMasonry.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libMasonry.a; path = libMasonry.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		22A41630028FC38B214517638DD11FD6 /* DWKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "DWKit-dummy.m"; sourceTree = "<group>"; };
+		2071A8FDC5CFB299D36478EE40DEF5AD /* DWKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DWKit-prefix.pch"; sourceTree = "<group>"; };
 		245F124BAEEEE10ECE3D3DBD1782DF11 /* DWAnimationMaker.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWAnimationMaker.m; path = DWAnimation/DWAnimationMaker.m; sourceTree = "<group>"; };
 		248E1FB2CF862D2B44B42E6EA9BD0B87 /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ViewController+MASAdditions.h"; path = "Masonry/ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		3030CD53D37BC7D8E2999B15AE827744 /* DWAnimationHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWAnimationHeader.h; path = DWAnimation/DWAnimationHeader.h; sourceTree = "<group>"; };
 		3C5E63009C315E240B1D9CB5C651D85E /* DWTableViewHelper.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DWTableViewHelper.xcconfig; sourceTree = "<group>"; };
-		3F84108CF22197034494553F69EDC0C3 /* DWKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DWKit-prefix.pch"; sourceTree = "<group>"; };
+		3EDE494578EBB1701DFB9319A9381CA5 /* DWTransaction.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWTransaction.m; path = DWKit/DWUtils/DWTransaction/DWTransaction.m; sourceTree = "<group>"; };
+		414C0276F981D05E713AEFB06DA0E29F /* DWForwardingTarget.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWForwardingTarget.h; path = DWKit/DWUtils/DWForwardingTarget/DWForwardingTarget.h; sourceTree = "<group>"; };
 		4445B879F1E08FA15CB922ED422DB904 /* DWAnimation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "DWAnimation-dummy.m"; sourceTree = "<group>"; };
 		47221B579FD532E06973AC32704FB9EE /* Pods-a-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-a-dummy.m"; sourceTree = "<group>"; };
 		4ED2921C3AA871C25316FB7745AB24F4 /* MASConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASConstraint.m; path = Masonry/MASConstraint.m; sourceTree = "<group>"; };
 		50A63A6BB8D879761EE488770A579CD4 /* CALayer+DWAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "CALayer+DWAnimation.m"; path = "DWAnimation/CALayer+DWAnimation.m"; sourceTree = "<group>"; };
+		51610A860A795FB8E1DD8FC9AB0E73E1 /* DWOperationCancelFlag.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWOperationCancelFlag.h; path = DWKit/DWUtils/DWOperationCancelFlag/DWOperationCancelFlag.h; sourceTree = "<group>"; };
 		557CD6160884FEFB4D731786CE04D86A /* Pods-a.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-a.release.xcconfig"; sourceTree = "<group>"; };
 		57068A0D8E766A0B7387EE92630EEF16 /* UIView+DWAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "UIView+DWAnimation.m"; path = "DWAnimation/UIView+DWAnimation.m"; sourceTree = "<group>"; };
 		57ADB788C9A5A741A5DE3C69F2039A6A /* Pods-a-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-a-resources.sh"; sourceTree = "<group>"; };
 		5EC296E49AC1F8C0FCAA2E4F4277EC2A /* Pods-a.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-a.debug.xcconfig"; sourceTree = "<group>"; };
 		612E8F009AC48EFB2F5A942DF74E37B2 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASCompositeConstraint.h; path = Masonry/MASCompositeConstraint.h; sourceTree = "<group>"; };
 		65C294B4BB34950DF817FE4A22312939 /* MASUtilities.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASUtilities.h; path = Masonry/MASUtilities.h; sourceTree = "<group>"; };
-		6719F9F9916C9F2D8549031862031E89 /* DWTransaction.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWTransaction.m; path = DWKit/DWUtils/DWTransaction/DWTransaction.m; sourceTree = "<group>"; };
 		671BBE605E181A56E4DC0609AF2B70BB /* MASLayoutConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASLayoutConstraint.m; path = Masonry/MASLayoutConstraint.m; sourceTree = "<group>"; };
 		6831F3B9E643CF8B40F0222324EE1906 /* NSArray+MASAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+MASAdditions.h"; path = "Masonry/NSArray+MASAdditions.h"; sourceTree = "<group>"; };
-		6E53E7BD072E0BC41F71244CC249A72D /* DWOperationCancelFlag.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWOperationCancelFlag.h; path = DWKit/DWUtils/DWOperationCancelFlag/DWOperationCancelFlag.h; sourceTree = "<group>"; };
+		6C31D6457279E345077EABB4D5FDA919 /* DWTransaction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWTransaction.h; path = DWKit/DWUtils/DWTransaction/DWTransaction.h; sourceTree = "<group>"; };
 		6F51564AB8EDF921D38A79C3B665837F /* NSArray+MASShorthandAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSArray+MASShorthandAdditions.h"; path = "Masonry/NSArray+MASShorthandAdditions.h"; sourceTree = "<group>"; };
-		6FD52E93B4F5BC6F4E82A5725BCE9157 /* DWTransaction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWTransaction.h; path = DWKit/DWUtils/DWTransaction/DWTransaction.h; sourceTree = "<group>"; };
 		763488D6B2E2DFD1BD7AAE95FD9386AC /* DWAnimationGroup.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWAnimationGroup.h; path = DWAnimation/DWAnimationGroup.h; sourceTree = "<group>"; };
 		79FE3AFB7B64DDDD40C340A9452B8807 /* DWTableViewHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWTableViewHelper.m; path = DWTableViewHelper/DWTableViewHelper.m; sourceTree = "<group>"; };
 		7B4EB100DEF07560DA68317FE06EB8E1 /* DWAnimationManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = DWAnimationManager.h; path = DWAnimation/DWAnimationManager.h; sourceTree = "<group>"; };
@@ -144,21 +146,21 @@
 		8D58B78D2066EA0423BE4733D404A118 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSLayoutConstraint+MASDebugAdditions.m"; path = "Masonry/NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
 		8ECC98AE86ABA04E3C0DB946BDBFA5A9 /* MASConstraintMaker.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASConstraintMaker.m; path = Masonry/MASConstraintMaker.m; sourceTree = "<group>"; };
 		8FBB9B79E8AD6DB0C4F3A6990372ADE5 /* DWTableViewHelperResource.bundle */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "wrapper.plug-in"; name = DWTableViewHelperResource.bundle; path = DWTableViewHelper/DWTableViewHelperResource.bundle; sourceTree = "<group>"; };
+		904F23260F467552D89AB4CDCEA897E4 /* DWKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "DWKit-dummy.m"; sourceTree = "<group>"; };
 		92A65E8E3DCE397D07870B6CF35C3974 /* Pods-a-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-a-acknowledgements.plist"; sourceTree = "<group>"; };
 		92C46E9C41A2E0E5A85018CF740D557D /* MASViewConstraint.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MASViewConstraint.m; path = Masonry/MASViewConstraint.m; sourceTree = "<group>"; };
-		94045F7194F613B1494818ADB9B9D9F8 /* DWOperationCancelFlag.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWOperationCancelFlag.m; path = DWKit/DWUtils/DWOperationCancelFlag/DWOperationCancelFlag.m; sourceTree = "<group>"; };
 		954161648A1C7D8B8B9B789803E14923 /* DWTableViewHelper-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "DWTableViewHelper-prefix.pch"; sourceTree = "<group>"; };
 		9D09CCDBF02BB00DD0EC8A7ACCD041F0 /* libDWTableViewHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libDWTableViewHelper.a; path = libDWTableViewHelper.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9EE376D115E7238311591099C738DACC /* DWAnimationManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWAnimationManager.m; path = DWAnimation/DWAnimationManager.m; sourceTree = "<group>"; };
 		A004B3D3774C2A802FCE52F0B28E9EED /* DWAnimationAbstraction.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWAnimationAbstraction.m; path = DWAnimation/DWAnimationAbstraction.m; sourceTree = "<group>"; };
+		A5CC751060589B8C7B0BA45559F7FA9D /* DWForwardingTarget.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWForwardingTarget.m; path = DWKit/DWUtils/DWForwardingTarget/DWForwardingTarget.m; sourceTree = "<group>"; };
 		A9746DC50F320595A5669308DCA93ACE /* CALayer+DWAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "CALayer+DWAnimation.h"; path = "DWAnimation/CALayer+DWAnimation.h"; sourceTree = "<group>"; };
 		AC66096007AD303AAA87F335C9E7D112 /* MASConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASConstraint.h; path = Masonry/MASConstraint.h; sourceTree = "<group>"; };
 		AC792407D4BA993DFE073E38D3B6CF0A /* Masonry-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Masonry-dummy.m"; sourceTree = "<group>"; };
 		AE6918F2E00F52F00A59D55FA9927B9E /* MASConstraint+Private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "MASConstraint+Private.h"; path = "Masonry/MASConstraint+Private.h"; sourceTree = "<group>"; };
 		B7E6831B88E67536213CBDB2C6EE1B56 /* MASViewAttribute.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASViewAttribute.h; path = Masonry/MASViewAttribute.h; sourceTree = "<group>"; };
 		BF5855556CD0F1E16A0047CAF7EF7FBD /* DWAnimation.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DWAnimation.xcconfig; sourceTree = "<group>"; };
-		BF86BE3BAD07918C4B337B320694294A /* DWKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DWKit.xcconfig; sourceTree = "<group>"; };
 		C320953AC90728180DB59530704272DF /* UIView+DWAnimation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "UIView+DWAnimation.h"; path = "DWAnimation/UIView+DWAnimation.h"; sourceTree = "<group>"; };
 		C3B7FBAFBB64BFE87D425CBA52B99F6F /* DWAnimation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWAnimation.m; path = DWAnimation/DWAnimation.m; sourceTree = "<group>"; };
 		C42F92CF5F310B4B6DF05D4CEB6CBA59 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
@@ -172,6 +174,8 @@
 		E88B96EF263693972EFBEFC54F6D2B6F /* MASLayoutConstraint.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASLayoutConstraint.h; path = Masonry/MASLayoutConstraint.h; sourceTree = "<group>"; };
 		EB64095ED89DA2F930C02CF3FD5937A2 /* DWAnimationGroup.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWAnimationGroup.m; path = DWAnimation/DWAnimationGroup.m; sourceTree = "<group>"; };
 		EF60754B287759CBA9901A6B09B083C8 /* MASConstraintMaker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MASConstraintMaker.h; path = Masonry/MASConstraintMaker.h; sourceTree = "<group>"; };
+		F12D25BF081CEB93F764B0D3DC198B15 /* DWKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = DWKit.xcconfig; sourceTree = "<group>"; };
+		F5FE1001056AE475005E7BD5CCD5FB8D /* DWOperationCancelFlag.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = DWOperationCancelFlag.m; path = DWKit/DWUtils/DWOperationCancelFlag/DWOperationCancelFlag.m; sourceTree = "<group>"; };
 		F898159E5068F777CEB4434F83FEB857 /* View+MASAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "View+MASAdditions.m"; path = "Masonry/View+MASAdditions.m"; sourceTree = "<group>"; };
 		FB9D2A905BB5D1ACD693AC2749EE1057 /* Masonry.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Masonry.xcconfig; sourceTree = "<group>"; };
 		FC72FB6FC6B9CA0E2B0E6A99D6137690 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
@@ -206,7 +210,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F47D12E2C955CE398CBC34B99ED9F2E4 /* Frameworks */ = {
+		DD08EDEE4532264B53453552EF1D9694 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -216,11 +220,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05CD8920695CA582BBCFBC9EE88B5D09 /* DWTransaction */ = {
+			isa = PBXGroup;
+			children = (
+				6C31D6457279E345077EABB4D5FDA919 /* DWTransaction.h */,
+				3EDE494578EBB1701DFB9319A9381CA5 /* DWTransaction.m */,
+			);
+			name = DWTransaction;
+			sourceTree = "<group>";
+		};
 		0E0797D6DA1034207A75EFF6199A0550 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				6CBF91E2366C0628ADE109383019F693 /* DWAnimation */,
-				1E3964CCB5676A4FA87A6943CA8CF0B5 /* DWKit */,
+				1C09BA06BEB6BBA8359D98D4A7F0C136 /* DWKit */,
 				83591F2E433D0B934C8AF271EE217E2A /* Masonry */,
 			);
 			name = Pods;
@@ -234,14 +247,24 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		1E3964CCB5676A4FA87A6943CA8CF0B5 /* DWKit */ = {
+		1C09BA06BEB6BBA8359D98D4A7F0C136 /* DWKit */ = {
 			isa = PBXGroup;
 			children = (
-				30D2D57128AE116406D65C4BA67E56C5 /* DWUtils */,
-				4A2B12A91A35DC9A49E96DB40ECEB52E /* Support Files */,
+				1D74E5E26470F2478127CF8DB4ACF1CE /* DWUtils */,
+				D6A2FB16926F891E13FBEB7A993B172B /* Support Files */,
 			);
 			name = DWKit;
 			path = DWKit;
+			sourceTree = "<group>";
+		};
+		1D74E5E26470F2478127CF8DB4ACF1CE /* DWUtils */ = {
+			isa = PBXGroup;
+			children = (
+				CB16F96EFB9F3AC61B9CD8211F0DDD90 /* DWForwardingTarget */,
+				C28F579D79C77B35305BECE47DD74497 /* DWOperationCancelFlag */,
+				05CD8920695CA582BBCFBC9EE88B5D09 /* DWTransaction */,
+			);
+			name = DWUtils;
 			sourceTree = "<group>";
 		};
 		2A3306538C8962FA5329559F8DDD64CA /* Pods-a */ = {
@@ -258,24 +281,6 @@
 			path = "Target Support Files/Pods-a";
 			sourceTree = "<group>";
 		};
-		2F7E8F63E2B5719F67A412B212EEBA03 /* DWOperationCancelFlag */ = {
-			isa = PBXGroup;
-			children = (
-				6E53E7BD072E0BC41F71244CC249A72D /* DWOperationCancelFlag.h */,
-				94045F7194F613B1494818ADB9B9D9F8 /* DWOperationCancelFlag.m */,
-			);
-			name = DWOperationCancelFlag;
-			sourceTree = "<group>";
-		};
-		30D2D57128AE116406D65C4BA67E56C5 /* DWUtils */ = {
-			isa = PBXGroup;
-			children = (
-				2F7E8F63E2B5719F67A412B212EEBA03 /* DWOperationCancelFlag */,
-				EC0CBB0D50322639F3202FEBD5B12030 /* DWTransaction */,
-			);
-			name = DWUtils;
-			sourceTree = "<group>";
-		};
 		3EC50658265CAC2F8519627DF138F37D /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -285,17 +290,6 @@
 			);
 			name = "Support Files";
 			path = "DEMO/Pods/Target Support Files/DWTableViewHelper";
-			sourceTree = "<group>";
-		};
-		4A2B12A91A35DC9A49E96DB40ECEB52E /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				BF86BE3BAD07918C4B337B320694294A /* DWKit.xcconfig */,
-				22A41630028FC38B214517638DD11FD6 /* DWKit-dummy.m */,
-				3F84108CF22197034494553F69EDC0C3 /* DWKit-prefix.pch */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/DWKit";
 			sourceTree = "<group>";
 		};
 		5D16C0E53F3804E17CDEDA4738579639 /* Products */ = {
@@ -409,6 +403,24 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
+		C28F579D79C77B35305BECE47DD74497 /* DWOperationCancelFlag */ = {
+			isa = PBXGroup;
+			children = (
+				51610A860A795FB8E1DD8FC9AB0E73E1 /* DWOperationCancelFlag.h */,
+				F5FE1001056AE475005E7BD5CCD5FB8D /* DWOperationCancelFlag.m */,
+			);
+			name = DWOperationCancelFlag;
+			sourceTree = "<group>";
+		};
+		CB16F96EFB9F3AC61B9CD8211F0DDD90 /* DWForwardingTarget */ = {
+			isa = PBXGroup;
+			children = (
+				414C0276F981D05E713AEFB06DA0E29F /* DWForwardingTarget.h */,
+				A5CC751060589B8C7B0BA45559F7FA9D /* DWForwardingTarget.m */,
+			);
+			name = DWForwardingTarget;
+			sourceTree = "<group>";
+		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
@@ -421,20 +433,22 @@
 			);
 			sourceTree = "<group>";
 		};
+		D6A2FB16926F891E13FBEB7A993B172B /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				F12D25BF081CEB93F764B0D3DC198B15 /* DWKit.xcconfig */,
+				904F23260F467552D89AB4CDCEA897E4 /* DWKit-dummy.m */,
+				2071A8FDC5CFB299D36478EE40DEF5AD /* DWKit-prefix.pch */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/DWKit";
+			sourceTree = "<group>";
+		};
 		D89477F20FB1DE18A04690586D7808C4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		EC0CBB0D50322639F3202FEBD5B12030 /* DWTransaction */ = {
-			isa = PBXGroup;
-			children = (
-				6FD52E93B4F5BC6F4E82A5725BCE9157 /* DWTransaction.h */,
-				6719F9F9916C9F2D8549031862031E89 /* DWTransaction.m */,
-			);
-			name = DWTransaction;
 			sourceTree = "<group>";
 		};
 		F59FE969485FE72798D76A745D969250 /* Pod */ = {
@@ -461,15 +475,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		15021E5380B3E863B37BA900864D05FE /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				76303EF8ED4BAAD2938263AC62523CFB /* DWOperationCancelFlag.h in Headers */,
-				06634DD2195D402D69AC87D5C4F099DE /* DWTransaction.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2697A8D6B2989B073B236F7B4BF67F30 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -489,6 +494,16 @@
 				46692A2E77157B00827182C8DC686F72 /* View+MASAdditions.h in Headers */,
 				A3307B8FB6EE0A049DBAE3AA4D2C6DA0 /* View+MASShorthandAdditions.h in Headers */,
 				E76935CFF4AF327F8D9A7C1935F7D900 /* ViewController+MASAdditions.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D01A9520AA4F158F98ADB578DCC3540 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				31863F12100E478DF070F3DEA531917E /* DWForwardingTarget.h in Headers */,
+				020C60329FF9E8C00249F0E8AE9BEAB3 /* DWOperationCancelFlag.h in Headers */,
+				B5D1A959F59741C4C264F9EF88A8BBAB /* DWTransaction.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,11 +543,11 @@
 /* Begin PBXNativeTarget section */
 		0C701BBEE5D869E57EF5A4A9353C2A29 /* DWKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0AFE88831613F96E7C89226AFDF4BB26 /* Build configuration list for PBXNativeTarget "DWKit" */;
+			buildConfigurationList = 0D31973E7D7CB87D18E05AC5E14023CB /* Build configuration list for PBXNativeTarget "DWKit" */;
 			buildPhases = (
-				15021E5380B3E863B37BA900864D05FE /* Headers */,
-				C6763BAAA335C9C44C32515A88447486 /* Sources */,
-				F47D12E2C955CE398CBC34B99ED9F2E4 /* Frameworks */,
+				4D01A9520AA4F158F98ADB578DCC3540 /* Headers */,
+				90A1EB369E5F98B9B3549EC4BECB9760 /* Sources */,
+				DD08EDEE4532264B53453552EF1D9694 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -631,6 +646,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
 			productRefGroup = 5D16C0E53F3804E17CDEDA4738579639 /* Products */;
@@ -674,6 +690,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		90A1EB369E5F98B9B3549EC4BECB9760 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F1E0682CBAA4E1EE6C6463F45412513 /* DWForwardingTarget.m in Sources */,
+				F296BEF509C5C2B80AB2F1AA5BB27E0C /* DWKit-dummy.m in Sources */,
+				E44D506EADA75BAEFDC0DB46FF6B6932 /* DWOperationCancelFlag.m in Sources */,
+				47FF614D8FC86D6F8B702217337E4C55 /* DWTransaction.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		96F167D123C9D26F5E540B88F602B407 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -694,16 +721,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D976264B796B3C8A9E970B62C9BB9933 /* Pods-a-dummy.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		C6763BAAA335C9C44C32515A88447486 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F26D6CF13801953BA6D64326D7B89223 /* DWKit-dummy.m in Sources */,
-				C080902E86C14F28F65A95F2EBBCE915 /* DWOperationCancelFlag.m in Sources */,
-				D808A30F10E854CB2DF4C2F434AA3C9D /* DWTransaction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -743,9 +760,9 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		145A1D70ECCD3C872930E51A03EFED5F /* Release */ = {
+		209205BD051EBF731F6D32CE3B78A43D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF86BE3BAD07918C4B337B320694294A /* DWKit.xcconfig */;
+			baseConfigurationReference = F12D25BF081CEB93F764B0D3DC198B15 /* DWKit.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -853,6 +870,29 @@
 				PRIVATE_HEADERS_FOLDER_PATH = "";
 				PRODUCT_MODULE_NAME = DWAnimation;
 				PRODUCT_NAME = DWAnimation;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7322C3A80F0DDF2F4F44B58510D2E172 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F12D25BF081CEB93F764B0D3DC198B15 /* DWKit.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/DWKit/DWKit-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = DWKit;
+				PRODUCT_NAME = DWKit;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1075,46 +1115,23 @@
 			};
 			name = Debug;
 		};
-		EDF3AE9EDDADED2A5E9D3089E8FCF5EE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = BF86BE3BAD07918C4B337B320694294A /* DWKit.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/DWKit/DWKit-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = DWKit;
-				PRODUCT_NAME = DWKit;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0AFE88831613F96E7C89226AFDF4BB26 /* Build configuration list for PBXNativeTarget "DWKit" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EDF3AE9EDDADED2A5E9D3089E8FCF5EE /* Debug */,
-				145A1D70ECCD3C872930E51A03EFED5F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		0B9F7EAACDDA564EC328F53A4AB8CF85 /* Build configuration list for PBXNativeTarget "Masonry" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5D61DC43C7DC2F90C295C51D66EEE358 /* Debug */,
 				2864B8151371217E5A22C6412F492423 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0D31973E7D7CB87D18E05AC5E14023CB /* Build configuration list for PBXNativeTarget "DWKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7322C3A80F0DDF2F4F44B58510D2E172 /* Debug */,
+				209205BD051EBF731F6D32CE3B78A43D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

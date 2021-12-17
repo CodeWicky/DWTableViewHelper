@@ -1,8 +1,10 @@
 PODS:
   - DWAnimation (1.1.10)
-  - DWKit/DWUtils/DWOperationCancelFlag (0.0.0.10)
-  - DWKit/DWUtils/DWTransaction (0.0.0.10)
-  - DWTableViewHelper (1.1.7.5.3):
+  - DWKit/DWUtils/DWForwardingTarget (0.0.0.20)
+  - DWKit/DWUtils/DWOperationCancelFlag (0.0.0.20)
+  - DWKit/DWUtils/DWTransaction (0.0.0.20)
+  - DWTableViewHelper (1.1.7.9):
+    - DWKit/DWUtils/DWForwardingTarget
     - DWKit/DWUtils/DWOperationCancelFlag
     - DWKit/DWUtils/DWTransaction
   - Masonry (1.0.2)
@@ -24,10 +26,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   DWAnimation: 2f0a7456ec9fff2da2e4d1352552b6cd593d00a9
-  DWKit: d0b857eaee0941b634953bf805c27465352fca92
-  DWTableViewHelper: ab4e7d6e6d42ae077ea56d7243293edf076df60f
+  DWKit: f3b2dd38f04b40bdc6c63459e76f3a596879f732
+  DWTableViewHelper: b0fc2344029258c951e2f02bab878d81467b3c3a
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
 
 PODFILE CHECKSUM: a3f8980ef2af31d5e471b0b396f1eb4890a170bf
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.7.2

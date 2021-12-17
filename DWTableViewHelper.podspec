@@ -15,5 +15,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.dependency 'DWKit/DWUtils/DWOperationCancelFlag'
   s.dependency 'DWKit/DWUtils/DWTransaction'
+  s.dependency 'DWKit/DWUtils/DWForwardingTarget'
 end
 

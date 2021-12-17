@@ -9,6 +9,7 @@
 #import "DWTableViewHelper.h"
 #import <DWKit/DWOperationCancelFlag.h>
 #import <DWKit/DWTransaction.h>
+#import <DWKit/DWForwardingTarget.h>
 
 #define SeperatorColor [UIColor lightGrayColor]
 #define DWDelegate self.helperDelegate
@@ -58,17 +59,34 @@ const CGFloat DWTableViewHelperAutomaticDimensionAndCache = -91.0702;
 
 @property (nonatomic ,assign) CGRect autoZoomOriFrm;
 
+@property (nonatomic ,strong) dispatch_queue_t serial_Q;
+
 @end
 
 @interface DWTableViewHelperModel ()
+
+@property (nonatomic ,assign) BOOL placeHolderAvoidCrashing;
+
+///计算的竖屏行高
+@property (nonatomic ,assign) CGFloat calRowHeightV;
+
+///计算的横屏行高
+@property (nonatomic ,assign) CGFloat calRowHeightH;
+
+///原始cell选择样式
+@property (nonatomic ,assign) NSInteger originalSelectionStyle;
+
+///默认cell类
+@property (nonatomic ,copy) NSString * defaultCellClassStr;
+
+///默认cellID
+@property (nonatomic ,copy) NSString * defaultCellID;
 
 @property (nonatomic ,strong) UIImage * cellSnap;
 
 @property (nonatomic ,weak) __kindof DWTableViewHelperCell * currentDisplayCell;
 
 @property (nonatomic ,strong) NSIndexPath * currentDisplayIndexPath;
-
-@property (nonatomic ,assign) BOOL placeHolderAvoidCrashing;
 
 @end
 
@@ -374,6 +392,17 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     } else if ([anObj isKindOfClass:[DWTableViewHelperModel class]]) {
         [((__kindof DWTableViewHelperModel *)anObj) setNeedsReAutoCalculateRowHeight];
     }
+}
+
+-(void)performInHelperQueue:(DWTableViewHelperQueueHandler)handler {
+    if (!handler) {
+        return;
+    }
+    dispatch_sync(self.serial_Q, ^{
+        if (handler) {
+            handler(self);
+        }
+    });
 }
 
 #pragma mark --- delegate Map Start ---
@@ -1230,6 +1259,9 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     } else if (self.cellClassStr.length && self.cellID.length) {
         cellIDTemp = self.cellID;
         aCellClassStr = self.cellClassStr;
+    } else if (model.defaultCellClassStr.length && model.defaultCellID.length && NSClassFromString(model.defaultCellClassStr)) {
+        cellIDTemp = model.defaultCellID;
+        aCellClassStr = model.defaultCellClassStr;
     } else {
         NSAssert(NO, @"cellClassStr and cellID must be set together at least one time in DWTableViewHelperModel or DWTableViewHelper");
         cellIDTemp =  PlaceHolderCellModelAvoidCrashingGetter().cellID;
@@ -1570,6 +1602,13 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
 }
 
+-(dispatch_queue_t)serial_Q {
+    if (!_serial_Q) {
+        _serial_Q = dispatch_queue_create("com.DWTableViewHelper.serialQueue", NULL);
+    }
+    return _serial_Q;
+}
+
 #pragma mark --- override ---
 -(void)dealloc {
     if (self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedMode || self.loadDataMode == DWTableViewHelperLoadDataIgnoreHighSpeedWithSnapMode) {
@@ -1639,27 +1678,8 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
 @end
 
 
-@interface DWTableViewHelperModel ()
-
-///计算的竖屏行高
-@property (nonatomic ,assign) CGFloat calRowHeightV;
-
-///计算的横屏行高
-@property (nonatomic ,assign) CGFloat calRowHeightH;
-
-///原始cell选择样式
-@property (nonatomic ,assign) NSInteger originalSelectionStyle;
-
-///默认cell类
-@property (nonatomic ,copy) NSString * defaultCellClassStr;
-
-///默认cellID
-@property (nonatomic ,copy) NSString * defaultCellID;
-
-@end
 
 @implementation DWTableViewHelperModel
-
 @synthesize cellRowHeight,useAutoRowHeight,cellEditSelectedIcon,cellEditUnselectedIcon;
 @synthesize cellClassStr = _cellClassStr;
 @synthesize cellID = _cellID;
@@ -1693,14 +1713,18 @@ static inline DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashingGetter (
     self.calRowHeightV = DWTableViewHelperAutomaticDimensionAndCache;
 }
 
-#pragma mark --- setter/getter ---
--(NSString *)cellClassStr {
-    if (!_cellClassStr) {
-        return self.defaultCellClassStr;
-    }
-    return _cellClassStr;
+#pragma mark --- override ---
+-(id)forwardingTargetForSelector:(SEL)aSelector {
+#if DEBUG
+    ///Debug模式下暴露问题
+    return nil;
+#else
+    ///Release环境下兼容问题
+    return [DWForwardingTarget forwardingTargetForSelector:aSelector];
+#endif
 }
 
+#pragma mark --- setter/getter ---
 -(void)setCellClassStr:(NSString *)cellClassStr {
     if (![_cellClassStr isEqualToString:cellClassStr]) {
         _cellClassStr = cellClassStr;
@@ -1895,6 +1919,16 @@ static UIImage * defaultUnselectIcon = nil;
     return [super hitTest:point withEvent:event];
 }
 
+-(id)forwardingTargetForSelector:(SEL)aSelector {
+#if DEBUG
+    ///Debug模式下暴露问题
+    return nil;
+#else
+    ///Release环境下兼容问题
+    return [DWForwardingTarget forwardingTargetForSelector:aSelector];
+#endif
+}
+
 @end
 
 @implementation DWTableviewHelperPlaceHolderModel
@@ -1914,8 +1948,16 @@ static UIImage * defaultUnselectIcon = nil;
     
 }
 
+-(id)forwardingTargetForSelector:(SEL)aSelector {
+    return [DWForwardingTarget forwardingTargetForSelector:aSelector];
+}
+
 @end
 
 @implementation DWTableviewHelperPlaceHolderCell
+
+-(id)forwardingTargetForSelector:(SEL)aSelector {
+    return [DWForwardingTarget forwardingTargetForSelector:aSelector];
+}
 
 @end
