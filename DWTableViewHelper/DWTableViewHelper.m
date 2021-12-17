@@ -465,7 +465,7 @@ static DWTableViewHelperModel * PlaceHolderCellModelAvoidCrashing = nil;
     }
     
     ///自动计算并缓存（如果没有因为model指定的自动计算才重新计算）
-    if (!model.useAutoRowHeight && self.useAutoRowHeight) {//返回放回自动计算的行高
+    if (!model.useAutoRowHeight && (self.useAutoRowHeight || self.tabV.rowHeight == UITableViewAutomaticDimension)) {//返回放回自动计算的行高
         height = [self autoCalculateRowHeightWithModel:model];
         if (DWValidHeight(height)) {
             return height;
